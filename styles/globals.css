@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Small helpers to keep design similar to the original */
+:root {
+  --primary: #2563eb;
+  --primary-dark: #1d4ed8;
+  --accent: #8b5cf6;
+  --qwen: #0d9488;
+}
+
+body {
+  background-color: #f8fafc;
+  color: #0f172a;
+}
+.container {
+  max-width: 1200px;
+}
