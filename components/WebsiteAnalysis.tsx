@@ -91,7 +91,7 @@ export default function WebsiteAnalysis(): JSX.Element {
             <button
               type="submit"
               disabled={loading}
-              className="px-6 py-3 rounded-full bg-qwen text-white font-semibold disabled:opacity-50"
+              className="px-6 py-3 rounded-full bg-blue-800 bg-qwen text-white font-semibold disabled:opacity-50"
             >
               {loading ? (
                 "Analyzing..."

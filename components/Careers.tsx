@@ -1,3 +1,5 @@
+import { JSX } from "react";
+
 export default function Careers(): JSX.Element {
   return (
     <section id="careers" className="py-20 bg-slate-50">
@@ -49,8 +51,8 @@ export default function Careers(): JSX.Element {
                 </a>
               </div>
               <p className="mt-3 text-slate-600">
-                We're looking for an experienced AI engineer to help us enhance
-                our Qwen3-powered solutions.
+                We&apos;re looking for an experienced AI engineer to help us
+                enhance our Qwen3-powered solutions.
               </p>
             </div>
 
