@@ -26,27 +26,27 @@ export default function WebsiteAnalysis(): JSX.Element {
     if (performance < 80)
       issues.push({
         title: "Large images without compression",
-        severity: "high",
+        severity: "high" as const,
       });
     if (security < 80)
       issues.push({
         title: "Missing security headers (CSP)",
-        severity: "medium",
+        severity: "medium" as const,
       });
     if (seo < 85)
       issues.push({
         title: "Missing meta description",
-        severity: "low",
+        severity: "low" as const,
       });
     if (accessibility < 80)
       issues.push({
         title: "Insufficient color contrast",
-        severity: "medium",
+        severity: "medium" as const,
       });
     if (issues.length === 0)
       issues.push({
         title: "No major issues detected",
-        severity: "low",
+        severity: "low" as const,
       });
 
     return { performance, security, seo, accessibility, issues };
@@ -72,9 +72,7 @@ export default function WebsiteAnalysis(): JSX.Element {
     >
       <div className="max-w-4xl mx-auto px-6">
         <div className="bg-white p-8 rounded-xl shadow">
-          <h2 className="text-2xl font-bold mb-2">
-            Website Analysis with Qwen3 AI
-          </h2>
+          <h2 className="text-2xl font-bold mb-2">Website Analysis with AI</h2>
           <p className="text-slate-600 mb-6">
             Enter your website URL to get a free comprehensive analysis
           </p>

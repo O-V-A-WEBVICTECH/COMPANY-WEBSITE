@@ -1,3 +1,5 @@
+import { JSX } from "react";
+
 export default function Hero(): JSX.Element {
   return (
     <section
@@ -11,11 +13,9 @@ export default function Hero(): JSX.Element {
             Your Business
           </h2>
           <p className="mt-4 text-lg text-slate-600">
-            O.V.A WebvicTech INT' SERVICE LIMITED specializes in detecting and
-            fixing web problems using advanced AI technology. We also help you
-            create stunning websites with our{" "}
-            <span className="font-semibold text-qwen">Qwen3-powered</span> AI
-            solutions.
+            O.V.A WebvicTech INT&apos; SERVICE LIMITED specializes in detecting
+            and fixing web problems using advanced AI technology. we fix problem
+            before you know they exist
           </p>
 
           <div className="mt-6 flex flex-wrap gap-3">
@@ -43,7 +43,7 @@ export default function Hero(): JSX.Element {
             <h3 className="text-2xl font-bold mb-2">Qwen3 AI Assistant</h3>
             <p className="mb-4">Advanced AI for web solutions</p>
             <i className="fas fa-brain text-6xl mb-4"></i>
-            <p className="opacity-90">Powered by Alibaba Cloud's Qwen3</p>
+            <p className="opacity-90">Powered by Alibaba Cloud&apos;s Qwen3</p>
           </div>
         </div>
       </div>

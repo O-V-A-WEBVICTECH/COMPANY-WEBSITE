@@ -1,3 +1,7 @@
+/* eslint-disable @next/next/no-img-element */
+import Image from "next/image";
+import { JSX } from "react";
+
 export default function About(): JSX.Element {
   return (
     <section id="about" className="py-20 bg-white">
@@ -12,6 +16,8 @@ export default function About(): JSX.Element {
         <div className="grid md:grid-cols-2 gap-8 items-center">
           <div className="rounded-lg overflow-hidden shadow-lg">
             <img
+              // width={800}
+              // height={800}
               src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
               alt="Our Office"
               className="w-full h-full object-cover"
@@ -20,10 +26,10 @@ export default function About(): JSX.Element {
           <div>
             <h3 className="text-2xl font-bold mb-3">Who We Are</h3>
             <p className="text-slate-600 mb-4">
-              O.V.A WebvicTech INT' SERVICE LIMITED is a leading AI-powered web
-              solutions company founded in 2018. We specialize in using advanced
-              artificial intelligence to detect, fix, and create websites for
-              businesses of all sizes.
+              O.V.A WebvicTech INT&apos; SERVICE LIMITED is a leading AI-powered
+              web solutions company founded in 2018. We specialize in using
+              advanced artificial intelligence to detect, fix, and create
+              websites for businesses of all sizes.
             </p>
 
             <div className="space-y-4">

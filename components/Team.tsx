@@ -1,3 +1,6 @@
+/* eslint-disable @next/next/no-img-element */
+import { JSX } from "react";
+
 export default function Team(): JSX.Element {
   const members = [
     {
@@ -46,7 +49,7 @@ export default function Team(): JSX.Element {
                 <h3 className="font-semibold text-lg">{m.name}</h3>
                 <div className="text-qwen font-medium mb-2">{m.title}</div>
                 <p className="text-slate-600 text-sm">
-                  Short bio text describing {m.name}'s role and background.
+                  Short bio text describing {m.name}&apos;s role and background.
                 </p>
                 <div className="flex items-center justify-center gap-3 mt-3">
                   <a className="text-slate-600 hover:text-blue-600">

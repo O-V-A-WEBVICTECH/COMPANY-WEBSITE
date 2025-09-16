@@ -1,4 +1,5 @@
-function Services() {
+import { JSX } from "react";
+function Services(): JSX.Element {
   const services = [
     {
       title: "Web Problem Detection",
@@ -33,8 +34,8 @@ function Services() {
           Our Qwen3-Powered AI Services
         </h2>
         <p className="text-center text-gray-600 mb-12">
-          Discover how Alibaba Cloud's Qwen3 AI technology can transform your
-          web experience
+          Discover how Alibaba Cloud&apos;s Qwen3 AI technology can transform
+          your web experience
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {services.map((service, index) => (

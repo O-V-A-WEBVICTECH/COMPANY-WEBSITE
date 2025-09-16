@@ -1,4 +1,5 @@
-function Navbar() {
+import { JSX } from "react";
+function Navbar(): JSX.Element {
   return (
     <nav className="bg-white shadow sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

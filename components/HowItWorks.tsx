@@ -1,8 +1,10 @@
+import { JSX } from "react";
+
 export default function HowItWorks(): JSX.Element {
   const steps = [
     {
       title: "Website Analysis",
-      text: "Submit your website URL for our Qwen3 AI to analyze performance and identify issues.",
+      text: "Submit your website URL for our  AI to analyze performance and identify issues.",
     },
     {
       title: "Preview Report",
@@ -10,7 +12,7 @@ export default function HowItWorks(): JSX.Element {
     },
     {
       title: "AI Implementation",
-      text: "Our Qwen3 AI automatically fixes issues or generates your new website UI (paid service).",
+      text: "Our  AI automatically fixes issues or generates your new website UI (paid service).",
     },
     {
       title: "Download & Deploy",
@@ -23,11 +25,11 @@ export default function HowItWorks(): JSX.Element {
       <div className="max-w-6xl mx-auto px-6">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold">
-            How Our Qwen3 AI Solutions Work
+            How Our Team + AI Solution Work
           </h2>
           <p className="mt-2 text-slate-600">
-            Simple steps to transform your web presence with Alibaba Cloud's
-            Qwen3 artificial intelligence
+            Simple steps to transform your web presence with
+            O.V.A.WEBVICTECH&apos;s Team and artificial intelligence
           </p>
         </div>
 

@@ -1,3 +1,5 @@
+import { JSX } from "react";
+
 export default function Footer(): JSX.Element {
   return (
     <footer className="bg-slate-900 text-white py-12">
@@ -59,7 +61,7 @@ export default function Footer(): JSX.Element {
       </div>
 
       <div className="mt-8 text-center text-slate-500">
-        © {new Date().getFullYear()} O.V.A WebvicTech INT' SERVICE LIMITED. All
+        © {new Date().getFullYear()} O.V.A WebvicTech INT SERVICE LIMITED. All
         rights reserved.
       </div>
     </footer>

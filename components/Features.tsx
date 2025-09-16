@@ -33,8 +33,7 @@ export default function Features(): JSX.Element {
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold">Our Qwen3-Powered AI Services</h2>
           <p className="mt-2 text-slate-600">
-            Discover how Alibaba Cloud's Qwen3 AI technology can transform your
-            web experience
+            Discover how O.V.A.WEBVICTECH can transform your web experience
           </p>
         </div>
 
