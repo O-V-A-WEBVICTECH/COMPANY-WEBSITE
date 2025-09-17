@@ -1,7 +1,7 @@
 export default function Team(): JSX.Element {
   const members = [
     {
-      name: "Sarah Johnson",
+      name: "Victor Olaiya",
       title: "CEO & Founder",
       img: "https://images.unsplash.com/photo-1560250097-0b93528c311a",
     },
