@@ -47,7 +47,7 @@ export default function Contact(): JSX.Element {
                 </div>
                 <div>
                   <h4 className="font-semibold">Phone</h4>
-                  <p className="text-slate-600">+1 (555) 123-4567</p>
+                  <p className="text-slate-600">+234 (806) 405-4597</p>
                 </div>
               </div>
 
@@ -57,7 +57,7 @@ export default function Contact(): JSX.Element {
                 </div>
                 <div>
                   <h4 className="font-semibold">Email</h4>
-                  <p className="text-slate-600">info@ovawebvictech.com</p>
+                  <p className="text-slate-600">o.v.a.webvictech@gmail.com</p>
                 </div>
               </div>
             </div>
