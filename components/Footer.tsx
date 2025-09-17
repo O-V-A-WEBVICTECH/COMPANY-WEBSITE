@@ -3,7 +3,7 @@ export default function Footer(): JSX.Element {
     <footer className="bg-slate-900 text-white py-12">
       <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-4 gap-6">
         <div>
-          <h4 className="text-lg font-semibold mb-3">O.V.A WebvicTech</h4>
+          <h4 className="text-lg font-semibold mb-3">O.V.A Webvic Tech</h4>
           <p className="text-slate-400">
             AI-powered web solutions to optimize performance, security, and UX
             for your business.
