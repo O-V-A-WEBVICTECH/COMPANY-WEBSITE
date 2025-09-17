@@ -1,3 +1,5 @@
+import { JSX } from "react";
+
 export default function Features(): JSX.Element {
   const items = [
     {
