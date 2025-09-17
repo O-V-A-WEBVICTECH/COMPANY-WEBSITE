@@ -3,7 +3,7 @@ export default function About(): JSX.Element {
     <section id="about" className="py-20 bg-white">
       <div className="max-w-6xl mx-auto px-6">
         <div className="text-center mb-10">
-          <h2 className="text-3xl font-bold">About O.V.A WebvicTech</h2>
+          <h2 className="text-3xl font-bold">About O.V.A Webvic Tech</h2>
           <p className="text-slate-600 mt-2">
             Learn more about our company, mission, and values
           </p>
@@ -20,7 +20,7 @@ export default function About(): JSX.Element {
           <div>
             <h3 className="text-2xl font-bold mb-3">Who We Are</h3>
             <p className="text-slate-600 mb-4">
-              O.V.A WebvicTech INT' SERVICE LIMITED is a leading AI-powered web
+              O.V.A Webvic Tech INT' SERVICE LIMITED is a leading AI-powered web
               solutions company founded in 2018. We specialize in using advanced
               artificial intelligence to detect, fix, and create websites for
               businesses of all sizes.
