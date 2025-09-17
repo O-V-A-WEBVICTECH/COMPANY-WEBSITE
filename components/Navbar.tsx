@@ -5,7 +5,7 @@ function Navbar() {
         <div className="flex justify-between h-16">
           <div className="flex items-center">
             <h1 className="text-xl font-bold text-blue-600">
-              O.V.A WebvicTech QWEN3
+              O.V.A Webvic Tech
             </h1>
           </div>
           <div className="flex items-center space-x-4">
