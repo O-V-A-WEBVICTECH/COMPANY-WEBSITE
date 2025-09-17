@@ -8,7 +8,7 @@ export default function Header(): JSX.Element {
         <nav className="flex items-center justify-between h-16">
           <div className="flex items-center gap-3">
             <h1 className="text-xl font-bold text-blue-600">
-              O.V.A <span className="text-indigo-600">WebvicTech</span>
+              O.V.A <span className="text-indigo-600">Webvic Tech</span>
             </h1>
             <span className="ml-2 inline-block bg-qwen text-white text-xs px-2 py-0.5 rounded-full">
               QWEN3
