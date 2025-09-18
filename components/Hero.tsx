@@ -1,5 +1,5 @@
-/* eslint-disable @next/next/no-img-element */
 import { JSX } from "react";
+import Image from "next/image";
 
 export default function Hero(): JSX.Element {
   return (
@@ -40,13 +40,15 @@ export default function Hero(): JSX.Element {
         </div>
 
         <div className="md:w-1/2">
-          {/* <div className="bg-gradient-to-br from-blue-600 to-sky-500 rounded-lg p-8 text-white shadow-lg text-center">
-            <h3 className="text-2xl font-bold mb-2">Qwen3 AI Assistant</h3>
-            <p className="mb-4">Advanced AI for web solutions</p>
-            <i className="fas fa-brain text-6xl mb-4"></i>
-            <p className="opacity-90">Powered by Alibaba Cloud&apos;s Qwen3</p>
-          </div> */}
-          <img src="/ovitech-logo.jpg" alt="logo" />
+          <div>
+            <Image
+              width={500}
+              quality={100}
+              height={500}
+              alt="company logo"
+              src={"/ovi-logo.png"}
+            />
+          </div>
         </div>
       </div>
     </section>
