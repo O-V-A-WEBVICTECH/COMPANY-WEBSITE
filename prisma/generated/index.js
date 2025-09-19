@@ -207,7 +207,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Users\\aghah\\Desktop\\OVA WEBVITECH\\webvitech-nextjs\\prisma\\lib\\generated",
+      "value": "C:\\Users\\aghah\\Desktop\\OVA WEBVITECH\\webvitech-nextjs\\prisma\\generated",
       "fromEnvVar": null
     },
     "config": {
@@ -225,16 +225,17 @@ const config = {
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
-    "rootEnvPath": null,
-    "schemaEnvPath": "../../../.env"
+    "rootEnvPath": "../../.env",
+    "schemaEnvPath": "../../.env"
   },
-  "relativePath": "../..",
+  "relativePath": "..",
   "clientVersion": "6.16.2",
   "engineVersion": "1c57fdcd7e44b29b9313256c76699e91c3ac3c43",
   "datasourceNames": [
     "db"
   ],
   "activeProvider": "postgresql",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
@@ -243,8 +244,8 @@ const config = {
       }
     }
   },
-  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"lib/generated\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id            String      @id @default(uuid())\n  name          String?\n  email         String      @unique\n  emailVerified Boolean     @default(false)\n  image         String?\n  role          String      @default(\"user\") // for Better Auth admin plugin\n  banned        Boolean     @default(false)\n  banReason     String?\n  banExpires    DateTime?\n  createdAt     DateTime    @default(now())\n  updatedAt     DateTime    @default(now()) @updatedAt\n  sessions      Session[]\n  accounts      Account[]\n  socialList    SocialList?\n  blogs         Blog[]\n  projects      Project[]\n\n  @@map(\"user\")\n}\n\nmodel Session {\n  id             String   @id @default(uuid())\n  expiresAt      DateTime\n  token          String   @unique\n  createdAt      DateTime @default(now())\n  updatedAt      DateTime @updatedAt\n  ipAddress      String?\n  userAgent      String?\n  impersonatedBy String?\n  userId         String\n  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)\n\n  @@map(\"session\")\n}\n\nmodel Account {\n  id                    String    @id @default(uuid())\n  accountId             String\n  providerId            String\n  userId                String\n  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)\n  accessToken           String?\n  refreshToken          String?\n  idToken               String?\n  accessTokenExpiresAt  DateTime?\n  refreshTokenExpiresAt DateTime?\n  scope                 String?\n  password              String?\n  createdAt             DateTime  @default(now())\n  updatedAt             DateTime  @updatedAt\n\n  @@map(\"account\")\n}\n\nmodel SocialList {\n  id       String  @id @default(uuid())\n  userId   String  @unique\n  github   String?\n  facebook String?\n  linkedIn String?\n  user     User    @relation(fields: [userId], references: [id], onDelete: Cascade)\n}\n\nmodel VerificationToken {\n  id         String   @id @default(uuid())\n  identifier String\n  value      String\n  expiresAt  DateTime\n  createdAt  DateTime @default(now())\n  updatedAt  DateTime @default(now()) @updatedAt\n\n  @@map(\"verification\")\n}\n\nmodel Blog {\n  id        String   @id @default(uuid())\n  title     String\n  content   String\n  createdAt DateTime @default(now())\n  updatedAt DateTime @default(now()) @updatedAt\n  authorId  String\n  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)\n}\n\nmodel Project {\n  id          String   @id @default(uuid())\n  name        String\n  description String?\n  link        String?\n  createdAt   DateTime @default(now())\n  updatedAt   DateTime @default(now()) @updatedAt\n  ownerId     String\n  owner       User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)\n}\n",
-  "inlineSchemaHash": "81f2ae17c84781ebaf2ea89f04dd59809116eec89569bc35aa37cf4714109b0d",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"generated/\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id            String      @id @default(uuid())\n  name          String?\n  email         String      @unique\n  emailVerified Boolean     @default(false)\n  image         String?\n  role          String      @default(\"user\") // for Better Auth admin plugin\n  banned        Boolean     @default(false)\n  banReason     String?\n  banExpires    DateTime?\n  createdAt     DateTime    @default(now())\n  updatedAt     DateTime    @default(now()) @updatedAt\n  sessions      Session[]\n  accounts      Account[]\n  socialList    SocialList?\n  blogs         Blog[]\n  projects      Project[]\n\n  @@map(\"user\")\n}\n\nmodel Session {\n  id             String   @id @default(uuid())\n  expiresAt      DateTime\n  token          String   @unique\n  createdAt      DateTime @default(now())\n  updatedAt      DateTime @updatedAt\n  ipAddress      String?\n  userAgent      String?\n  impersonatedBy String?\n  userId         String\n  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)\n\n  @@map(\"session\")\n}\n\nmodel Account {\n  id                    String    @id @default(uuid())\n  accountId             String\n  providerId            String\n  userId                String\n  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)\n  accessToken           String?\n  refreshToken          String?\n  idToken               String?\n  accessTokenExpiresAt  DateTime?\n  refreshTokenExpiresAt DateTime?\n  scope                 String?\n  password              String?\n  createdAt             DateTime  @default(now())\n  updatedAt             DateTime  @updatedAt\n\n  @@map(\"account\")\n}\n\nmodel SocialList {\n  id       String  @id @default(uuid())\n  userId   String  @unique\n  github   String?\n  facebook String?\n  linkedIn String?\n  user     User    @relation(fields: [userId], references: [id], onDelete: Cascade)\n}\n\nmodel VerificationToken {\n  id         String   @id @default(uuid())\n  identifier String\n  value      String\n  expiresAt  DateTime\n  createdAt  DateTime @default(now())\n  updatedAt  DateTime @default(now()) @updatedAt\n\n  @@map(\"verification\")\n}\n\nmodel Blog {\n  id        String   @id @default(uuid())\n  title     String\n  content   String\n  createdAt DateTime @default(now())\n  updatedAt DateTime @default(now()) @updatedAt\n  authorId  String\n  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)\n}\n\nmodel Project {\n  id          String   @id @default(uuid())\n  name        String\n  description String?\n  link        String?\n  createdAt   DateTime @default(now())\n  updatedAt   DateTime @default(now()) @updatedAt\n  ownerId     String\n  owner       User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)\n}\n",
+  "inlineSchemaHash": "273db8863e5b821cf95e63a41902252179483c5536460ce942bbff66bc5a7b25",
   "copyEngine": true
 }
 
@@ -253,8 +254,8 @@ const fs = require('fs')
 config.dirname = __dirname
 if (!fs.existsSync(path.join(__dirname, 'schema.prisma'))) {
   const alternativePaths = [
-    "prisma/lib/generated",
-    "lib/generated",
+    "prisma/generated",
+    "generated",
   ]
   
   const alternativePath = alternativePaths.find((altPath) => {
@@ -284,7 +285,7 @@ Object.assign(exports, Prisma)
 
 // file annotations for bundling tools to include these files
 path.join(__dirname, "query_engine-windows.dll.node");
-path.join(process.cwd(), "prisma/lib/generated/query_engine-windows.dll.node")
+path.join(process.cwd(), "prisma/generated/query_engine-windows.dll.node")
 // file annotations for bundling tools to include these files
 path.join(__dirname, "schema.prisma");
-path.join(process.cwd(), "prisma/lib/generated/schema.prisma")
+path.join(process.cwd(), "prisma/generated/schema.prisma")
