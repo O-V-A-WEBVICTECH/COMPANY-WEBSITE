@@ -3,7 +3,7 @@
 
 import type React from "react";
 
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import {
   Card,
   CardContent,
@@ -45,6 +45,9 @@ import {
   Linkedin,
   Twitter,
 } from "lucide-react";
+import TeamForm from "@/components/dashboard-component/TeamForm";
+import ProjectForm from "@/components/dashboard-component/ProjectForm";
+import BlogForm from "@/components/dashboard-component/BlogForm";
 
 // Mock data
 const initialProjects = [
@@ -156,12 +159,9 @@ export default function Dashboard() {
   const [teamMembers, setTeamMembers] = useState(initialTeamMembers);
   const [activeTab, setActiveTab] = useState("projects");
 
-  const [editingProject, setEditingProject] = useState<any>(null);
-  const [editingPost, setEditingPost] = useState<any>(null);
-  const [editingMember, setEditingMember] = useState<any>(null);
   const [projectDialogOpen, setProjectDialogOpen] = useState(false);
-  const [postDialogOpen, setPostDialogOpen] = useState(false);
-  const [memberDialogOpen, setMemberDialogOpen] = useState(false);
+  const [postDialogOpen, setPostDialogOpen] = useState<boolean>(false);
+  const [memberDialogOpen, setMemberDialogOpen] = useState<boolean>(false);
 
   const getStatusColor = (status: string) => {
     switch (status.toLowerCase()) {
@@ -176,419 +176,6 @@ export default function Dashboard() {
         return "bg-yellow-100 text-yellow-800";
       default:
         return "bg-gray-100 text-gray-800";
-    }
-  };
-
-  const ProjectForm = ({
-    project,
-    onSave,
-  }: {
-    project?: any;
-    onSave: (data: any) => void;
-  }) => {
-    const [formData, setFormData] = useState(
-      project || {
-        title: "",
-        description: "",
-        url: "",
-        img: "",
-        stack: [],
-      }
-    );
-    const [stackInput, setStackInput] = useState("");
-
-    const handleSubmit = (e: React.FormEvent) => {
-      e.preventDefault();
-      onSave(formData);
-      setProjectDialogOpen(false);
-      setEditingProject(null);
-    };
-
-    const addStackItem = () => {
-      if (stackInput.trim() && !formData.stack.includes(stackInput.trim())) {
-        setFormData({
-          ...formData,
-          stack: [...formData.stack, stackInput.trim()],
-        });
-        setStackInput("");
-      }
-    };
-
-    const removeStackItem = (item: string) => {
-      setFormData({
-        ...formData,
-        stack: formData.stack.filter((s: string) => s !== item),
-      });
-    };
-
-    return (
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <Label htmlFor="title">Project Title</Label>
-          <Input
-            id="title"
-            value={formData.title}
-            onChange={(e) =>
-              setFormData({ ...formData, title: e.target.value })
-            }
-            required
-          />
-        </div>
-        <div>
-          <Label htmlFor="description">Description</Label>
-          <Textarea
-            id="description"
-            value={formData.description}
-            onChange={(e) =>
-              setFormData({ ...formData, description: e.target.value })
-            }
-            placeholder="Brief description of the project..."
-            rows={3}
-            required
-          />
-        </div>
-        <div>
-          <Label htmlFor="url">Project URL</Label>
-          <Input
-            id="url"
-            type="url"
-            value={formData.url}
-            onChange={(e) => setFormData({ ...formData, url: e.target.value })}
-            placeholder="https://example.com"
-            required
-          />
-        </div>
-        <div>
-          <Label htmlFor="img">Project Image URL</Label>
-          <Input
-            id="img"
-            value={formData.img}
-            onChange={(e) => setFormData({ ...formData, img: e.target.value })}
-            placeholder="https://example.com/image.jpg"
-          />
-        </div>
-        <div>
-          <Label>Tech Stack</Label>
-          <div className="space-y-2">
-            <div className="flex gap-2">
-              <Input
-                value={stackInput}
-                onChange={(e) => setStackInput(e.target.value)}
-                placeholder="Add technology (e.g., React, Node.js)"
-                onKeyPress={(e) =>
-                  e.key === "Enter" && (e.preventDefault(), addStackItem())
-                }
-              />
-              <Button type="button" onClick={addStackItem} variant="outline">
-                Add
-              </Button>
-            </div>
-            <div className="flex flex-wrap gap-2">
-              {formData.stack.map((item: string) => (
-                <Badge
-                  key={item}
-                  variant="secondary"
-                  className="flex items-center gap-1"
-                >
-                  {item}
-                  <button
-                    type="button"
-                    onClick={() => removeStackItem(item)}
-                    className="ml-1 text-xs hover:text-destructive"
-                  >
-                    ×
-                  </button>
-                </Badge>
-              ))}
-            </div>
-          </div>
-        </div>
-        <Button type="submit" className="w-full">
-          {project ? "Update Project" : "Create Project"}
-        </Button>
-      </form>
-    );
-  };
-
-  const BlogForm = ({
-    post,
-    onSave,
-  }: {
-    post?: any;
-    onSave: (data: any) => void;
-  }) => {
-    const [formData, setFormData] = useState(
-      post || {
-        title: "",
-        content: "",
-        img: "",
-        author: "",
-        status: "Draft",
-        date: new Date().toISOString().split("T")[0],
-      }
-    );
-
-    const handleSubmit = (e: React.FormEvent) => {
-      e.preventDefault();
-      onSave(formData);
-      setPostDialogOpen(false);
-      setEditingPost(null);
-    };
-
-    return (
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <Label htmlFor="title">Title</Label>
-          <Input
-            id="title"
-            value={formData.title}
-            onChange={(e) =>
-              setFormData({ ...formData, title: e.target.value })
-            }
-            required
-          />
-        </div>
-        <div>
-          <Label htmlFor="content">Content</Label>
-          <Textarea
-            id="content"
-            value={formData.content}
-            onChange={(e) =>
-              setFormData({ ...formData, content: e.target.value })
-            }
-            placeholder="Write your blog post content here..."
-            rows={4}
-            required
-          />
-        </div>
-        <div>
-          <Label htmlFor="img">Featured Image URL</Label>
-          <Input
-            id="img"
-            value={formData.img}
-            onChange={(e) => setFormData({ ...formData, img: e.target.value })}
-            placeholder="https://example.com/image.jpg"
-          />
-        </div>
-        <div>
-          <Label htmlFor="author">Author</Label>
-          <Input
-            id="author"
-            value={formData.author}
-            onChange={(e) =>
-              setFormData({ ...formData, author: e.target.value })
-            }
-            required
-          />
-        </div>
-        <div>
-          <Label htmlFor="status">Status</Label>
-          <Select
-            value={formData.status}
-            onValueChange={(value) =>
-              setFormData({ ...formData, status: value })
-            }
-          >
-            <SelectTrigger>
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="Draft">Draft</SelectItem>
-              <SelectItem value="Review">Review</SelectItem>
-              <SelectItem value="Published">Published</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-        <div>
-          <Label htmlFor="date">Date</Label>
-          <Input
-            id="date"
-            type="date"
-            value={formData.date}
-            onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-            required
-          />
-        </div>
-        <Button type="submit" className="w-full">
-          {post ? "Update Post" : "Create Post"}
-        </Button>
-      </form>
-    );
-  };
-
-  const TeamForm = ({
-    member,
-    onSave,
-  }: {
-    member?: any;
-    onSave: (data: any) => void;
-  }) => {
-    const [formData, setFormData] = useState(
-      member || {
-        name: "",
-        position: "",
-        img: "",
-        about: "",
-        socialLinks: {
-          linkedin: "",
-          twitter: "",
-          github: "",
-        },
-      }
-    );
-
-    const handleSubmit = (e: React.FormEvent) => {
-      e.preventDefault();
-      onSave(formData);
-      setMemberDialogOpen(false);
-      setEditingMember(null);
-    };
-
-    return (
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <Label htmlFor="name">Name</Label>
-          <Input
-            id="name"
-            value={formData.name}
-            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-            required
-          />
-        </div>
-        <div>
-          <Label htmlFor="position">Position</Label>
-          <Input
-            id="position"
-            value={formData.position}
-            onChange={(e) =>
-              setFormData({ ...formData, position: e.target.value })
-            }
-            required
-          />
-        </div>
-        <div>
-          <Label htmlFor="img">Profile Image URL</Label>
-          <Input
-            id="img"
-            value={formData.img}
-            onChange={(e) => setFormData({ ...formData, img: e.target.value })}
-            placeholder="https://example.com/image.jpg"
-          />
-        </div>
-        <div>
-          <Label htmlFor="about">About</Label>
-          <Textarea
-            id="about"
-            value={formData.about}
-            onChange={(e) =>
-              setFormData({ ...formData, about: e.target.value })
-            }
-            placeholder="Brief description about this team member..."
-            rows={3}
-          />
-        </div>
-        <div className="space-y-2">
-          <Label>Social Links</Label>
-          <div className="space-y-2">
-            <Input
-              placeholder="LinkedIn URL"
-              value={formData.socialLinks.linkedin}
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  socialLinks: {
-                    ...formData.socialLinks,
-                    linkedin: e.target.value,
-                  },
-                })
-              }
-            />
-            <Input
-              placeholder="Twitter URL"
-              value={formData.socialLinks.twitter}
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  socialLinks: {
-                    ...formData.socialLinks,
-                    twitter: e.target.value,
-                  },
-                })
-              }
-            />
-            <Input
-              placeholder="GitHub URL"
-              value={formData.socialLinks.github}
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  socialLinks: {
-                    ...formData.socialLinks,
-                    github: e.target.value,
-                  },
-                })
-              }
-            />
-          </div>
-        </div>
-        <Button type="submit" className="w-full">
-          {member ? "Update Member" : "Add Member"}
-        </Button>
-      </form>
-    );
-  };
-
-  const handleEditProject = (project: any) => {
-    setEditingProject(project);
-    setProjectDialogOpen(true);
-  };
-
-  const handleEditPost = (post: any) => {
-    setEditingPost(post);
-    setPostDialogOpen(true);
-  };
-
-  const handleEditMember = (member: any) => {
-    setEditingMember(member);
-    setMemberDialogOpen(true);
-  };
-
-  const handleSaveProject = (data: any) => {
-    if (editingProject) {
-      setProjects(
-        projects.map((p) =>
-          p.id === editingProject.id ? { ...data, id: editingProject.id } : p
-        )
-      );
-    } else {
-      const newProject = { ...data, id: Date.now() };
-      setProjects([...projects, newProject]);
-    }
-  };
-
-  const handleSavePost = (data: any) => {
-    if (editingPost) {
-      setBlogPosts(
-        blogPosts.map((p) =>
-          p.id === editingPost.id ? { ...data, id: editingPost.id } : p
-        )
-      );
-    } else {
-      const newPost = { ...data, id: Date.now() };
-      setBlogPosts([...blogPosts, newPost]);
-    }
-  };
-
-  const handleSaveMember = (data: any) => {
-    if (editingMember) {
-      setTeamMembers(
-        teamMembers.map((m) =>
-          m.id === editingMember.id ? { ...data, id: editingMember.id } : m
-        )
-      );
-    } else {
-      const newMember = { ...data, id: Date.now() };
-      setTeamMembers([...teamMembers, newMember]);
     }
   };
 
@@ -645,7 +232,7 @@ export default function Dashboard() {
                 <DialogTrigger asChild>
                   <Button
                     className="flex items-center gap-2"
-                    onClick={() => setEditingProject(null)}
+                    // onClick={() => setEditingProject(null)}
                   >
                     <Plus className="h-4 w-4" />
                     Add Project
@@ -653,19 +240,12 @@ export default function Dashboard() {
                 </DialogTrigger>
                 <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
                   <DialogHeader>
-                    <DialogTitle>
-                      {editingProject ? "Edit Project" : "Create New Project"}
-                    </DialogTitle>
+                    <DialogTitle>Create New Project</DialogTitle>
                     <DialogDescription>
-                      {editingProject
-                        ? "Update project details."
-                        : "Add a new project to your dashboard."}
+                      Add a new project to your dashboard
                     </DialogDescription>
                   </DialogHeader>
-                  <ProjectForm
-                    project={editingProject}
-                    onSave={handleSaveProject}
-                  />
+                  <ProjectForm />
                 </DialogContent>
               </Dialog>
             </div>
@@ -683,7 +263,7 @@ export default function Dashboard() {
                         <Button
                           variant="ghost"
                           size="sm"
-                          onClick={() => handleEditProject(project)}
+                          //   onClick={() => handleEditProject(project)}
                         >
                           <Edit className="h-4 w-4" />
                         </Button>
@@ -757,7 +337,7 @@ export default function Dashboard() {
                 <DialogTrigger asChild>
                   <Button
                     className="flex items-center gap-2"
-                    onClick={() => setEditingPost(null)}
+                    // onClick={() => setEditingPost(null)}
                   >
                     <Plus className="h-4 w-4" />
                     Add Post
@@ -765,16 +345,12 @@ export default function Dashboard() {
                 </DialogTrigger>
                 <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
                   <DialogHeader>
-                    <DialogTitle>
-                      {editingPost ? "Edit Blog Post" : "Create New Blog Post"}
-                    </DialogTitle>
+                    <DialogTitle>Create New Blog Post</DialogTitle>
                     <DialogDescription>
-                      {editingPost
-                        ? "Update blog post details."
-                        : "Add a new blog post to your dashboard."}
+                      Add a new blog post to your dashboard
                     </DialogDescription>
                   </DialogHeader>
-                  <BlogForm post={editingPost} onSave={handleSavePost} />
+                  <BlogForm />
                 </DialogContent>
               </Dialog>
             </div>
@@ -794,7 +370,7 @@ export default function Dashboard() {
                         <Button
                           variant="ghost"
                           size="sm"
-                          onClick={() => handleEditPost(post)}
+                          //   onClick={() => handleEditPost(post)}
                         >
                           <Edit className="h-4 w-4" />
                         </Button>
@@ -859,7 +435,7 @@ export default function Dashboard() {
                 <DialogTrigger asChild>
                   <Button
                     className="flex items-center gap-2"
-                    onClick={() => setEditingMember(null)}
+                    // onClick={() => setEditingMember(null)}
                   >
                     <Plus className="h-4 w-4" />
                     Add Member
@@ -867,16 +443,12 @@ export default function Dashboard() {
                 </DialogTrigger>
                 <DialogContent className="max-w-md max-h-[80vh] overflow-y-auto">
                   <DialogHeader>
-                    <DialogTitle>
-                      {editingMember ? "Edit Team Member" : "Add Team Member"}
-                    </DialogTitle>
+                    <DialogTitle>Add Team Member</DialogTitle>
                     <DialogDescription>
-                      {editingMember
-                        ? "Update team member details."
-                        : "Add a new team member to your dashboard."}
+                      Add a new team member to your dashboard
                     </DialogDescription>
                   </DialogHeader>
-                  <TeamForm member={editingMember} onSave={handleSaveMember} />
+                  <TeamForm />
                 </DialogContent>
               </Dialog>
             </div>
@@ -915,7 +487,7 @@ export default function Dashboard() {
                         <Button
                           variant="ghost"
                           size="sm"
-                          onClick={() => handleEditMember(member)}
+                          //   onClick={() => handleEditMember(member)}
                         >
                           <Edit className="h-4 w-4" />
                         </Button>
