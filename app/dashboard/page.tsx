@@ -3,7 +3,7 @@
 
 import type React from "react";
 
-import { FormEvent, useState } from "react";
+import { useState } from "react";
 import {
   Card,
   CardContent,
@@ -14,8 +14,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+
 import {
   Dialog,
   DialogContent,
@@ -24,14 +23,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+
 import {
   Plus,
   Edit,
@@ -181,13 +173,26 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-background">
+      {/* Top Header with Logout */}
+      <header className="bg-white border-b">
+        <div className="container mx-auto px-4 py-2 flex items-center justify-between">
+          <span className="font-bold text-xl text-foreground">Dashboard</span>
+          <Button
+            variant="outline"
+            onClick={() => {
+              // Add your logout logic here
+              window.location.href = "/login";
+            }}
+          >
+            Logout
+          </Button>
+        </div>
+      </header>
       {/* Header */}
       <header className="border-b bg-card">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <h1 className="text-2xl font-bold text-foreground">
-              Company Dashboard
-            </h1>
+            {/* <h1 className="text-2xl font-bold text-foreground">Dashboard</h1> */}
             <nav className="flex space-x-4">
               <Button
                 variant={activeTab === "projects" ? "default" : "ghost"}
