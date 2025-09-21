@@ -3,10 +3,23 @@ import { Label } from "../ui/label";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
+import axios from "axios";
 
 export default function TeamForm(): JSX.Element {
   async function createNewMember(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const name = formData.get("name") as string;
+    const email = formData.get("email") as string;
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/api/users/create-user",
+        { name, email }
+      );
+      console.log("response:", response.data);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (
