@@ -16,7 +16,9 @@ export async function GET(request: NextRequest) {
       select: {
         name: true,
         email: true,
-        socialList: true,
+        githubUrl: true,
+        twitterUrl: true,
+        linkedInUrl: true,
         about: true,
         image: true,
         blogPosts: true,
