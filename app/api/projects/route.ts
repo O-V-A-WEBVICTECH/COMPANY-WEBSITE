@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
   try {
     if (session?.user.role !== "admin")
       return NextResponse.json({ error: "not authorized" }, { status: 403 });
-    const newProject = await prisma.project.create({
+    const project = await prisma.project.create({
       data: {
         name,
         description,
@@ -30,7 +30,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       {
         message: "new project post was successfully added",
-        blog: newProject,
+        project,
       },
       { status: 201 }
     );
