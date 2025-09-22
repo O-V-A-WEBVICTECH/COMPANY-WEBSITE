@@ -25,7 +25,6 @@ model User {
   accounts      Account[]
   socialList    SocialList?
   blogPosts         Blog[]
-  projects      Project[]
 
   @@map("user")
 }
@@ -105,6 +104,4 @@ model Project {
   image   String?
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
-  ownerId   String
-  owner     User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
 }

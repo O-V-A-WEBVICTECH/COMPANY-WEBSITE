@@ -199,8 +199,7 @@ exports.Prisma.ProjectScalarFieldEnum = {
   stack: 'stack',
   image: 'image',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  ownerId: 'ownerId'
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.SortOrder = {

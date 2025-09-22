@@ -1409,14 +1409,12 @@ export namespace Prisma {
     sessions: number
     accounts: number
     blogPosts: number
-    projects: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     sessions?: boolean | UserCountOutputTypeCountSessionsArgs
     accounts?: boolean | UserCountOutputTypeCountAccountsArgs
     blogPosts?: boolean | UserCountOutputTypeCountBlogPostsArgs
-    projects?: boolean | UserCountOutputTypeCountProjectsArgs
   }
 
   // Custom InputTypes
@@ -1449,13 +1447,6 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountBlogPostsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: BlogWhereInput
-  }
-
-  /**
-   * UserCountOutputType without action
-   */
-  export type UserCountOutputTypeCountProjectsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ProjectWhereInput
   }
 
 
@@ -1687,7 +1678,6 @@ export namespace Prisma {
     accounts?: boolean | User$accountsArgs<ExtArgs>
     socialList?: boolean | User$socialListArgs<ExtArgs>
     blogPosts?: boolean | User$blogPostsArgs<ExtArgs>
-    projects?: boolean | User$projectsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -1742,7 +1732,6 @@ export namespace Prisma {
     accounts?: boolean | User$accountsArgs<ExtArgs>
     socialList?: boolean | User$socialListArgs<ExtArgs>
     blogPosts?: boolean | User$blogPostsArgs<ExtArgs>
-    projects?: boolean | User$projectsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -1755,7 +1744,6 @@ export namespace Prisma {
       accounts: Prisma.$AccountPayload<ExtArgs>[]
       socialList: Prisma.$SocialListPayload<ExtArgs> | null
       blogPosts: Prisma.$BlogPayload<ExtArgs>[]
-      projects: Prisma.$ProjectPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -2168,7 +2156,6 @@ export namespace Prisma {
     accounts<T extends User$accountsArgs<ExtArgs> = {}>(args?: Subset<T, User$accountsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     socialList<T extends User$socialListArgs<ExtArgs> = {}>(args?: Subset<T, User$socialListArgs<ExtArgs>>): Prisma__SocialListClient<$Result.GetResult<Prisma.$SocialListPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     blogPosts<T extends User$blogPostsArgs<ExtArgs> = {}>(args?: Subset<T, User$blogPostsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BlogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    projects<T extends User$projectsArgs<ExtArgs> = {}>(args?: Subset<T, User$projectsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2686,30 +2673,6 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: BlogScalarFieldEnum | BlogScalarFieldEnum[]
-  }
-
-  /**
-   * User.projects
-   */
-  export type User$projectsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Project
-     */
-    select?: ProjectSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Project
-     */
-    omit?: ProjectOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ProjectInclude<ExtArgs> | null
-    where?: ProjectWhereInput
-    orderBy?: ProjectOrderByWithRelationInput | ProjectOrderByWithRelationInput[]
-    cursor?: ProjectWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: ProjectScalarFieldEnum | ProjectScalarFieldEnum[]
   }
 
   /**
@@ -8172,7 +8135,6 @@ export namespace Prisma {
     image: string | null
     createdAt: Date | null
     updatedAt: Date | null
-    ownerId: string | null
   }
 
   export type ProjectMaxAggregateOutputType = {
@@ -8184,7 +8146,6 @@ export namespace Prisma {
     image: string | null
     createdAt: Date | null
     updatedAt: Date | null
-    ownerId: string | null
   }
 
   export type ProjectCountAggregateOutputType = {
@@ -8197,7 +8158,6 @@ export namespace Prisma {
     image: number
     createdAt: number
     updatedAt: number
-    ownerId: number
     _all: number
   }
 
@@ -8211,7 +8171,6 @@ export namespace Prisma {
     image?: true
     createdAt?: true
     updatedAt?: true
-    ownerId?: true
   }
 
   export type ProjectMaxAggregateInputType = {
@@ -8223,7 +8182,6 @@ export namespace Prisma {
     image?: true
     createdAt?: true
     updatedAt?: true
-    ownerId?: true
   }
 
   export type ProjectCountAggregateInputType = {
@@ -8236,7 +8194,6 @@ export namespace Prisma {
     image?: true
     createdAt?: true
     updatedAt?: true
-    ownerId?: true
     _all?: true
   }
 
@@ -8322,7 +8279,6 @@ export namespace Prisma {
     image: string | null
     createdAt: Date
     updatedAt: Date
-    ownerId: string
     _count: ProjectCountAggregateOutputType | null
     _min: ProjectMinAggregateOutputType | null
     _max: ProjectMaxAggregateOutputType | null
@@ -8352,8 +8308,6 @@ export namespace Prisma {
     image?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    ownerId?: boolean
-    owner?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["project"]>
 
   export type ProjectSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -8366,8 +8320,6 @@ export namespace Prisma {
     image?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    ownerId?: boolean
-    owner?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["project"]>
 
   export type ProjectSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -8380,8 +8332,6 @@ export namespace Prisma {
     image?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    ownerId?: boolean
-    owner?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["project"]>
 
   export type ProjectSelectScalar = {
@@ -8394,25 +8344,13 @@ export namespace Prisma {
     image?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    ownerId?: boolean
   }
 
-  export type ProjectOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "repoUrl" | "link" | "stack" | "image" | "createdAt" | "updatedAt" | "ownerId", ExtArgs["result"]["project"]>
-  export type ProjectInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    owner?: boolean | UserDefaultArgs<ExtArgs>
-  }
-  export type ProjectIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    owner?: boolean | UserDefaultArgs<ExtArgs>
-  }
-  export type ProjectIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    owner?: boolean | UserDefaultArgs<ExtArgs>
-  }
+  export type ProjectOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "repoUrl" | "link" | "stack" | "image" | "createdAt" | "updatedAt", ExtArgs["result"]["project"]>
 
   export type $ProjectPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Project"
-    objects: {
-      owner: Prisma.$UserPayload<ExtArgs>
-    }
+    objects: {}
     scalars: $Extensions.GetPayloadResult<{
       id: string
       name: string
@@ -8423,7 +8361,6 @@ export namespace Prisma {
       image: string | null
       createdAt: Date
       updatedAt: Date
-      ownerId: string
     }, ExtArgs["result"]["project"]>
     composites: {}
   }
@@ -8818,7 +8755,6 @@ export namespace Prisma {
    */
   export interface Prisma__ProjectClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    owner<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8857,7 +8793,6 @@ export namespace Prisma {
     readonly image: FieldRef<"Project", 'String'>
     readonly createdAt: FieldRef<"Project", 'DateTime'>
     readonly updatedAt: FieldRef<"Project", 'DateTime'>
-    readonly ownerId: FieldRef<"Project", 'String'>
   }
     
 
@@ -8874,10 +8809,6 @@ export namespace Prisma {
      * Omit specific fields from the Project
      */
     omit?: ProjectOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ProjectInclude<ExtArgs> | null
     /**
      * Filter, which Project to fetch.
      */
@@ -8897,10 +8828,6 @@ export namespace Prisma {
      */
     omit?: ProjectOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ProjectInclude<ExtArgs> | null
-    /**
      * Filter, which Project to fetch.
      */
     where: ProjectWhereUniqueInput
@@ -8918,10 +8845,6 @@ export namespace Prisma {
      * Omit specific fields from the Project
      */
     omit?: ProjectOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ProjectInclude<ExtArgs> | null
     /**
      * Filter, which Project to fetch.
      */
@@ -8971,10 +8894,6 @@ export namespace Prisma {
      */
     omit?: ProjectOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ProjectInclude<ExtArgs> | null
-    /**
      * Filter, which Project to fetch.
      */
     where?: ProjectWhereInput
@@ -9023,10 +8942,6 @@ export namespace Prisma {
      */
     omit?: ProjectOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ProjectInclude<ExtArgs> | null
-    /**
      * Filter, which Projects to fetch.
      */
     where?: ProjectWhereInput
@@ -9070,10 +8985,6 @@ export namespace Prisma {
      */
     omit?: ProjectOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ProjectInclude<ExtArgs> | null
-    /**
      * The data needed to create a Project.
      */
     data: XOR<ProjectCreateInput, ProjectUncheckedCreateInput>
@@ -9107,10 +9018,6 @@ export namespace Prisma {
      */
     data: ProjectCreateManyInput | ProjectCreateManyInput[]
     skipDuplicates?: boolean
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ProjectIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -9125,10 +9032,6 @@ export namespace Prisma {
      * Omit specific fields from the Project
      */
     omit?: ProjectOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ProjectInclude<ExtArgs> | null
     /**
      * The data needed to update a Project.
      */
@@ -9181,10 +9084,6 @@ export namespace Prisma {
      * Limit how many Projects to update.
      */
     limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ProjectIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -9199,10 +9098,6 @@ export namespace Prisma {
      * Omit specific fields from the Project
      */
     omit?: ProjectOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ProjectInclude<ExtArgs> | null
     /**
      * The filter to search for the Project to update in case it exists.
      */
@@ -9229,10 +9124,6 @@ export namespace Prisma {
      * Omit specific fields from the Project
      */
     omit?: ProjectOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ProjectInclude<ExtArgs> | null
     /**
      * Filter which Project to delete.
      */
@@ -9265,10 +9156,6 @@ export namespace Prisma {
      * Omit specific fields from the Project
      */
     omit?: ProjectOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ProjectInclude<ExtArgs> | null
   }
 
 
@@ -9383,8 +9270,7 @@ export namespace Prisma {
     stack: 'stack',
     image: 'image',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt',
-    ownerId: 'ownerId'
+    updatedAt: 'updatedAt'
   };
 
   export type ProjectScalarFieldEnum = (typeof ProjectScalarFieldEnum)[keyof typeof ProjectScalarFieldEnum]
@@ -9491,7 +9377,6 @@ export namespace Prisma {
     accounts?: AccountListRelationFilter
     socialList?: XOR<SocialListNullableScalarRelationFilter, SocialListWhereInput> | null
     blogPosts?: BlogListRelationFilter
-    projects?: ProjectListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -9511,7 +9396,6 @@ export namespace Prisma {
     accounts?: AccountOrderByRelationAggregateInput
     socialList?: SocialListOrderByWithRelationInput
     blogPosts?: BlogOrderByRelationAggregateInput
-    projects?: ProjectOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -9534,7 +9418,6 @@ export namespace Prisma {
     accounts?: AccountListRelationFilter
     socialList?: XOR<SocialListNullableScalarRelationFilter, SocialListWhereInput> | null
     blogPosts?: BlogListRelationFilter
-    projects?: ProjectListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -9933,8 +9816,6 @@ export namespace Prisma {
     image?: StringNullableFilter<"Project"> | string | null
     createdAt?: DateTimeFilter<"Project"> | Date | string
     updatedAt?: DateTimeFilter<"Project"> | Date | string
-    ownerId?: StringFilter<"Project"> | string
-    owner?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
   export type ProjectOrderByWithRelationInput = {
@@ -9947,8 +9828,6 @@ export namespace Prisma {
     image?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    ownerId?: SortOrder
-    owner?: UserOrderByWithRelationInput
   }
 
   export type ProjectWhereUniqueInput = Prisma.AtLeast<{
@@ -9964,8 +9843,6 @@ export namespace Prisma {
     image?: StringNullableFilter<"Project"> | string | null
     createdAt?: DateTimeFilter<"Project"> | Date | string
     updatedAt?: DateTimeFilter<"Project"> | Date | string
-    ownerId?: StringFilter<"Project"> | string
-    owner?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id">
 
   export type ProjectOrderByWithAggregationInput = {
@@ -9978,7 +9855,6 @@ export namespace Prisma {
     image?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    ownerId?: SortOrder
     _count?: ProjectCountOrderByAggregateInput
     _max?: ProjectMaxOrderByAggregateInput
     _min?: ProjectMinOrderByAggregateInput
@@ -9997,7 +9873,6 @@ export namespace Prisma {
     image?: StringNullableWithAggregatesFilter<"Project"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Project"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Project"> | Date | string
-    ownerId?: StringWithAggregatesFilter<"Project"> | string
   }
 
   export type UserCreateInput = {
@@ -10017,7 +9892,6 @@ export namespace Prisma {
     accounts?: AccountCreateNestedManyWithoutUserInput
     socialList?: SocialListCreateNestedOneWithoutUserInput
     blogPosts?: BlogCreateNestedManyWithoutAuthorInput
-    projects?: ProjectCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -10037,7 +9911,6 @@ export namespace Prisma {
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     socialList?: SocialListUncheckedCreateNestedOneWithoutUserInput
     blogPosts?: BlogUncheckedCreateNestedManyWithoutAuthorInput
-    projects?: ProjectUncheckedCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUpdateInput = {
@@ -10057,7 +9930,6 @@ export namespace Prisma {
     accounts?: AccountUpdateManyWithoutUserNestedInput
     socialList?: SocialListUpdateOneWithoutUserNestedInput
     blogPosts?: BlogUpdateManyWithoutAuthorNestedInput
-    projects?: ProjectUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -10077,7 +9949,6 @@ export namespace Prisma {
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     socialList?: SocialListUncheckedUpdateOneWithoutUserNestedInput
     blogPosts?: BlogUncheckedUpdateManyWithoutAuthorNestedInput
-    projects?: ProjectUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -10516,7 +10387,6 @@ export namespace Prisma {
     image?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    owner: UserCreateNestedOneWithoutProjectsInput
   }
 
   export type ProjectUncheckedCreateInput = {
@@ -10529,7 +10399,6 @@ export namespace Prisma {
     image?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    ownerId: string
   }
 
   export type ProjectUpdateInput = {
@@ -10542,7 +10411,6 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    owner?: UserUpdateOneRequiredWithoutProjectsNestedInput
   }
 
   export type ProjectUncheckedUpdateInput = {
@@ -10555,7 +10423,6 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    ownerId?: StringFieldUpdateOperationsInput | string
   }
 
   export type ProjectCreateManyInput = {
@@ -10568,7 +10435,6 @@ export namespace Prisma {
     image?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    ownerId: string
   }
 
   export type ProjectUpdateManyMutationInput = {
@@ -10593,7 +10459,6 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    ownerId?: StringFieldUpdateOperationsInput | string
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -10676,12 +10541,6 @@ export namespace Prisma {
     none?: BlogWhereInput
   }
 
-  export type ProjectListRelationFilter = {
-    every?: ProjectWhereInput
-    some?: ProjectWhereInput
-    none?: ProjectWhereInput
-  }
-
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -10696,10 +10555,6 @@ export namespace Prisma {
   }
 
   export type BlogOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type ProjectOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -11008,7 +10863,6 @@ export namespace Prisma {
     image?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    ownerId?: SortOrder
   }
 
   export type ProjectMaxOrderByAggregateInput = {
@@ -11020,7 +10874,6 @@ export namespace Prisma {
     image?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    ownerId?: SortOrder
   }
 
   export type ProjectMinOrderByAggregateInput = {
@@ -11032,7 +10885,6 @@ export namespace Prisma {
     image?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    ownerId?: SortOrder
   }
 
   export type SessionCreateNestedManyWithoutUserInput = {
@@ -11062,13 +10914,6 @@ export namespace Prisma {
     connect?: BlogWhereUniqueInput | BlogWhereUniqueInput[]
   }
 
-  export type ProjectCreateNestedManyWithoutOwnerInput = {
-    create?: XOR<ProjectCreateWithoutOwnerInput, ProjectUncheckedCreateWithoutOwnerInput> | ProjectCreateWithoutOwnerInput[] | ProjectUncheckedCreateWithoutOwnerInput[]
-    connectOrCreate?: ProjectCreateOrConnectWithoutOwnerInput | ProjectCreateOrConnectWithoutOwnerInput[]
-    createMany?: ProjectCreateManyOwnerInputEnvelope
-    connect?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
-  }
-
   export type SessionUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
@@ -11094,13 +10939,6 @@ export namespace Prisma {
     connectOrCreate?: BlogCreateOrConnectWithoutAuthorInput | BlogCreateOrConnectWithoutAuthorInput[]
     createMany?: BlogCreateManyAuthorInputEnvelope
     connect?: BlogWhereUniqueInput | BlogWhereUniqueInput[]
-  }
-
-  export type ProjectUncheckedCreateNestedManyWithoutOwnerInput = {
-    create?: XOR<ProjectCreateWithoutOwnerInput, ProjectUncheckedCreateWithoutOwnerInput> | ProjectCreateWithoutOwnerInput[] | ProjectUncheckedCreateWithoutOwnerInput[]
-    connectOrCreate?: ProjectCreateOrConnectWithoutOwnerInput | ProjectCreateOrConnectWithoutOwnerInput[]
-    createMany?: ProjectCreateManyOwnerInputEnvelope
-    connect?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -11175,20 +11013,6 @@ export namespace Prisma {
     deleteMany?: BlogScalarWhereInput | BlogScalarWhereInput[]
   }
 
-  export type ProjectUpdateManyWithoutOwnerNestedInput = {
-    create?: XOR<ProjectCreateWithoutOwnerInput, ProjectUncheckedCreateWithoutOwnerInput> | ProjectCreateWithoutOwnerInput[] | ProjectUncheckedCreateWithoutOwnerInput[]
-    connectOrCreate?: ProjectCreateOrConnectWithoutOwnerInput | ProjectCreateOrConnectWithoutOwnerInput[]
-    upsert?: ProjectUpsertWithWhereUniqueWithoutOwnerInput | ProjectUpsertWithWhereUniqueWithoutOwnerInput[]
-    createMany?: ProjectCreateManyOwnerInputEnvelope
-    set?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
-    disconnect?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
-    delete?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
-    connect?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
-    update?: ProjectUpdateWithWhereUniqueWithoutOwnerInput | ProjectUpdateWithWhereUniqueWithoutOwnerInput[]
-    updateMany?: ProjectUpdateManyWithWhereWithoutOwnerInput | ProjectUpdateManyWithWhereWithoutOwnerInput[]
-    deleteMany?: ProjectScalarWhereInput | ProjectScalarWhereInput[]
-  }
-
   export type SessionUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
@@ -11239,20 +11063,6 @@ export namespace Prisma {
     update?: BlogUpdateWithWhereUniqueWithoutAuthorInput | BlogUpdateWithWhereUniqueWithoutAuthorInput[]
     updateMany?: BlogUpdateManyWithWhereWithoutAuthorInput | BlogUpdateManyWithWhereWithoutAuthorInput[]
     deleteMany?: BlogScalarWhereInput | BlogScalarWhereInput[]
-  }
-
-  export type ProjectUncheckedUpdateManyWithoutOwnerNestedInput = {
-    create?: XOR<ProjectCreateWithoutOwnerInput, ProjectUncheckedCreateWithoutOwnerInput> | ProjectCreateWithoutOwnerInput[] | ProjectUncheckedCreateWithoutOwnerInput[]
-    connectOrCreate?: ProjectCreateOrConnectWithoutOwnerInput | ProjectCreateOrConnectWithoutOwnerInput[]
-    upsert?: ProjectUpsertWithWhereUniqueWithoutOwnerInput | ProjectUpsertWithWhereUniqueWithoutOwnerInput[]
-    createMany?: ProjectCreateManyOwnerInputEnvelope
-    set?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
-    disconnect?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
-    delete?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
-    connect?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
-    update?: ProjectUpdateWithWhereUniqueWithoutOwnerInput | ProjectUpdateWithWhereUniqueWithoutOwnerInput[]
-    updateMany?: ProjectUpdateManyWithWhereWithoutOwnerInput | ProjectUpdateManyWithWhereWithoutOwnerInput[]
-    deleteMany?: ProjectScalarWhereInput | ProjectScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutSessionsInput = {
@@ -11315,23 +11125,9 @@ export namespace Prisma {
     set: string[]
   }
 
-  export type UserCreateNestedOneWithoutProjectsInput = {
-    create?: XOR<UserCreateWithoutProjectsInput, UserUncheckedCreateWithoutProjectsInput>
-    connectOrCreate?: UserCreateOrConnectWithoutProjectsInput
-    connect?: UserWhereUniqueInput
-  }
-
   export type ProjectUpdatestackInput = {
     set?: string[]
     push?: string | string[]
-  }
-
-  export type UserUpdateOneRequiredWithoutProjectsNestedInput = {
-    create?: XOR<UserCreateWithoutProjectsInput, UserUncheckedCreateWithoutProjectsInput>
-    connectOrCreate?: UserCreateOrConnectWithoutProjectsInput
-    upsert?: UserUpsertWithoutProjectsInput
-    connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutProjectsInput, UserUpdateWithoutProjectsInput>, UserUncheckedUpdateWithoutProjectsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -11600,40 +11396,6 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type ProjectCreateWithoutOwnerInput = {
-    id?: string
-    name: string
-    description?: string | null
-    repoUrl?: string | null
-    link?: string | null
-    stack?: ProjectCreatestackInput | string[]
-    image?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type ProjectUncheckedCreateWithoutOwnerInput = {
-    id?: string
-    name: string
-    description?: string | null
-    repoUrl?: string | null
-    link?: string | null
-    stack?: ProjectCreatestackInput | string[]
-    image?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type ProjectCreateOrConnectWithoutOwnerInput = {
-    where: ProjectWhereUniqueInput
-    create: XOR<ProjectCreateWithoutOwnerInput, ProjectUncheckedCreateWithoutOwnerInput>
-  }
-
-  export type ProjectCreateManyOwnerInputEnvelope = {
-    data: ProjectCreateManyOwnerInput | ProjectCreateManyOwnerInput[]
-    skipDuplicates?: boolean
-  }
-
   export type SessionUpsertWithWhereUniqueWithoutUserInput = {
     where: SessionWhereUniqueInput
     update: XOR<SessionUpdateWithoutUserInput, SessionUncheckedUpdateWithoutUserInput>
@@ -11754,38 +11516,6 @@ export namespace Prisma {
     authorId?: StringFilter<"Blog"> | string
   }
 
-  export type ProjectUpsertWithWhereUniqueWithoutOwnerInput = {
-    where: ProjectWhereUniqueInput
-    update: XOR<ProjectUpdateWithoutOwnerInput, ProjectUncheckedUpdateWithoutOwnerInput>
-    create: XOR<ProjectCreateWithoutOwnerInput, ProjectUncheckedCreateWithoutOwnerInput>
-  }
-
-  export type ProjectUpdateWithWhereUniqueWithoutOwnerInput = {
-    where: ProjectWhereUniqueInput
-    data: XOR<ProjectUpdateWithoutOwnerInput, ProjectUncheckedUpdateWithoutOwnerInput>
-  }
-
-  export type ProjectUpdateManyWithWhereWithoutOwnerInput = {
-    where: ProjectScalarWhereInput
-    data: XOR<ProjectUpdateManyMutationInput, ProjectUncheckedUpdateManyWithoutOwnerInput>
-  }
-
-  export type ProjectScalarWhereInput = {
-    AND?: ProjectScalarWhereInput | ProjectScalarWhereInput[]
-    OR?: ProjectScalarWhereInput[]
-    NOT?: ProjectScalarWhereInput | ProjectScalarWhereInput[]
-    id?: StringFilter<"Project"> | string
-    name?: StringFilter<"Project"> | string
-    description?: StringNullableFilter<"Project"> | string | null
-    repoUrl?: StringNullableFilter<"Project"> | string | null
-    link?: StringNullableFilter<"Project"> | string | null
-    stack?: StringNullableListFilter<"Project">
-    image?: StringNullableFilter<"Project"> | string | null
-    createdAt?: DateTimeFilter<"Project"> | Date | string
-    updatedAt?: DateTimeFilter<"Project"> | Date | string
-    ownerId?: StringFilter<"Project"> | string
-  }
-
   export type UserCreateWithoutSessionsInput = {
     id?: string
     name?: string | null
@@ -11802,7 +11532,6 @@ export namespace Prisma {
     accounts?: AccountCreateNestedManyWithoutUserInput
     socialList?: SocialListCreateNestedOneWithoutUserInput
     blogPosts?: BlogCreateNestedManyWithoutAuthorInput
-    projects?: ProjectCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
@@ -11821,7 +11550,6 @@ export namespace Prisma {
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     socialList?: SocialListUncheckedCreateNestedOneWithoutUserInput
     blogPosts?: BlogUncheckedCreateNestedManyWithoutAuthorInput
-    projects?: ProjectUncheckedCreateNestedManyWithoutOwnerInput
   }
 
   export type UserCreateOrConnectWithoutSessionsInput = {
@@ -11856,7 +11584,6 @@ export namespace Prisma {
     accounts?: AccountUpdateManyWithoutUserNestedInput
     socialList?: SocialListUpdateOneWithoutUserNestedInput
     blogPosts?: BlogUpdateManyWithoutAuthorNestedInput
-    projects?: ProjectUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -11875,7 +11602,6 @@ export namespace Prisma {
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     socialList?: SocialListUncheckedUpdateOneWithoutUserNestedInput
     blogPosts?: BlogUncheckedUpdateManyWithoutAuthorNestedInput
-    projects?: ProjectUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserCreateWithoutAccountsInput = {
@@ -11894,7 +11620,6 @@ export namespace Prisma {
     sessions?: SessionCreateNestedManyWithoutUserInput
     socialList?: SocialListCreateNestedOneWithoutUserInput
     blogPosts?: BlogCreateNestedManyWithoutAuthorInput
-    projects?: ProjectCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
@@ -11913,7 +11638,6 @@ export namespace Prisma {
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     socialList?: SocialListUncheckedCreateNestedOneWithoutUserInput
     blogPosts?: BlogUncheckedCreateNestedManyWithoutAuthorInput
-    projects?: ProjectUncheckedCreateNestedManyWithoutOwnerInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -11948,7 +11672,6 @@ export namespace Prisma {
     sessions?: SessionUpdateManyWithoutUserNestedInput
     socialList?: SocialListUpdateOneWithoutUserNestedInput
     blogPosts?: BlogUpdateManyWithoutAuthorNestedInput
-    projects?: ProjectUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -11967,7 +11690,6 @@ export namespace Prisma {
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     socialList?: SocialListUncheckedUpdateOneWithoutUserNestedInput
     blogPosts?: BlogUncheckedUpdateManyWithoutAuthorNestedInput
-    projects?: ProjectUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserCreateWithoutSocialListInput = {
@@ -11986,7 +11708,6 @@ export namespace Prisma {
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     blogPosts?: BlogCreateNestedManyWithoutAuthorInput
-    projects?: ProjectCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUncheckedCreateWithoutSocialListInput = {
@@ -12005,7 +11726,6 @@ export namespace Prisma {
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     blogPosts?: BlogUncheckedCreateNestedManyWithoutAuthorInput
-    projects?: ProjectUncheckedCreateNestedManyWithoutOwnerInput
   }
 
   export type UserCreateOrConnectWithoutSocialListInput = {
@@ -12040,7 +11760,6 @@ export namespace Prisma {
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     blogPosts?: BlogUpdateManyWithoutAuthorNestedInput
-    projects?: ProjectUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSocialListInput = {
@@ -12059,7 +11778,6 @@ export namespace Prisma {
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     blogPosts?: BlogUncheckedUpdateManyWithoutAuthorNestedInput
-    projects?: ProjectUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserCreateWithoutBlogPostsInput = {
@@ -12078,7 +11796,6 @@ export namespace Prisma {
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     socialList?: SocialListCreateNestedOneWithoutUserInput
-    projects?: ProjectCreateNestedManyWithoutOwnerInput
   }
 
   export type UserUncheckedCreateWithoutBlogPostsInput = {
@@ -12097,7 +11814,6 @@ export namespace Prisma {
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     socialList?: SocialListUncheckedCreateNestedOneWithoutUserInput
-    projects?: ProjectUncheckedCreateNestedManyWithoutOwnerInput
   }
 
   export type UserCreateOrConnectWithoutBlogPostsInput = {
@@ -12132,7 +11848,6 @@ export namespace Prisma {
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     socialList?: SocialListUpdateOneWithoutUserNestedInput
-    projects?: ProjectUpdateManyWithoutOwnerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutBlogPostsInput = {
@@ -12151,99 +11866,6 @@ export namespace Prisma {
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     socialList?: SocialListUncheckedUpdateOneWithoutUserNestedInput
-    projects?: ProjectUncheckedUpdateManyWithoutOwnerNestedInput
-  }
-
-  export type UserCreateWithoutProjectsInput = {
-    id?: string
-    name?: string | null
-    email: string
-    emailVerified?: boolean
-    image?: string | null
-    role?: string
-    banned?: boolean
-    banReason?: string | null
-    about?: string | null
-    banExpires?: Date | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    sessions?: SessionCreateNestedManyWithoutUserInput
-    accounts?: AccountCreateNestedManyWithoutUserInput
-    socialList?: SocialListCreateNestedOneWithoutUserInput
-    blogPosts?: BlogCreateNestedManyWithoutAuthorInput
-  }
-
-  export type UserUncheckedCreateWithoutProjectsInput = {
-    id?: string
-    name?: string | null
-    email: string
-    emailVerified?: boolean
-    image?: string | null
-    role?: string
-    banned?: boolean
-    banReason?: string | null
-    about?: string | null
-    banExpires?: Date | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
-    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    socialList?: SocialListUncheckedCreateNestedOneWithoutUserInput
-    blogPosts?: BlogUncheckedCreateNestedManyWithoutAuthorInput
-  }
-
-  export type UserCreateOrConnectWithoutProjectsInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutProjectsInput, UserUncheckedCreateWithoutProjectsInput>
-  }
-
-  export type UserUpsertWithoutProjectsInput = {
-    update: XOR<UserUpdateWithoutProjectsInput, UserUncheckedUpdateWithoutProjectsInput>
-    create: XOR<UserCreateWithoutProjectsInput, UserUncheckedCreateWithoutProjectsInput>
-    where?: UserWhereInput
-  }
-
-  export type UserUpdateToOneWithWhereWithoutProjectsInput = {
-    where?: UserWhereInput
-    data: XOR<UserUpdateWithoutProjectsInput, UserUncheckedUpdateWithoutProjectsInput>
-  }
-
-  export type UserUpdateWithoutProjectsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: StringFieldUpdateOperationsInput | string
-    emailVerified?: BoolFieldUpdateOperationsInput | boolean
-    image?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: StringFieldUpdateOperationsInput | string
-    banned?: BoolFieldUpdateOperationsInput | boolean
-    banReason?: NullableStringFieldUpdateOperationsInput | string | null
-    about?: NullableStringFieldUpdateOperationsInput | string | null
-    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    sessions?: SessionUpdateManyWithoutUserNestedInput
-    accounts?: AccountUpdateManyWithoutUserNestedInput
-    socialList?: SocialListUpdateOneWithoutUserNestedInput
-    blogPosts?: BlogUpdateManyWithoutAuthorNestedInput
-  }
-
-  export type UserUncheckedUpdateWithoutProjectsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: NullableStringFieldUpdateOperationsInput | string | null
-    email?: StringFieldUpdateOperationsInput | string
-    emailVerified?: BoolFieldUpdateOperationsInput | boolean
-    image?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: StringFieldUpdateOperationsInput | string
-    banned?: BoolFieldUpdateOperationsInput | boolean
-    banReason?: NullableStringFieldUpdateOperationsInput | string | null
-    about?: NullableStringFieldUpdateOperationsInput | string | null
-    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
-    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    socialList?: SocialListUncheckedUpdateOneWithoutUserNestedInput
-    blogPosts?: BlogUncheckedUpdateManyWithoutAuthorNestedInput
   }
 
   export type SessionCreateManyUserInput = {
@@ -12277,18 +11899,6 @@ export namespace Prisma {
     title: string
     img?: string | null
     content: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type ProjectCreateManyOwnerInput = {
-    id?: string
-    name: string
-    description?: string | null
-    repoUrl?: string | null
-    link?: string | null
-    stack?: ProjectCreatestackInput | string[]
-    image?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -12394,42 +12004,6 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     img?: NullableStringFieldUpdateOperationsInput | string | null
     content?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type ProjectUpdateWithoutOwnerInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    repoUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    link?: NullableStringFieldUpdateOperationsInput | string | null
-    stack?: ProjectUpdatestackInput | string[]
-    image?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type ProjectUncheckedUpdateWithoutOwnerInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    repoUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    link?: NullableStringFieldUpdateOperationsInput | string | null
-    stack?: ProjectUpdatestackInput | string[]
-    image?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type ProjectUncheckedUpdateManyWithoutOwnerInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    repoUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    link?: NullableStringFieldUpdateOperationsInput | string | null
-    stack?: ProjectUpdatestackInput | string[]
-    image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
