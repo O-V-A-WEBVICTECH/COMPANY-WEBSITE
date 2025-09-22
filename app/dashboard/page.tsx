@@ -40,6 +40,8 @@ import {
 import TeamForm from "@/components/dashboard-component/TeamForm";
 import ProjectForm from "@/components/dashboard-component/ProjectForm";
 import BlogForm from "@/components/dashboard-component/BlogForm";
+import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
 
 // Mock data
 const initialProjects = [
@@ -171,19 +173,25 @@ export default function Dashboard() {
     }
   };
 
+  const router = useRouter();
+
+  async function handleSignOut() {
+    await authClient.signOut({
+      fetchOptions: {
+        onSuccess: () => {
+          router.push("/login");
+        },
+      },
+    });
+  }
+
   return (
     <div className="min-h-screen bg-background">
       {/* Top Header with Logout */}
       <header className="bg-white border-b">
         <div className="container mx-auto px-4 py-2 flex items-center justify-between">
           <span className="font-bold text-xl text-foreground">Dashboard</span>
-          <Button
-            variant="outline"
-            onClick={() => {
-              // Add your logout logic here
-              window.location.href = "/login";
-            }}
-          >
+          <Button variant="destructive" onClick={handleSignOut}>
             Logout
           </Button>
         </div>

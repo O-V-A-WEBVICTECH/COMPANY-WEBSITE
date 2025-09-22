@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { prisma, auth } from "@/auth";
+import { auth } from "@/auth";
 // import { authClient } from "@/lib/auth-client";
 
 export async function POST(req: NextRequest) {
