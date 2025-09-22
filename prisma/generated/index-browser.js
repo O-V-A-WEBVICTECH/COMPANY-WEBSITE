@@ -129,6 +129,7 @@ exports.Prisma.UserScalarFieldEnum = {
   role: 'role',
   banned: 'banned',
   banReason: 'banReason',
+  about: 'about',
   banExpires: 'banExpires',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -182,6 +183,7 @@ exports.Prisma.VerificationTokenScalarFieldEnum = {
 exports.Prisma.BlogScalarFieldEnum = {
   id: 'id',
   title: 'title',
+  img: 'img',
   content: 'content',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
@@ -192,7 +194,10 @@ exports.Prisma.ProjectScalarFieldEnum = {
   id: 'id',
   name: 'name',
   description: 'description',
+  repoUrl: 'repoUrl',
   link: 'link',
+  stack: 'stack',
+  image: 'image',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   ownerId: 'ownerId'

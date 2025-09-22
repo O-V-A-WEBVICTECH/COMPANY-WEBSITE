@@ -1408,14 +1408,14 @@ export namespace Prisma {
   export type UserCountOutputType = {
     sessions: number
     accounts: number
-    blogs: number
+    blogPosts: number
     projects: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     sessions?: boolean | UserCountOutputTypeCountSessionsArgs
     accounts?: boolean | UserCountOutputTypeCountAccountsArgs
-    blogs?: boolean | UserCountOutputTypeCountBlogsArgs
+    blogPosts?: boolean | UserCountOutputTypeCountBlogPostsArgs
     projects?: boolean | UserCountOutputTypeCountProjectsArgs
   }
 
@@ -1447,7 +1447,7 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountBlogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserCountOutputTypeCountBlogPostsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: BlogWhereInput
   }
 
@@ -1482,6 +1482,7 @@ export namespace Prisma {
     role: string | null
     banned: boolean | null
     banReason: string | null
+    about: string | null
     banExpires: Date | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -1496,6 +1497,7 @@ export namespace Prisma {
     role: string | null
     banned: boolean | null
     banReason: string | null
+    about: string | null
     banExpires: Date | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -1510,6 +1512,7 @@ export namespace Prisma {
     role: number
     banned: number
     banReason: number
+    about: number
     banExpires: number
     createdAt: number
     updatedAt: number
@@ -1526,6 +1529,7 @@ export namespace Prisma {
     role?: true
     banned?: true
     banReason?: true
+    about?: true
     banExpires?: true
     createdAt?: true
     updatedAt?: true
@@ -1540,6 +1544,7 @@ export namespace Prisma {
     role?: true
     banned?: true
     banReason?: true
+    about?: true
     banExpires?: true
     createdAt?: true
     updatedAt?: true
@@ -1554,6 +1559,7 @@ export namespace Prisma {
     role?: true
     banned?: true
     banReason?: true
+    about?: true
     banExpires?: true
     createdAt?: true
     updatedAt?: true
@@ -1641,6 +1647,7 @@ export namespace Prisma {
     role: string
     banned: boolean
     banReason: string | null
+    about: string | null
     banExpires: Date | null
     createdAt: Date
     updatedAt: Date
@@ -1672,13 +1679,14 @@ export namespace Prisma {
     role?: boolean
     banned?: boolean
     banReason?: boolean
+    about?: boolean
     banExpires?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     sessions?: boolean | User$sessionsArgs<ExtArgs>
     accounts?: boolean | User$accountsArgs<ExtArgs>
     socialList?: boolean | User$socialListArgs<ExtArgs>
-    blogs?: boolean | User$blogsArgs<ExtArgs>
+    blogPosts?: boolean | User$blogPostsArgs<ExtArgs>
     projects?: boolean | User$projectsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
@@ -1692,6 +1700,7 @@ export namespace Prisma {
     role?: boolean
     banned?: boolean
     banReason?: boolean
+    about?: boolean
     banExpires?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -1706,6 +1715,7 @@ export namespace Prisma {
     role?: boolean
     banned?: boolean
     banReason?: boolean
+    about?: boolean
     banExpires?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -1720,17 +1730,18 @@ export namespace Prisma {
     role?: boolean
     banned?: boolean
     banReason?: boolean
+    about?: boolean
     banExpires?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "role" | "banned" | "banReason" | "banExpires" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "role" | "banned" | "banReason" | "about" | "banExpires" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     sessions?: boolean | User$sessionsArgs<ExtArgs>
     accounts?: boolean | User$accountsArgs<ExtArgs>
     socialList?: boolean | User$socialListArgs<ExtArgs>
-    blogs?: boolean | User$blogsArgs<ExtArgs>
+    blogPosts?: boolean | User$blogPostsArgs<ExtArgs>
     projects?: boolean | User$projectsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
@@ -1743,7 +1754,7 @@ export namespace Prisma {
       sessions: Prisma.$SessionPayload<ExtArgs>[]
       accounts: Prisma.$AccountPayload<ExtArgs>[]
       socialList: Prisma.$SocialListPayload<ExtArgs> | null
-      blogs: Prisma.$BlogPayload<ExtArgs>[]
+      blogPosts: Prisma.$BlogPayload<ExtArgs>[]
       projects: Prisma.$ProjectPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -1755,6 +1766,7 @@ export namespace Prisma {
       role: string
       banned: boolean
       banReason: string | null
+      about: string | null
       banExpires: Date | null
       createdAt: Date
       updatedAt: Date
@@ -2155,7 +2167,7 @@ export namespace Prisma {
     sessions<T extends User$sessionsArgs<ExtArgs> = {}>(args?: Subset<T, User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     accounts<T extends User$accountsArgs<ExtArgs> = {}>(args?: Subset<T, User$accountsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     socialList<T extends User$socialListArgs<ExtArgs> = {}>(args?: Subset<T, User$socialListArgs<ExtArgs>>): Prisma__SocialListClient<$Result.GetResult<Prisma.$SocialListPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    blogs<T extends User$blogsArgs<ExtArgs> = {}>(args?: Subset<T, User$blogsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BlogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    blogPosts<T extends User$blogPostsArgs<ExtArgs> = {}>(args?: Subset<T, User$blogPostsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BlogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     projects<T extends User$projectsArgs<ExtArgs> = {}>(args?: Subset<T, User$projectsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -2194,6 +2206,7 @@ export namespace Prisma {
     readonly role: FieldRef<"User", 'String'>
     readonly banned: FieldRef<"User", 'Boolean'>
     readonly banReason: FieldRef<"User", 'String'>
+    readonly about: FieldRef<"User", 'String'>
     readonly banExpires: FieldRef<"User", 'DateTime'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly updatedAt: FieldRef<"User", 'DateTime'>
@@ -2652,9 +2665,9 @@ export namespace Prisma {
   }
 
   /**
-   * User.blogs
+   * User.blogPosts
    */
-  export type User$blogsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type User$blogPostsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Blog
      */
@@ -7069,6 +7082,7 @@ export namespace Prisma {
   export type BlogMinAggregateOutputType = {
     id: string | null
     title: string | null
+    img: string | null
     content: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -7078,6 +7092,7 @@ export namespace Prisma {
   export type BlogMaxAggregateOutputType = {
     id: string | null
     title: string | null
+    img: string | null
     content: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -7087,6 +7102,7 @@ export namespace Prisma {
   export type BlogCountAggregateOutputType = {
     id: number
     title: number
+    img: number
     content: number
     createdAt: number
     updatedAt: number
@@ -7098,6 +7114,7 @@ export namespace Prisma {
   export type BlogMinAggregateInputType = {
     id?: true
     title?: true
+    img?: true
     content?: true
     createdAt?: true
     updatedAt?: true
@@ -7107,6 +7124,7 @@ export namespace Prisma {
   export type BlogMaxAggregateInputType = {
     id?: true
     title?: true
+    img?: true
     content?: true
     createdAt?: true
     updatedAt?: true
@@ -7116,6 +7134,7 @@ export namespace Prisma {
   export type BlogCountAggregateInputType = {
     id?: true
     title?: true
+    img?: true
     content?: true
     createdAt?: true
     updatedAt?: true
@@ -7198,6 +7217,7 @@ export namespace Prisma {
   export type BlogGroupByOutputType = {
     id: string
     title: string
+    img: string | null
     content: string
     createdAt: Date
     updatedAt: Date
@@ -7224,6 +7244,7 @@ export namespace Prisma {
   export type BlogSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     title?: boolean
+    img?: boolean
     content?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -7234,6 +7255,7 @@ export namespace Prisma {
   export type BlogSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     title?: boolean
+    img?: boolean
     content?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -7244,6 +7266,7 @@ export namespace Prisma {
   export type BlogSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     title?: boolean
+    img?: boolean
     content?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -7254,13 +7277,14 @@ export namespace Prisma {
   export type BlogSelectScalar = {
     id?: boolean
     title?: boolean
+    img?: boolean
     content?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     authorId?: boolean
   }
 
-  export type BlogOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "content" | "createdAt" | "updatedAt" | "authorId", ExtArgs["result"]["blog"]>
+  export type BlogOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "img" | "content" | "createdAt" | "updatedAt" | "authorId", ExtArgs["result"]["blog"]>
   export type BlogInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     author?: boolean | UserDefaultArgs<ExtArgs>
   }
@@ -7279,6 +7303,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       title: string
+      img: string | null
       content: string
       createdAt: Date
       updatedAt: Date
@@ -7709,6 +7734,7 @@ export namespace Prisma {
   interface BlogFieldRefs {
     readonly id: FieldRef<"Blog", 'String'>
     readonly title: FieldRef<"Blog", 'String'>
+    readonly img: FieldRef<"Blog", 'String'>
     readonly content: FieldRef<"Blog", 'String'>
     readonly createdAt: FieldRef<"Blog", 'DateTime'>
     readonly updatedAt: FieldRef<"Blog", 'DateTime'>
@@ -8141,7 +8167,9 @@ export namespace Prisma {
     id: string | null
     name: string | null
     description: string | null
+    repoUrl: string | null
     link: string | null
+    image: string | null
     createdAt: Date | null
     updatedAt: Date | null
     ownerId: string | null
@@ -8151,7 +8179,9 @@ export namespace Prisma {
     id: string | null
     name: string | null
     description: string | null
+    repoUrl: string | null
     link: string | null
+    image: string | null
     createdAt: Date | null
     updatedAt: Date | null
     ownerId: string | null
@@ -8161,7 +8191,10 @@ export namespace Prisma {
     id: number
     name: number
     description: number
+    repoUrl: number
     link: number
+    stack: number
+    image: number
     createdAt: number
     updatedAt: number
     ownerId: number
@@ -8173,7 +8206,9 @@ export namespace Prisma {
     id?: true
     name?: true
     description?: true
+    repoUrl?: true
     link?: true
+    image?: true
     createdAt?: true
     updatedAt?: true
     ownerId?: true
@@ -8183,7 +8218,9 @@ export namespace Prisma {
     id?: true
     name?: true
     description?: true
+    repoUrl?: true
     link?: true
+    image?: true
     createdAt?: true
     updatedAt?: true
     ownerId?: true
@@ -8193,7 +8230,10 @@ export namespace Prisma {
     id?: true
     name?: true
     description?: true
+    repoUrl?: true
     link?: true
+    stack?: true
+    image?: true
     createdAt?: true
     updatedAt?: true
     ownerId?: true
@@ -8276,7 +8316,10 @@ export namespace Prisma {
     id: string
     name: string
     description: string | null
+    repoUrl: string | null
     link: string | null
+    stack: string[]
+    image: string | null
     createdAt: Date
     updatedAt: Date
     ownerId: string
@@ -8303,7 +8346,10 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     description?: boolean
+    repoUrl?: boolean
     link?: boolean
+    stack?: boolean
+    image?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     ownerId?: boolean
@@ -8314,7 +8360,10 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     description?: boolean
+    repoUrl?: boolean
     link?: boolean
+    stack?: boolean
+    image?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     ownerId?: boolean
@@ -8325,7 +8374,10 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     description?: boolean
+    repoUrl?: boolean
     link?: boolean
+    stack?: boolean
+    image?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     ownerId?: boolean
@@ -8336,13 +8388,16 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     description?: boolean
+    repoUrl?: boolean
     link?: boolean
+    stack?: boolean
+    image?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     ownerId?: boolean
   }
 
-  export type ProjectOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "link" | "createdAt" | "updatedAt" | "ownerId", ExtArgs["result"]["project"]>
+  export type ProjectOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "repoUrl" | "link" | "stack" | "image" | "createdAt" | "updatedAt" | "ownerId", ExtArgs["result"]["project"]>
   export type ProjectInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     owner?: boolean | UserDefaultArgs<ExtArgs>
   }
@@ -8362,7 +8417,10 @@ export namespace Prisma {
       id: string
       name: string
       description: string | null
+      repoUrl: string | null
       link: string | null
+      stack: string[]
+      image: string | null
       createdAt: Date
       updatedAt: Date
       ownerId: string
@@ -8793,7 +8851,10 @@ export namespace Prisma {
     readonly id: FieldRef<"Project", 'String'>
     readonly name: FieldRef<"Project", 'String'>
     readonly description: FieldRef<"Project", 'String'>
+    readonly repoUrl: FieldRef<"Project", 'String'>
     readonly link: FieldRef<"Project", 'String'>
+    readonly stack: FieldRef<"Project", 'String[]'>
+    readonly image: FieldRef<"Project", 'String'>
     readonly createdAt: FieldRef<"Project", 'DateTime'>
     readonly updatedAt: FieldRef<"Project", 'DateTime'>
     readonly ownerId: FieldRef<"Project", 'String'>
@@ -9234,6 +9295,7 @@ export namespace Prisma {
     role: 'role',
     banned: 'banned',
     banReason: 'banReason',
+    about: 'about',
     banExpires: 'banExpires',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -9302,6 +9364,7 @@ export namespace Prisma {
   export const BlogScalarFieldEnum: {
     id: 'id',
     title: 'title',
+    img: 'img',
     content: 'content',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
@@ -9315,7 +9378,10 @@ export namespace Prisma {
     id: 'id',
     name: 'name',
     description: 'description',
+    repoUrl: 'repoUrl',
     link: 'link',
+    stack: 'stack',
+    image: 'image',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     ownerId: 'ownerId'
@@ -9417,13 +9483,14 @@ export namespace Prisma {
     role?: StringFilter<"User"> | string
     banned?: BoolFilter<"User"> | boolean
     banReason?: StringNullableFilter<"User"> | string | null
+    about?: StringNullableFilter<"User"> | string | null
     banExpires?: DateTimeNullableFilter<"User"> | Date | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     sessions?: SessionListRelationFilter
     accounts?: AccountListRelationFilter
     socialList?: XOR<SocialListNullableScalarRelationFilter, SocialListWhereInput> | null
-    blogs?: BlogListRelationFilter
+    blogPosts?: BlogListRelationFilter
     projects?: ProjectListRelationFilter
   }
 
@@ -9436,13 +9503,14 @@ export namespace Prisma {
     role?: SortOrder
     banned?: SortOrder
     banReason?: SortOrderInput | SortOrder
+    about?: SortOrderInput | SortOrder
     banExpires?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     sessions?: SessionOrderByRelationAggregateInput
     accounts?: AccountOrderByRelationAggregateInput
     socialList?: SocialListOrderByWithRelationInput
-    blogs?: BlogOrderByRelationAggregateInput
+    blogPosts?: BlogOrderByRelationAggregateInput
     projects?: ProjectOrderByRelationAggregateInput
   }
 
@@ -9458,13 +9526,14 @@ export namespace Prisma {
     role?: StringFilter<"User"> | string
     banned?: BoolFilter<"User"> | boolean
     banReason?: StringNullableFilter<"User"> | string | null
+    about?: StringNullableFilter<"User"> | string | null
     banExpires?: DateTimeNullableFilter<"User"> | Date | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     sessions?: SessionListRelationFilter
     accounts?: AccountListRelationFilter
     socialList?: XOR<SocialListNullableScalarRelationFilter, SocialListWhereInput> | null
-    blogs?: BlogListRelationFilter
+    blogPosts?: BlogListRelationFilter
     projects?: ProjectListRelationFilter
   }, "id" | "email">
 
@@ -9477,6 +9546,7 @@ export namespace Prisma {
     role?: SortOrder
     banned?: SortOrder
     banReason?: SortOrderInput | SortOrder
+    about?: SortOrderInput | SortOrder
     banExpires?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -9497,6 +9567,7 @@ export namespace Prisma {
     role?: StringWithAggregatesFilter<"User"> | string
     banned?: BoolWithAggregatesFilter<"User"> | boolean
     banReason?: StringNullableWithAggregatesFilter<"User"> | string | null
+    about?: StringNullableWithAggregatesFilter<"User"> | string | null
     banExpires?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
@@ -9790,6 +9861,7 @@ export namespace Prisma {
     NOT?: BlogWhereInput | BlogWhereInput[]
     id?: StringFilter<"Blog"> | string
     title?: StringFilter<"Blog"> | string
+    img?: StringNullableFilter<"Blog"> | string | null
     content?: StringFilter<"Blog"> | string
     createdAt?: DateTimeFilter<"Blog"> | Date | string
     updatedAt?: DateTimeFilter<"Blog"> | Date | string
@@ -9800,6 +9872,7 @@ export namespace Prisma {
   export type BlogOrderByWithRelationInput = {
     id?: SortOrder
     title?: SortOrder
+    img?: SortOrderInput | SortOrder
     content?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -9813,6 +9886,7 @@ export namespace Prisma {
     OR?: BlogWhereInput[]
     NOT?: BlogWhereInput | BlogWhereInput[]
     title?: StringFilter<"Blog"> | string
+    img?: StringNullableFilter<"Blog"> | string | null
     content?: StringFilter<"Blog"> | string
     createdAt?: DateTimeFilter<"Blog"> | Date | string
     updatedAt?: DateTimeFilter<"Blog"> | Date | string
@@ -9823,6 +9897,7 @@ export namespace Prisma {
   export type BlogOrderByWithAggregationInput = {
     id?: SortOrder
     title?: SortOrder
+    img?: SortOrderInput | SortOrder
     content?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -9838,6 +9913,7 @@ export namespace Prisma {
     NOT?: BlogScalarWhereWithAggregatesInput | BlogScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Blog"> | string
     title?: StringWithAggregatesFilter<"Blog"> | string
+    img?: StringNullableWithAggregatesFilter<"Blog"> | string | null
     content?: StringWithAggregatesFilter<"Blog"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Blog"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Blog"> | Date | string
@@ -9851,7 +9927,10 @@ export namespace Prisma {
     id?: StringFilter<"Project"> | string
     name?: StringFilter<"Project"> | string
     description?: StringNullableFilter<"Project"> | string | null
+    repoUrl?: StringNullableFilter<"Project"> | string | null
     link?: StringNullableFilter<"Project"> | string | null
+    stack?: StringNullableListFilter<"Project">
+    image?: StringNullableFilter<"Project"> | string | null
     createdAt?: DateTimeFilter<"Project"> | Date | string
     updatedAt?: DateTimeFilter<"Project"> | Date | string
     ownerId?: StringFilter<"Project"> | string
@@ -9862,7 +9941,10 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     description?: SortOrderInput | SortOrder
+    repoUrl?: SortOrderInput | SortOrder
     link?: SortOrderInput | SortOrder
+    stack?: SortOrder
+    image?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     ownerId?: SortOrder
@@ -9876,7 +9958,10 @@ export namespace Prisma {
     NOT?: ProjectWhereInput | ProjectWhereInput[]
     name?: StringFilter<"Project"> | string
     description?: StringNullableFilter<"Project"> | string | null
+    repoUrl?: StringNullableFilter<"Project"> | string | null
     link?: StringNullableFilter<"Project"> | string | null
+    stack?: StringNullableListFilter<"Project">
+    image?: StringNullableFilter<"Project"> | string | null
     createdAt?: DateTimeFilter<"Project"> | Date | string
     updatedAt?: DateTimeFilter<"Project"> | Date | string
     ownerId?: StringFilter<"Project"> | string
@@ -9887,7 +9972,10 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     description?: SortOrderInput | SortOrder
+    repoUrl?: SortOrderInput | SortOrder
     link?: SortOrderInput | SortOrder
+    stack?: SortOrder
+    image?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     ownerId?: SortOrder
@@ -9903,7 +9991,10 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Project"> | string
     name?: StringWithAggregatesFilter<"Project"> | string
     description?: StringNullableWithAggregatesFilter<"Project"> | string | null
+    repoUrl?: StringNullableWithAggregatesFilter<"Project"> | string | null
     link?: StringNullableWithAggregatesFilter<"Project"> | string | null
+    stack?: StringNullableListFilter<"Project">
+    image?: StringNullableWithAggregatesFilter<"Project"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Project"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Project"> | Date | string
     ownerId?: StringWithAggregatesFilter<"Project"> | string
@@ -9918,13 +10009,14 @@ export namespace Prisma {
     role?: string
     banned?: boolean
     banReason?: string | null
+    about?: string | null
     banExpires?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     socialList?: SocialListCreateNestedOneWithoutUserInput
-    blogs?: BlogCreateNestedManyWithoutAuthorInput
+    blogPosts?: BlogCreateNestedManyWithoutAuthorInput
     projects?: ProjectCreateNestedManyWithoutOwnerInput
   }
 
@@ -9937,13 +10029,14 @@ export namespace Prisma {
     role?: string
     banned?: boolean
     banReason?: string | null
+    about?: string | null
     banExpires?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     socialList?: SocialListUncheckedCreateNestedOneWithoutUserInput
-    blogs?: BlogUncheckedCreateNestedManyWithoutAuthorInput
+    blogPosts?: BlogUncheckedCreateNestedManyWithoutAuthorInput
     projects?: ProjectUncheckedCreateNestedManyWithoutOwnerInput
   }
 
@@ -9956,13 +10049,14 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     banned?: BoolFieldUpdateOperationsInput | boolean
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    about?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     socialList?: SocialListUpdateOneWithoutUserNestedInput
-    blogs?: BlogUpdateManyWithoutAuthorNestedInput
+    blogPosts?: BlogUpdateManyWithoutAuthorNestedInput
     projects?: ProjectUpdateManyWithoutOwnerNestedInput
   }
 
@@ -9975,13 +10069,14 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     banned?: BoolFieldUpdateOperationsInput | boolean
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    about?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     socialList?: SocialListUncheckedUpdateOneWithoutUserNestedInput
-    blogs?: BlogUncheckedUpdateManyWithoutAuthorNestedInput
+    blogPosts?: BlogUncheckedUpdateManyWithoutAuthorNestedInput
     projects?: ProjectUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
@@ -9994,6 +10089,7 @@ export namespace Prisma {
     role?: string
     banned?: boolean
     banReason?: string | null
+    about?: string | null
     banExpires?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -10008,6 +10104,7 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     banned?: BoolFieldUpdateOperationsInput | boolean
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    about?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -10022,6 +10119,7 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     banned?: BoolFieldUpdateOperationsInput | boolean
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    about?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -10342,15 +10440,17 @@ export namespace Prisma {
   export type BlogCreateInput = {
     id?: string
     title: string
+    img?: string | null
     content: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    author: UserCreateNestedOneWithoutBlogsInput
+    author: UserCreateNestedOneWithoutBlogPostsInput
   }
 
   export type BlogUncheckedCreateInput = {
     id?: string
     title: string
+    img?: string | null
     content: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -10360,15 +10460,17 @@ export namespace Prisma {
   export type BlogUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    img?: NullableStringFieldUpdateOperationsInput | string | null
     content?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    author?: UserUpdateOneRequiredWithoutBlogsNestedInput
+    author?: UserUpdateOneRequiredWithoutBlogPostsNestedInput
   }
 
   export type BlogUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    img?: NullableStringFieldUpdateOperationsInput | string | null
     content?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -10378,6 +10480,7 @@ export namespace Prisma {
   export type BlogCreateManyInput = {
     id?: string
     title: string
+    img?: string | null
     content: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -10387,6 +10490,7 @@ export namespace Prisma {
   export type BlogUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    img?: NullableStringFieldUpdateOperationsInput | string | null
     content?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -10395,6 +10499,7 @@ export namespace Prisma {
   export type BlogUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    img?: NullableStringFieldUpdateOperationsInput | string | null
     content?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -10405,7 +10510,10 @@ export namespace Prisma {
     id?: string
     name: string
     description?: string | null
+    repoUrl?: string | null
     link?: string | null
+    stack?: ProjectCreatestackInput | string[]
+    image?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     owner: UserCreateNestedOneWithoutProjectsInput
@@ -10415,7 +10523,10 @@ export namespace Prisma {
     id?: string
     name: string
     description?: string | null
+    repoUrl?: string | null
     link?: string | null
+    stack?: ProjectCreatestackInput | string[]
+    image?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     ownerId: string
@@ -10425,7 +10536,10 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    repoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     link?: NullableStringFieldUpdateOperationsInput | string | null
+    stack?: ProjectUpdatestackInput | string[]
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     owner?: UserUpdateOneRequiredWithoutProjectsNestedInput
@@ -10435,7 +10549,10 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    repoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     link?: NullableStringFieldUpdateOperationsInput | string | null
+    stack?: ProjectUpdatestackInput | string[]
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     ownerId?: StringFieldUpdateOperationsInput | string
@@ -10445,7 +10562,10 @@ export namespace Prisma {
     id?: string
     name: string
     description?: string | null
+    repoUrl?: string | null
     link?: string | null
+    stack?: ProjectCreatestackInput | string[]
+    image?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     ownerId: string
@@ -10455,7 +10575,10 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    repoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     link?: NullableStringFieldUpdateOperationsInput | string | null
+    stack?: ProjectUpdatestackInput | string[]
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -10464,7 +10587,10 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    repoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     link?: NullableStringFieldUpdateOperationsInput | string | null
+    stack?: ProjectUpdatestackInput | string[]
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     ownerId?: StringFieldUpdateOperationsInput | string
@@ -10586,6 +10712,7 @@ export namespace Prisma {
     role?: SortOrder
     banned?: SortOrder
     banReason?: SortOrder
+    about?: SortOrder
     banExpires?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -10600,6 +10727,7 @@ export namespace Prisma {
     role?: SortOrder
     banned?: SortOrder
     banReason?: SortOrder
+    about?: SortOrder
     banExpires?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -10614,6 +10742,7 @@ export namespace Prisma {
     role?: SortOrder
     banned?: SortOrder
     banReason?: SortOrder
+    about?: SortOrder
     banExpires?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -10834,6 +10963,7 @@ export namespace Prisma {
   export type BlogCountOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
+    img?: SortOrder
     content?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -10843,6 +10973,7 @@ export namespace Prisma {
   export type BlogMaxOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
+    img?: SortOrder
     content?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -10852,17 +10983,29 @@ export namespace Prisma {
   export type BlogMinOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
+    img?: SortOrder
     content?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     authorId?: SortOrder
   }
 
+  export type StringNullableListFilter<$PrismaModel = never> = {
+    equals?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    has?: string | StringFieldRefInput<$PrismaModel> | null
+    hasEvery?: string[] | ListStringFieldRefInput<$PrismaModel>
+    hasSome?: string[] | ListStringFieldRefInput<$PrismaModel>
+    isEmpty?: boolean
+  }
+
   export type ProjectCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
     description?: SortOrder
+    repoUrl?: SortOrder
     link?: SortOrder
+    stack?: SortOrder
+    image?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     ownerId?: SortOrder
@@ -10872,7 +11015,9 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     description?: SortOrder
+    repoUrl?: SortOrder
     link?: SortOrder
+    image?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     ownerId?: SortOrder
@@ -10882,7 +11027,9 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     description?: SortOrder
+    repoUrl?: SortOrder
     link?: SortOrder
+    image?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     ownerId?: SortOrder
@@ -11150,24 +11297,33 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSocialListInput, UserUpdateWithoutSocialListInput>, UserUncheckedUpdateWithoutSocialListInput>
   }
 
-  export type UserCreateNestedOneWithoutBlogsInput = {
-    create?: XOR<UserCreateWithoutBlogsInput, UserUncheckedCreateWithoutBlogsInput>
-    connectOrCreate?: UserCreateOrConnectWithoutBlogsInput
+  export type UserCreateNestedOneWithoutBlogPostsInput = {
+    create?: XOR<UserCreateWithoutBlogPostsInput, UserUncheckedCreateWithoutBlogPostsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutBlogPostsInput
     connect?: UserWhereUniqueInput
   }
 
-  export type UserUpdateOneRequiredWithoutBlogsNestedInput = {
-    create?: XOR<UserCreateWithoutBlogsInput, UserUncheckedCreateWithoutBlogsInput>
-    connectOrCreate?: UserCreateOrConnectWithoutBlogsInput
-    upsert?: UserUpsertWithoutBlogsInput
+  export type UserUpdateOneRequiredWithoutBlogPostsNestedInput = {
+    create?: XOR<UserCreateWithoutBlogPostsInput, UserUncheckedCreateWithoutBlogPostsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutBlogPostsInput
+    upsert?: UserUpsertWithoutBlogPostsInput
     connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutBlogsInput, UserUpdateWithoutBlogsInput>, UserUncheckedUpdateWithoutBlogsInput>
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutBlogPostsInput, UserUpdateWithoutBlogPostsInput>, UserUncheckedUpdateWithoutBlogPostsInput>
+  }
+
+  export type ProjectCreatestackInput = {
+    set: string[]
   }
 
   export type UserCreateNestedOneWithoutProjectsInput = {
     create?: XOR<UserCreateWithoutProjectsInput, UserUncheckedCreateWithoutProjectsInput>
     connectOrCreate?: UserCreateOrConnectWithoutProjectsInput
     connect?: UserWhereUniqueInput
+  }
+
+  export type ProjectUpdatestackInput = {
+    set?: string[]
+    push?: string | string[]
   }
 
   export type UserUpdateOneRequiredWithoutProjectsNestedInput = {
@@ -11419,6 +11575,7 @@ export namespace Prisma {
   export type BlogCreateWithoutAuthorInput = {
     id?: string
     title: string
+    img?: string | null
     content: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -11427,6 +11584,7 @@ export namespace Prisma {
   export type BlogUncheckedCreateWithoutAuthorInput = {
     id?: string
     title: string
+    img?: string | null
     content: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -11446,7 +11604,10 @@ export namespace Prisma {
     id?: string
     name: string
     description?: string | null
+    repoUrl?: string | null
     link?: string | null
+    stack?: ProjectCreatestackInput | string[]
+    image?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -11455,7 +11616,10 @@ export namespace Prisma {
     id?: string
     name: string
     description?: string | null
+    repoUrl?: string | null
     link?: string | null
+    stack?: ProjectCreatestackInput | string[]
+    image?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -11583,6 +11747,7 @@ export namespace Prisma {
     NOT?: BlogScalarWhereInput | BlogScalarWhereInput[]
     id?: StringFilter<"Blog"> | string
     title?: StringFilter<"Blog"> | string
+    img?: StringNullableFilter<"Blog"> | string | null
     content?: StringFilter<"Blog"> | string
     createdAt?: DateTimeFilter<"Blog"> | Date | string
     updatedAt?: DateTimeFilter<"Blog"> | Date | string
@@ -11612,7 +11777,10 @@ export namespace Prisma {
     id?: StringFilter<"Project"> | string
     name?: StringFilter<"Project"> | string
     description?: StringNullableFilter<"Project"> | string | null
+    repoUrl?: StringNullableFilter<"Project"> | string | null
     link?: StringNullableFilter<"Project"> | string | null
+    stack?: StringNullableListFilter<"Project">
+    image?: StringNullableFilter<"Project"> | string | null
     createdAt?: DateTimeFilter<"Project"> | Date | string
     updatedAt?: DateTimeFilter<"Project"> | Date | string
     ownerId?: StringFilter<"Project"> | string
@@ -11627,12 +11795,13 @@ export namespace Prisma {
     role?: string
     banned?: boolean
     banReason?: string | null
+    about?: string | null
     banExpires?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
     socialList?: SocialListCreateNestedOneWithoutUserInput
-    blogs?: BlogCreateNestedManyWithoutAuthorInput
+    blogPosts?: BlogCreateNestedManyWithoutAuthorInput
     projects?: ProjectCreateNestedManyWithoutOwnerInput
   }
 
@@ -11645,12 +11814,13 @@ export namespace Prisma {
     role?: string
     banned?: boolean
     banReason?: string | null
+    about?: string | null
     banExpires?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     socialList?: SocialListUncheckedCreateNestedOneWithoutUserInput
-    blogs?: BlogUncheckedCreateNestedManyWithoutAuthorInput
+    blogPosts?: BlogUncheckedCreateNestedManyWithoutAuthorInput
     projects?: ProjectUncheckedCreateNestedManyWithoutOwnerInput
   }
 
@@ -11679,12 +11849,13 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     banned?: BoolFieldUpdateOperationsInput | boolean
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    about?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
     socialList?: SocialListUpdateOneWithoutUserNestedInput
-    blogs?: BlogUpdateManyWithoutAuthorNestedInput
+    blogPosts?: BlogUpdateManyWithoutAuthorNestedInput
     projects?: ProjectUpdateManyWithoutOwnerNestedInput
   }
 
@@ -11697,12 +11868,13 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     banned?: BoolFieldUpdateOperationsInput | boolean
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    about?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     socialList?: SocialListUncheckedUpdateOneWithoutUserNestedInput
-    blogs?: BlogUncheckedUpdateManyWithoutAuthorNestedInput
+    blogPosts?: BlogUncheckedUpdateManyWithoutAuthorNestedInput
     projects?: ProjectUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
@@ -11715,12 +11887,13 @@ export namespace Prisma {
     role?: string
     banned?: boolean
     banReason?: string | null
+    about?: string | null
     banExpires?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     sessions?: SessionCreateNestedManyWithoutUserInput
     socialList?: SocialListCreateNestedOneWithoutUserInput
-    blogs?: BlogCreateNestedManyWithoutAuthorInput
+    blogPosts?: BlogCreateNestedManyWithoutAuthorInput
     projects?: ProjectCreateNestedManyWithoutOwnerInput
   }
 
@@ -11733,12 +11906,13 @@ export namespace Prisma {
     role?: string
     banned?: boolean
     banReason?: string | null
+    about?: string | null
     banExpires?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     socialList?: SocialListUncheckedCreateNestedOneWithoutUserInput
-    blogs?: BlogUncheckedCreateNestedManyWithoutAuthorInput
+    blogPosts?: BlogUncheckedCreateNestedManyWithoutAuthorInput
     projects?: ProjectUncheckedCreateNestedManyWithoutOwnerInput
   }
 
@@ -11767,12 +11941,13 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     banned?: BoolFieldUpdateOperationsInput | boolean
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    about?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUpdateManyWithoutUserNestedInput
     socialList?: SocialListUpdateOneWithoutUserNestedInput
-    blogs?: BlogUpdateManyWithoutAuthorNestedInput
+    blogPosts?: BlogUpdateManyWithoutAuthorNestedInput
     projects?: ProjectUpdateManyWithoutOwnerNestedInput
   }
 
@@ -11785,12 +11960,13 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     banned?: BoolFieldUpdateOperationsInput | boolean
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    about?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     socialList?: SocialListUncheckedUpdateOneWithoutUserNestedInput
-    blogs?: BlogUncheckedUpdateManyWithoutAuthorNestedInput
+    blogPosts?: BlogUncheckedUpdateManyWithoutAuthorNestedInput
     projects?: ProjectUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
@@ -11803,12 +11979,13 @@ export namespace Prisma {
     role?: string
     banned?: boolean
     banReason?: string | null
+    about?: string | null
     banExpires?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
-    blogs?: BlogCreateNestedManyWithoutAuthorInput
+    blogPosts?: BlogCreateNestedManyWithoutAuthorInput
     projects?: ProjectCreateNestedManyWithoutOwnerInput
   }
 
@@ -11821,12 +11998,13 @@ export namespace Prisma {
     role?: string
     banned?: boolean
     banReason?: string | null
+    about?: string | null
     banExpires?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    blogs?: BlogUncheckedCreateNestedManyWithoutAuthorInput
+    blogPosts?: BlogUncheckedCreateNestedManyWithoutAuthorInput
     projects?: ProjectUncheckedCreateNestedManyWithoutOwnerInput
   }
 
@@ -11855,12 +12033,13 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     banned?: BoolFieldUpdateOperationsInput | boolean
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    about?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
-    blogs?: BlogUpdateManyWithoutAuthorNestedInput
+    blogPosts?: BlogUpdateManyWithoutAuthorNestedInput
     projects?: ProjectUpdateManyWithoutOwnerNestedInput
   }
 
@@ -11873,16 +12052,17 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     banned?: BoolFieldUpdateOperationsInput | boolean
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    about?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    blogs?: BlogUncheckedUpdateManyWithoutAuthorNestedInput
+    blogPosts?: BlogUncheckedUpdateManyWithoutAuthorNestedInput
     projects?: ProjectUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
-  export type UserCreateWithoutBlogsInput = {
+  export type UserCreateWithoutBlogPostsInput = {
     id?: string
     name?: string | null
     email: string
@@ -11891,6 +12071,7 @@ export namespace Prisma {
     role?: string
     banned?: boolean
     banReason?: string | null
+    about?: string | null
     banExpires?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -11900,7 +12081,7 @@ export namespace Prisma {
     projects?: ProjectCreateNestedManyWithoutOwnerInput
   }
 
-  export type UserUncheckedCreateWithoutBlogsInput = {
+  export type UserUncheckedCreateWithoutBlogPostsInput = {
     id?: string
     name?: string | null
     email: string
@@ -11909,6 +12090,7 @@ export namespace Prisma {
     role?: string
     banned?: boolean
     banReason?: string | null
+    about?: string | null
     banExpires?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -11918,23 +12100,23 @@ export namespace Prisma {
     projects?: ProjectUncheckedCreateNestedManyWithoutOwnerInput
   }
 
-  export type UserCreateOrConnectWithoutBlogsInput = {
+  export type UserCreateOrConnectWithoutBlogPostsInput = {
     where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutBlogsInput, UserUncheckedCreateWithoutBlogsInput>
+    create: XOR<UserCreateWithoutBlogPostsInput, UserUncheckedCreateWithoutBlogPostsInput>
   }
 
-  export type UserUpsertWithoutBlogsInput = {
-    update: XOR<UserUpdateWithoutBlogsInput, UserUncheckedUpdateWithoutBlogsInput>
-    create: XOR<UserCreateWithoutBlogsInput, UserUncheckedCreateWithoutBlogsInput>
+  export type UserUpsertWithoutBlogPostsInput = {
+    update: XOR<UserUpdateWithoutBlogPostsInput, UserUncheckedUpdateWithoutBlogPostsInput>
+    create: XOR<UserCreateWithoutBlogPostsInput, UserUncheckedCreateWithoutBlogPostsInput>
     where?: UserWhereInput
   }
 
-  export type UserUpdateToOneWithWhereWithoutBlogsInput = {
+  export type UserUpdateToOneWithWhereWithoutBlogPostsInput = {
     where?: UserWhereInput
-    data: XOR<UserUpdateWithoutBlogsInput, UserUncheckedUpdateWithoutBlogsInput>
+    data: XOR<UserUpdateWithoutBlogPostsInput, UserUncheckedUpdateWithoutBlogPostsInput>
   }
 
-  export type UserUpdateWithoutBlogsInput = {
+  export type UserUpdateWithoutBlogPostsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
@@ -11943,6 +12125,7 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     banned?: BoolFieldUpdateOperationsInput | boolean
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    about?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -11952,7 +12135,7 @@ export namespace Prisma {
     projects?: ProjectUpdateManyWithoutOwnerNestedInput
   }
 
-  export type UserUncheckedUpdateWithoutBlogsInput = {
+  export type UserUncheckedUpdateWithoutBlogPostsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
@@ -11961,6 +12144,7 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     banned?: BoolFieldUpdateOperationsInput | boolean
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    about?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -11979,13 +12163,14 @@ export namespace Prisma {
     role?: string
     banned?: boolean
     banReason?: string | null
+    about?: string | null
     banExpires?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     socialList?: SocialListCreateNestedOneWithoutUserInput
-    blogs?: BlogCreateNestedManyWithoutAuthorInput
+    blogPosts?: BlogCreateNestedManyWithoutAuthorInput
   }
 
   export type UserUncheckedCreateWithoutProjectsInput = {
@@ -11997,13 +12182,14 @@ export namespace Prisma {
     role?: string
     banned?: boolean
     banReason?: string | null
+    about?: string | null
     banExpires?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     socialList?: SocialListUncheckedCreateNestedOneWithoutUserInput
-    blogs?: BlogUncheckedCreateNestedManyWithoutAuthorInput
+    blogPosts?: BlogUncheckedCreateNestedManyWithoutAuthorInput
   }
 
   export type UserCreateOrConnectWithoutProjectsInput = {
@@ -12031,13 +12217,14 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     banned?: BoolFieldUpdateOperationsInput | boolean
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    about?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     socialList?: SocialListUpdateOneWithoutUserNestedInput
-    blogs?: BlogUpdateManyWithoutAuthorNestedInput
+    blogPosts?: BlogUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutProjectsInput = {
@@ -12049,13 +12236,14 @@ export namespace Prisma {
     role?: StringFieldUpdateOperationsInput | string
     banned?: BoolFieldUpdateOperationsInput | boolean
     banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    about?: NullableStringFieldUpdateOperationsInput | string | null
     banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     socialList?: SocialListUncheckedUpdateOneWithoutUserNestedInput
-    blogs?: BlogUncheckedUpdateManyWithoutAuthorNestedInput
+    blogPosts?: BlogUncheckedUpdateManyWithoutAuthorNestedInput
   }
 
   export type SessionCreateManyUserInput = {
@@ -12087,6 +12275,7 @@ export namespace Prisma {
   export type BlogCreateManyAuthorInput = {
     id?: string
     title: string
+    img?: string | null
     content: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -12096,7 +12285,10 @@ export namespace Prisma {
     id?: string
     name: string
     description?: string | null
+    repoUrl?: string | null
     link?: string | null
+    stack?: ProjectCreatestackInput | string[]
+    image?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -12182,6 +12374,7 @@ export namespace Prisma {
   export type BlogUpdateWithoutAuthorInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    img?: NullableStringFieldUpdateOperationsInput | string | null
     content?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -12190,6 +12383,7 @@ export namespace Prisma {
   export type BlogUncheckedUpdateWithoutAuthorInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    img?: NullableStringFieldUpdateOperationsInput | string | null
     content?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -12198,6 +12392,7 @@ export namespace Prisma {
   export type BlogUncheckedUpdateManyWithoutAuthorInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    img?: NullableStringFieldUpdateOperationsInput | string | null
     content?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -12207,7 +12402,10 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    repoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     link?: NullableStringFieldUpdateOperationsInput | string | null
+    stack?: ProjectUpdatestackInput | string[]
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -12216,7 +12414,10 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    repoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     link?: NullableStringFieldUpdateOperationsInput | string | null
+    stack?: ProjectUpdatestackInput | string[]
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -12225,7 +12426,10 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    repoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     link?: NullableStringFieldUpdateOperationsInput | string | null
+    stack?: ProjectUpdatestackInput | string[]
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

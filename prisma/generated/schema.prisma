@@ -17,13 +17,14 @@ model User {
   role          String      @default("user") // for Better Auth admin plugin
   banned        Boolean     @default(false)
   banReason     String?
+  about         String?
   banExpires    DateTime?
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @default(now()) @updatedAt
   sessions      Session[]
   accounts      Account[]
   socialList    SocialList?
-  blogs         Blog[]
+  blogPosts     Blog[]
   projects      Project[]
 
   @@map("user")
@@ -86,6 +87,7 @@ model VerificationToken {
 model Blog {
   id        String   @id @default(uuid())
   title     String
+  img       String?
   content   String
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
@@ -97,7 +99,10 @@ model Project {
   id          String   @id @default(uuid())
   name        String
   description String?
+  repoUrl     String?
   link        String?
+  stack       String[]
+  image       String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @default(now()) @updatedAt
   ownerId     String

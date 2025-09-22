@@ -1,22 +1,16 @@
+// middleware.ts
 import { NextRequest, NextResponse } from "next/server";
-import { createAuthClient } from "better-auth/client";
+import { getSessionCookie } from "better-auth/cookies";
 
-const client = createAuthClient();
+export function middleware(request: NextRequest) {
+  const sessionCookie = getSessionCookie(request);
 
-export async function middleware(request: NextRequest) {
-  const { data: session } = await client.getSession({
-    fetchOptions: {
-      headers: {
-        cookie: request.headers.get("cookie") || "",
-      },
-    },
-  });
-
-  if (!session) {
-    return NextResponse.redirect(new URL("/", request.url));
+  if (!sessionCookie) {
+    // No cookie => definitely not authenticated
+    return NextResponse.redirect(new URL("/login", request.url));
   }
 
-  // If there is a session, continue to the requested page
+  // Cookie exists => user *might* be authenticated
   return NextResponse.next();
 }
 
