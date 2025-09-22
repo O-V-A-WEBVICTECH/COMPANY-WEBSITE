@@ -36,7 +36,7 @@ export default function Login(): JSX.Element {
       <Card>
         <CardHeader className="text-center my-3">Welcome Back</CardHeader>
         <CardContent>
-          <form className="lg:w-[500px]" onSubmit={handleLogin}>
+          <form className="w-[280px] lg:w-[500px]" onSubmit={handleLogin}>
             <div className="flex gap-2 mb-3 flex-col">
               <Label htmlFor="email">Email</Label>
               <Input
