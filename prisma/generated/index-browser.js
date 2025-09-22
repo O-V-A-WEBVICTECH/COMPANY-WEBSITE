@@ -126,10 +126,14 @@ exports.Prisma.UserScalarFieldEnum = {
   email: 'email',
   emailVerified: 'emailVerified',
   image: 'image',
+  position: 'position',
   role: 'role',
   banned: 'banned',
   banReason: 'banReason',
   about: 'about',
+  twitterUrl: 'twitterUrl',
+  linkedInUrl: 'linkedInUrl',
+  githubUrl: 'githubUrl',
   banExpires: 'banExpires',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -154,6 +158,7 @@ exports.Prisma.AccountScalarFieldEnum = {
   userId: 'userId',
   accessToken: 'accessToken',
   refreshToken: 'refreshToken',
+  position: 'position',
   idToken: 'idToken',
   accessTokenExpiresAt: 'accessTokenExpiresAt',
   refreshTokenExpiresAt: 'refreshTokenExpiresAt',
@@ -161,14 +166,6 @@ exports.Prisma.AccountScalarFieldEnum = {
   password: 'password',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
-};
-
-exports.Prisma.SocialListScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  github: 'github',
-  facebook: 'facebook',
-  linkedIn: 'linkedIn'
 };
 
 exports.Prisma.VerificationTokenScalarFieldEnum = {
@@ -222,7 +219,6 @@ exports.Prisma.ModelName = {
   User: 'User',
   Session: 'Session',
   Account: 'Account',
-  SocialList: 'SocialList',
   VerificationToken: 'VerificationToken',
   Blog: 'Blog',
   Project: 'Project'

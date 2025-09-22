@@ -9,22 +9,26 @@ datasource db {
 }
 
 model User {
-  id            String      @id @default(uuid())
+  id            String    @id @default(uuid())
   name          String?
-  email         String      @unique
-  emailVerified Boolean     @default(false)
+  email         String    @unique
+  emailVerified Boolean   @default(false)
   image         String?
-  role          String      @default("user") // for Better Auth admin plugin
-  banned        Boolean     @default(false)
+  position      String?
+  role          String    @default("user")
+  banned        Boolean   @default(false)
   banReason     String?
   about         String?
+  twitterUrl    String?   @default("")
+  linkedInUrl   String?   @default("")
+  githubUrl     String    @default("")
   banExpires    DateTime?
-  createdAt     DateTime    @default(now())
-  updatedAt     DateTime    @default(now()) @updatedAt
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @default(now()) @updatedAt
   sessions      Session[]
   accounts      Account[]
-  socialList    SocialList?
-  blogPosts     Blog[]
+
+  blogPosts Blog[]
 
   @@map("user")
 }
@@ -52,6 +56,7 @@ model Account {
   user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   accessToken           String?
   refreshToken          String?
+  position              String?
   idToken               String?
   accessTokenExpiresAt  DateTime?
   refreshTokenExpiresAt DateTime?
@@ -61,15 +66,6 @@ model Account {
   updatedAt             DateTime  @updatedAt
 
   @@map("account")
-}
-
-model SocialList {
-  id       String  @id @default(uuid())
-  userId   String  @unique
-  github   String?
-  facebook String?
-  linkedIn String?
-  user     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model VerificationToken {
