@@ -3,7 +3,6 @@ import { auth } from "@/auth";
 import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/auth";
-import { string } from "better-auth";
 
 export async function GET(request: NextRequest) {
   const session = await auth.api.getSession({

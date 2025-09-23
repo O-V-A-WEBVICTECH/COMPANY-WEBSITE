@@ -68,7 +68,7 @@ export default function TeamEditForm({
         { withCredentials: true }
       );
 
-      if (response.status === 200) {
+      if (response.status === 201) {
         onUpdate();
         onClose();
       }

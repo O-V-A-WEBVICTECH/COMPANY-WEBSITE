@@ -37,12 +37,12 @@ import {
   Linkedin,
   Twitter,
 } from "lucide-react";
-import TeamForm from '@/components/dashboard-component/TeamForm';
-import TeamEditForm from '@/components/dashboard-component/TeamEditForm';
-import ProjectForm from '@/components/dashboard-component/ProjectForm';
-import ProjectEditForm from '@/components/dashboard-component/ProjectEditForm';
-import BlogForm from '@/components/dashboard-component/BlogForm';
-import BlogEditForm from '@/components/dashboard-component/BlogEditForm';
+import TeamForm from "@/components/dashboard-component/TeamForm";
+import TeamEditForm from "@/components/dashboard-component/TeamEditForm";
+import ProjectForm from "@/components/dashboard-component/ProjectForm";
+import ProjectEditForm from "@/components/dashboard-component/ProjectEditForm";
+import BlogForm from "@/components/dashboard-component/BlogForm";
+import BlogEditForm from "@/components/dashboard-component/BlogEditForm";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import axios from "axios";
@@ -156,18 +156,6 @@ export default function Dashboard() {
     getTeams();
   }, []);
 
-  function handleEditProject(project: Project) {
-    setEditingProject(project);
-  }
-
-  function handleEditPost(post: BlogPosts) {
-    setEditingPost(post);
-  }
-
-  function handleEditMember(member: TeamMember) {
-    setEditingMember(member);
-  }
-
   function handleUpdateProject() {
     setEditingProject(null);
     getProjects();
@@ -255,22 +243,24 @@ export default function Dashboard() {
                 <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
                   <DialogHeader>
                     <DialogTitle>
-                      {editingProject ? 'Edit Project' : 'Create New Project'}
+                      {editingProject ? "Edit Project" : "Create New Project"}
                     </DialogTitle>
                     <DialogDescription>
-                      {editingProject 
-                        ? 'Update the project details below'
-                        : 'Add a new project to your dashboard'}
+                      {editingProject
+                        ? "Update the project details below"
+                        : "Add a new project to your dashboard"}
                     </DialogDescription>
                   </DialogHeader>
                   {editingProject ? (
-                    <ProjectEditForm 
-                      project={editingProject} 
+                    <ProjectEditForm
+                      project={editingProject}
                       onClose={() => setEditingProject(null)}
                       onUpdate={handleUpdateProject}
                     />
                   ) : (
-                    <ProjectForm onSuccess={() => setProjectDialogOpen(false)} />
+                    <ProjectForm
+                      onSuccess={() => setProjectDialogOpen(false)}
+                    />
                   )}
                 </DialogContent>
               </Dialog>
@@ -375,17 +365,17 @@ export default function Dashboard() {
                 <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
                   <DialogHeader>
                     <DialogTitle>
-                      {editingPost ? 'Edit Blog Post' : 'Create New Blog Post'}
+                      {editingPost ? "Edit Blog Post" : "Create New Blog Post"}
                     </DialogTitle>
                     <DialogDescription>
-                      {editingPost 
-                        ? 'Update the blog post details below'
-                        : 'Add a new blog post to your dashboard'}
+                      {editingPost
+                        ? "Update the blog post details below"
+                        : "Add a new blog post to your dashboard"}
                     </DialogDescription>
                   </DialogHeader>
                   {editingPost ? (
-                    <BlogEditForm 
-                      blogPost={editingPost} 
+                    <BlogEditForm
+                      blogPost={editingPost}
                       onClose={() => setEditingPost(null)}
                       onUpdate={handleUpdatePost}
                     />
@@ -491,17 +481,17 @@ export default function Dashboard() {
                 <DialogContent className="max-w-md max-h-[80vh] overflow-y-auto">
                   <DialogHeader>
                     <DialogTitle>
-                      {editingMember ? 'Edit Team Member' : 'Add Team Member'}
+                      {editingMember ? "Edit Team Member" : "Add Team Member"}
                     </DialogTitle>
                     <DialogDescription>
-                      {editingMember 
-                        ? 'Update the team member details below'
-                        : 'Add a new team member to your dashboard'}
+                      {editingMember
+                        ? "Update the team member details below"
+                        : "Add a new team member to your dashboard"}
                     </DialogDescription>
                   </DialogHeader>
                   {editingMember ? (
-                    <TeamEditForm 
-                      teamMember={editingMember} 
+                    <TeamEditForm
+                      teamMember={editingMember}
                       onClose={() => setEditingMember(null)}
                       onUpdate={handleUpdateMember}
                     />
