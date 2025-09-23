@@ -3,6 +3,7 @@ import { auth } from "@/auth";
 import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/auth";
+import { string } from "better-auth";
 
 export async function GET(request: NextRequest) {
   const session = await auth.api.getSession({
@@ -12,8 +13,9 @@ export async function GET(request: NextRequest) {
   if (!session)
     return NextResponse.json({ error: "not authorized" }, { status: 401 });
   try {
-    const users = await prisma.user.findMany({
+    const users = await prisma.team.findMany({
       select: {
+        id: true,
         name: true,
         email: true,
         githubUrl: true,
@@ -21,7 +23,6 @@ export async function GET(request: NextRequest) {
         linkedInUrl: true,
         about: true,
         image: true,
-        blogPosts: true,
       },
     });
 

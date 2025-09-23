@@ -31,7 +31,11 @@ interface BlogEditFormProps {
   onUpdate: () => void;
 }
 
-export default function BlogEditForm({ blogPost, onClose, onUpdate }: BlogEditFormProps): JSX.Element {
+export default function BlogEditForm({
+  blogPost,
+  onClose,
+  onUpdate,
+}: BlogEditFormProps): JSX.Element {
   const [loading, setLoading] = useState<boolean>(false);
   const [formData, setFormData] = useState({
     title: blogPost.title,
@@ -39,7 +43,7 @@ export default function BlogEditForm({ blogPost, onClose, onUpdate }: BlogEditFo
     img: blogPost.img,
     author: blogPost.author || "",
     status: blogPost.status || "Draft",
-    date: blogPost.date || new Date().toISOString().split('T')[0]
+    date: blogPost.date || new Date().toISOString().split("T")[0],
   });
 
   useEffect(() => {
@@ -49,7 +53,7 @@ export default function BlogEditForm({ blogPost, onClose, onUpdate }: BlogEditFo
       img: blogPost.img,
       author: blogPost.author || "",
       status: blogPost.status || "Draft",
-      date: blogPost.date || new Date().toISOString().split('T')[0]
+      date: blogPost.date || new Date().toISOString().split("T")[0],
     });
   }, [blogPost]);
 
@@ -58,8 +62,8 @@ export default function BlogEditForm({ blogPost, onClose, onUpdate }: BlogEditFo
     setLoading(true);
 
     try {
-      const response = await axios.put(
-        `/api/posts/${blogPost.id}`,
+      const response = await axios.patch(
+        `/api/posts?postId=${blogPost.id}`,
         formData,
         { withCredentials: true }
       );
@@ -76,9 +80,9 @@ export default function BlogEditForm({ blogPost, onClose, onUpdate }: BlogEditFo
   }
 
   const handleInputChange = (field: string, value: string) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [field]: value
+      [field]: value,
     }));
   };
 
@@ -149,7 +153,12 @@ export default function BlogEditForm({ blogPost, onClose, onUpdate }: BlogEditFo
         />
       </div>
       <div className="flex gap-2">
-        <Button type="button" variant="outline" onClick={onClose} className="flex-1">
+        <Button
+          type="button"
+          variant="outline"
+          onClick={onClose}
+          className="flex-1"
+        >
           Cancel
         </Button>
         <Button type="submit" disabled={loading} className="flex-1">

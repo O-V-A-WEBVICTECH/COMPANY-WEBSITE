@@ -23,7 +23,11 @@ interface ProjectEditFormProps {
   onUpdate: () => void;
 }
 
-export default function ProjectEditForm({ project, onClose, onUpdate }: ProjectEditFormProps): JSX.Element {
+export default function ProjectEditForm({
+  project,
+  onClose,
+  onUpdate,
+}: ProjectEditFormProps): JSX.Element {
   const [loading, setLoading] = useState<boolean>(false);
   const [stack, setStack] = useState<string[]>(project.stack || []);
   const [stackInput, setStackInput] = useState(project.stack?.join(", ") || "");
@@ -32,7 +36,7 @@ export default function ProjectEditForm({ project, onClose, onUpdate }: ProjectE
     description: project.description,
     link: project.link,
     repoUrl: project.repoUrl || "",
-    image: project.image || ""
+    image: project.image || "",
   });
 
   useEffect(() => {
@@ -41,7 +45,7 @@ export default function ProjectEditForm({ project, onClose, onUpdate }: ProjectE
       description: project.description,
       link: project.link,
       repoUrl: project.repoUrl || "",
-      image: project.image || ""
+      image: project.image || "",
     });
     setStack(project.stack || []);
     setStackInput(project.stack?.join(", ") || "");
@@ -52,8 +56,8 @@ export default function ProjectEditForm({ project, onClose, onUpdate }: ProjectE
     setLoading(true);
 
     try {
-      const response = await axios.put(
-        `/api/projects/${project.id}`,
+      const response = await axios.patch(
+        `/api/projects?projectId=${project.id}`,
         { ...formData, stack },
         { withCredentials: true }
       );
@@ -70,9 +74,9 @@ export default function ProjectEditForm({ project, onClose, onUpdate }: ProjectE
   }
 
   const handleInputChange = (field: string, value: string) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [field]: value
+      [field]: value,
     }));
   };
 
@@ -171,7 +175,12 @@ export default function ProjectEditForm({ project, onClose, onUpdate }: ProjectE
       </div>
 
       <div className="flex gap-2">
-        <Button type="button" variant="outline" onClick={onClose} className="flex-1">
+        <Button
+          type="button"
+          variant="outline"
+          onClick={onClose}
+          className="flex-1"
+        >
           Cancel
         </Button>
         <Button type="submit" disabled={loading} className="flex-1">

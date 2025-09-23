@@ -139,6 +139,19 @@ exports.Prisma.UserScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.TeamScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  email: 'email',
+  emailVerified: 'emailVerified',
+  image: 'image',
+  position: 'position',
+  about: 'about',
+  twitterUrl: 'twitterUrl',
+  linkedInUrl: 'linkedInUrl',
+  githubUrl: 'githubUrl'
+};
+
 exports.Prisma.SessionScalarFieldEnum = {
   id: 'id',
   expiresAt: 'expiresAt',
@@ -217,6 +230,7 @@ exports.Prisma.NullsOrder = {
 
 exports.Prisma.ModelName = {
   User: 'User',
+  Team: 'Team',
   Session: 'Session',
   Account: 'Account',
   VerificationToken: 'VerificationToken',

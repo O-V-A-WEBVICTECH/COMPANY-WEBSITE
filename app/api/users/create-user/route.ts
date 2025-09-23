@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { auth } from "@/auth";
-// import { authClient } from "@/lib/auth-client";
+import { prisma } from "@/auth";
 
 export async function POST(req: NextRequest) {
   const { email, name, position, twitterUrl, githubUrl, linkedInUrl } =
@@ -10,10 +9,9 @@ export async function POST(req: NextRequest) {
       error: "please provide required fields",
     });
   try {
-    const user = await auth.api.signUpEmail({
-      body: {
+    const newUser = await prisma.team.create({
+      data: {
         email,
-        password: "26password",
         name,
         position,
         githubUrl,
@@ -25,7 +23,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(
       {
         message: "new user created",
-        user,
+        user: newUser,
       },
       { status: 200 }
     );

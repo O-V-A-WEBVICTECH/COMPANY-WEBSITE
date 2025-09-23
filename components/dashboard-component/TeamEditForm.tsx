@@ -25,7 +25,11 @@ interface TeamEditFormProps {
   onUpdate: () => void;
 }
 
-export default function TeamEditForm({ teamMember, onClose, onUpdate }: TeamEditFormProps): JSX.Element {
+export default function TeamEditForm({
+  teamMember,
+  onClose,
+  onUpdate,
+}: TeamEditFormProps): JSX.Element {
   const [loading, setLoading] = useState<boolean>(false);
   const [formData, setFormData] = useState({
     name: teamMember.name,
@@ -35,7 +39,7 @@ export default function TeamEditForm({ teamMember, onClose, onUpdate }: TeamEdit
     about: teamMember.about || "",
     githubUrl: teamMember.githubUrl || "",
     twitterUrl: teamMember.twitterUrl || "",
-    linkedInUrl: teamMember.linkedInUrl || ""
+    linkedInUrl: teamMember.linkedInUrl || "",
   });
 
   useEffect(() => {
@@ -47,17 +51,19 @@ export default function TeamEditForm({ teamMember, onClose, onUpdate }: TeamEdit
       about: teamMember.about || "",
       githubUrl: teamMember.githubUrl || "",
       twitterUrl: teamMember.twitterUrl || "",
-      linkedInUrl: teamMember.linkedInUrl || ""
+      linkedInUrl: teamMember.linkedInUrl || "",
     });
   }, [teamMember]);
+
+  console.log(teamMember);
 
   async function updateTeamMember(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setLoading(true);
 
     try {
-      const response = await axios.put(
-        `/api/users/${teamMember.id}`,
+      const response = await axios.patch(
+        `/api/users?teamId=${teamMember.id}`,
         formData,
         { withCredentials: true }
       );
@@ -74,9 +80,9 @@ export default function TeamEditForm({ teamMember, onClose, onUpdate }: TeamEdit
   }
 
   const handleInputChange = (field: string, value: string) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [field]: value
+      [field]: value,
     }));
   };
 
@@ -158,7 +164,12 @@ export default function TeamEditForm({ teamMember, onClose, onUpdate }: TeamEdit
         </div>
       </div>
       <div className="flex gap-2">
-        <Button type="button" variant="outline" onClick={onClose} className="flex-1">
+        <Button
+          type="button"
+          variant="outline"
+          onClick={onClose}
+          className="flex-1"
+        >
           Cancel
         </Button>
         <Button type="submit" disabled={loading} className="flex-1">

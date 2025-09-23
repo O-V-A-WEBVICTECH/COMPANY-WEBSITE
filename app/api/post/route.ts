@@ -45,6 +45,57 @@ export async function POST(request: NextRequest) {
   }
 }
 
+//handles updating posts
+
+export async function PATCH(request: NextRequest) {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session)
+    return NextResponse.json({ error: "not authenticated" }, { status: 401 });
+
+  const searchParams = request.nextUrl.searchParams;
+  const postId = searchParams.get("postId") as string;
+
+  const { title, content, img } = await request.json();
+  try {
+    if (session?.user.role !== "admin")
+      return NextResponse.json({ error: "not authorized" }, { status: 403 });
+    const post = await prisma.blog.findUnique({
+      where: {
+        id: postId,
+      },
+    });
+
+    if (!post)
+      return NextResponse.json({ error: "post not found" }, { status: 404 });
+    await prisma.blog.update({
+      where: {
+        id: postId,
+      },
+      data: {
+        img,
+        title,
+        content,
+      },
+    });
+    return NextResponse.json(
+      {
+        message: "post was updated successfully",
+        blog: post,
+      },
+      { status: 201 }
+    );
+  } catch (error) {
+    console.log(error);
+    return NextResponse.json(
+      { error: "internal server error" },
+      { status: 500 }
+    );
+  }
+}
+
 //handles deletion of blog posts
 export async function DELETE(request: NextRequest) {
   const session = await auth.api.getSession({

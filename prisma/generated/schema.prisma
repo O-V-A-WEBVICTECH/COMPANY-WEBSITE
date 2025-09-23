@@ -33,6 +33,19 @@ model User {
   @@map("user")
 }
 
+model Team {
+  id            String  @id @default(uuid())
+  name          String?
+  email         String  @unique
+  emailVerified Boolean @default(false)
+  image         String?
+  position      String?
+  about         String?
+  twitterUrl    String? @default("")
+  linkedInUrl   String? @default("")
+  githubUrl     String  @default("")
+}
+
 model Session {
   id             String   @id @default(uuid())
   expiresAt      DateTime
