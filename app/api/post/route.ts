@@ -85,7 +85,7 @@ export async function PATCH(request: NextRequest) {
         message: "post was updated successfully",
         blog: post,
       },
-      { status: 201 }
+      { status: 200 }
     );
   } catch (error) {
     console.log(error);

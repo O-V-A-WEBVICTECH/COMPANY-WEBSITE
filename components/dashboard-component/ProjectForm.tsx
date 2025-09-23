@@ -5,12 +5,15 @@ import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
 import { FormEvent, JSX, useState } from "react";
 import axios from "axios";
+import { toast } from "sonner";
 
 interface ProjectFormProps {
   onSuccess?: () => void;
 }
 
-export default function ProjectForm({ onSuccess }: ProjectFormProps): JSX.Element {
+export default function ProjectForm({
+  onSuccess,
+}: ProjectFormProps): JSX.Element {
   const [stack, setStack] = useState<string[]>([]);
   const [stackInput, setStackInput] = useState(""); // for the raw input value
 
@@ -30,10 +33,12 @@ export default function ProjectForm({ onSuccess }: ProjectFormProps): JSX.Elemen
         }
       );
       if (response.status === 201) {
+        toast.success("post was created succesfully");
         if (onSuccess) onSuccess();
       }
     } catch (error) {
       console.log(error);
+      toast.error("something went wrong");
     }
   }
 

@@ -6,6 +6,7 @@ import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 import axios from "axios";
 import { Loader2 } from "lucide-react";
+import { toast } from "sonner";
 
 interface TeamMember {
   id: string;
@@ -68,12 +69,14 @@ export default function TeamEditForm({
         { withCredentials: true }
       );
 
-      if (response.status === 201) {
+      if (response.status === 200) {
+        toast.success("user was updated succesfully");
         onUpdate();
         onClose();
       }
     } catch (error) {
       console.log(error);
+      toast.error("something went wrong");
     } finally {
       setLoading(false);
     }

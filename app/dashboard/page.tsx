@@ -45,6 +45,7 @@ import BlogForm from "@/components/dashboard-component/BlogForm";
 import BlogEditForm from "@/components/dashboard-component/BlogEditForm";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 import axios from "axios";
 
 export interface Project {
@@ -93,31 +94,43 @@ export default function Dashboard() {
   const [editingProject, setEditingProject] = useState<Project | null>(null);
   const [editingPost, setEditingPost] = useState<BlogPosts | null>(null);
   const [editingMember, setEditingMember] = useState<TeamMember | null>(null);
+  const [postLoading, setPostLoading] = useState<boolean>(false);
+  const [projectLoading, setProjectLoading] = useState<boolean>(false);
+  const [teamLoading, setTeamLoading] = useState<boolean>(false);
 
   async function getProjects() {
     try {
+      setProjectLoading(true);
       const response = await axios.get<Project[]>("/api/projects");
       if (response.status === 200) return setProjects(response.data);
     } catch (error) {
       console.log(error);
+    } finally {
+      setProjectLoading(false);
     }
   }
 
   async function getTeams() {
     try {
+      setTeamLoading(true);
       const response = await axios.get<TeamMember[]>("/api/users/get-users");
       if (response.status === 200) return setTeamMembers(response.data);
     } catch (error) {
       console.log(error);
+    } finally {
+      setTeamLoading(false);
     }
   }
 
   async function getBlogPosts() {
     try {
+      setPostLoading(true);
       const response = await axios.get<BlogPosts[]>("/api/posts");
       if (response.status === 200) return setBlogPosts(response.data);
     } catch (error) {
       console.log(error);
+    } finally {
+      setPostLoading(false);
     }
   }
 
@@ -169,6 +182,54 @@ export default function Dashboard() {
   function handleUpdateMember() {
     setEditingMember(null);
     getTeams();
+  }
+
+  async function deleteTeamMember(id: string) {
+    try {
+      setTeamLoading(true);
+      const response = await axios.delete(`/api/users?teamId=${id}`);
+      if (response.status === 200)
+        toast.success("Team member  was deleted successfully");
+      getTeams();
+      return;
+    } catch (error) {
+      console.log(error);
+      return toast.error("something went wrong, please try again");
+    } finally {
+      setTeamLoading(false);
+    }
+  }
+
+  async function deleteBlogPost(id: string) {
+    try {
+      setPostLoading(true);
+      const response = await axios.delete(`/api/posts?postId=${id}`);
+      if (response.status === 200)
+        toast.success("Blog post  was deleted successfully");
+      getBlogPosts();
+      return;
+    } catch (error) {
+      console.log(error);
+      return toast.error("something went wrong, please try again");
+    } finally {
+      setPostLoading(false);
+    }
+  }
+
+  async function deleteProject(id: string) {
+    try {
+      setProjectLoading(true);
+      const response = await axios.delete(`/api/projects?projectId=${id}`);
+      if (response.status === 200)
+        toast.success("Project was deleted successfully");
+      getProjects();
+      return;
+    } catch (error) {
+      console.log(error);
+      return toast.error("something went wrong, please try again");
+    } finally {
+      setProjectLoading(false);
+    }
   }
 
   return (
@@ -287,13 +348,10 @@ export default function Dashboard() {
                           <Edit className="h-4 w-4" />
                         </Button>
                         <Button
+                          disabled={projectLoading}
                           variant="ghost"
                           size="sm"
-                          onClick={() =>
-                            setProjects(
-                              projects.filter((p) => p.id !== project.id)
-                            )
-                          }
+                          onClick={() => deleteProject(project.id)}
                         >
                           <Trash2 className="h-4 w-4" />
                         </Button>
@@ -409,13 +467,10 @@ export default function Dashboard() {
                           <Edit className="h-4 w-4" />
                         </Button>
                         <Button
+                          disabled={postLoading}
                           variant="ghost"
                           size="sm"
-                          onClick={() =>
-                            setBlogPosts(
-                              blogPosts?.filter((p) => p.id !== post.id)
-                            )
-                          }
+                          onClick={() => deleteBlogPost(post.id)}
                         >
                           <Trash2 className="h-4 w-4" />
                         </Button>
@@ -541,13 +596,10 @@ export default function Dashboard() {
                           <Edit className="h-4 w-4" />
                         </Button>
                         <Button
+                          disabled={teamLoading}
                           variant="ghost"
                           size="sm"
-                          onClick={() =>
-                            setTeamMembers(
-                              teamMembers.filter((m) => m.id !== member.id)
-                            )
-                          }
+                          onClick={() => deleteTeamMember(member.id)}
                         >
                           <Trash2 className="h-4 w-4" />
                         </Button>

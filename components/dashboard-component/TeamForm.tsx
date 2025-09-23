@@ -6,6 +6,7 @@ import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 import axios from "axios";
 import { Loader2 } from "lucide-react";
+import { toast } from "sonner";
 
 interface TeamFormProps {
   onSuccess?: () => void;
@@ -43,10 +44,12 @@ export default function TeamForm({ onSuccess }: TeamFormProps): JSX.Element {
       );
 
       if (response.status === 201) {
+        toast.success("Team member was updated succesfully");
         if (onSuccess) onSuccess();
       }
     } catch (error) {
       console.log(error);
+      toast.error("something went wrong");
     } finally {
       setloading(false);
     }

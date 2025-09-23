@@ -6,6 +6,7 @@ import { Textarea } from "../ui/textarea";
 import { FormEvent, JSX, useState, useEffect } from "react";
 import axios from "axios";
 import { Loader2 } from "lucide-react";
+import { toast } from "sonner";
 
 interface Project {
   id: string;
@@ -62,8 +63,9 @@ export default function ProjectEditForm({
         { withCredentials: true }
       );
 
-      if (response.status === 201) {
+      if (response.status === 200) {
         onUpdate();
+        toast.success("project was updated succesfully");
         onClose();
       }
     } catch (error) {

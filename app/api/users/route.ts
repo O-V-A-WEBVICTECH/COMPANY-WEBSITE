@@ -2,6 +2,7 @@ import { auth, prisma } from "@/auth";
 import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
+//handles updating team profile
 export async function PATCH(request: NextRequest) {
   const session = await auth.api.getSession({
     headers: await headers(),
@@ -25,7 +26,7 @@ export async function PATCH(request: NextRequest) {
     });
 
     if (!teamMember)
-      return NextResponse.json({ error: "post not found" }, { status: 404 });
+      return NextResponse.json({ error: "user not found" }, { status: 404 });
     await prisma.team.update({
       where: {
         id: teamId,
@@ -45,13 +46,58 @@ export async function PATCH(request: NextRequest) {
         message: "post was updated successfully",
         teamMember,
       },
-      { status: 201 }
+      { status: 200 }
     );
   } catch (error) {
     console.log(error);
     return NextResponse.json(
       { error: "internal server error" },
-      { status: 500 }
+      { status: 501 }
+    );
+  }
+}
+
+//handles deleting team member
+
+export async function DELETE(request: NextRequest) {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session)
+    return NextResponse.json({ error: "not authenticated" }, { status: 401 });
+
+  const searchParams = request.nextUrl.searchParams;
+  const teamId = searchParams.get("teamId") as string;
+
+  try {
+    if (session?.user.role !== "admin")
+      return NextResponse.json({ error: "not authorized" }, { status: 403 });
+    const teamMember = await prisma.team.findUnique({
+      where: {
+        id: teamId,
+      },
+    });
+
+    if (!teamMember)
+      return NextResponse.json({ error: "user not found" }, { status: 404 });
+    await prisma.team.delete({
+      where: {
+        id: teamId,
+      },
+    });
+    return NextResponse.json(
+      {
+        message: "user was removed successfully",
+        teamMember,
+      },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.log(error);
+    return NextResponse.json(
+      { error: "internal server error" },
+      { status: 501 }
     );
   }
 }

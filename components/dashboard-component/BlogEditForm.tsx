@@ -13,6 +13,7 @@ import {
 import { Button } from "../ui/button";
 import axios from "axios";
 import { Loader2 } from "lucide-react";
+import { toast } from "sonner";
 
 interface BlogPosts {
   id: string;
@@ -68,12 +69,14 @@ export default function BlogEditForm({
         { withCredentials: true }
       );
 
-      if (response.status === 201) {
+      if (response.status === 200) {
         onUpdate();
+        toast.success("post was updated succesfully");
         onClose();
       }
     } catch (error) {
       console.log(error);
+      toast.error("something went wrong");
     } finally {
       setLoading(false);
     }
