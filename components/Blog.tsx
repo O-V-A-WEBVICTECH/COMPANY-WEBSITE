@@ -1,23 +1,28 @@
-import { JSX } from "react";
+"use client";
+/* eslint-disable @next/next/no-img-element */
+import { BlogPosts } from "@/app/dashboard/page";
+import axios from "axios";
+import { JSX, useEffect, useState } from "react";
 
 export default function Blog(): JSX.Element {
-  const posts = [
-    {
-      title: "How Qwen3 is Revolutionizing Web Development",
-      date: "June 15, 2023",
-      img: "https://images.unsplash.com/photo-1677442135722-5f6d0318b274",
-    },
-    {
-      title: "5 Common Website Issues and How to Fix Them",
-      date: "May 28, 2023",
-      img: "https://images.unsplash.com/photo-1677442135133-34347a4666b5",
-    },
-    {
-      title: "The Future of AI in Web Design and Development",
-      date: "April 12, 2023",
-      img: "https://images.unsplash.com/photo-1677442135529-248364799478",
-    },
-  ];
+  const [posts, setPost] = useState<BlogPosts[] | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [loading, setLoading] = useState<boolean>(false);
+
+  async function getTeams() {
+    try {
+      setLoading(true);
+      const response = await axios.get<BlogPosts[]>("/api/posts/");
+      if (response.status === 200) setPost(response.data);
+      return setLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    getTeams();
+  }, []);
 
   return (
     <section id="blog" className="py-20 bg-white">
@@ -31,7 +36,7 @@ export default function Blog(): JSX.Element {
         </div>
 
         <div className="grid md:grid-cols-3 gap-6">
-          {posts.map((p, i) => (
+          {posts?.map((p, i) => (
             <article
               key={i}
               className="bg-white rounded-lg shadow overflow-hidden"

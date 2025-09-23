@@ -44,7 +44,7 @@ import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 
-interface Project {
+export interface Project {
   id: string;
   name: string;
   description: string;
@@ -54,7 +54,7 @@ interface Project {
   stack: string[];
 }
 
-interface BlogPosts {
+export interface BlogPosts {
   id: string;
   title: string;
   content: string;
@@ -65,7 +65,7 @@ interface BlogPosts {
   author?: string;
 }
 
-interface TeamMember {
+export interface TeamMember {
   id: string;
   name: string;
   email: string;
@@ -89,7 +89,7 @@ export default function Dashboard() {
 
   async function getProjects() {
     try {
-      const response = await axios.get("/api/projects");
+      const response = await axios.get<Project[]>("/api/projects");
       if (response.status === 200) return setProjects(response.data);
     } catch (error) {
       console.log(error);
@@ -98,7 +98,7 @@ export default function Dashboard() {
 
   async function getTeams() {
     try {
-      const response = await axios.get("/api/users/get-users");
+      const response = await axios.get<TeamMember[]>("/api/users/get-users");
       if (response.status === 200) return setTeamMembers(response.data);
     } catch (error) {
       console.log(error);
@@ -107,13 +107,14 @@ export default function Dashboard() {
 
   async function getBlogPosts() {
     try {
-      const response = await axios.get("/api/posts");
+      const response = await axios.get<BlogPosts[]>("/api/posts");
       if (response.status === 200) return setBlogPosts(response.data);
     } catch (error) {
       console.log(error);
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const getStatusColor = (status: string) => {
     switch (status.toLowerCase()) {
       case "completed":
