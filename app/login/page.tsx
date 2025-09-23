@@ -25,8 +25,6 @@ export default function Login(): JSX.Element {
         password,
         callbackURL: "/dashboard",
       });
-      console.log(data);
-      console.log(error);
       if (error) return toast.error("Invalid credentials");
       return toast.success("Login successfull");
     } catch (error) {

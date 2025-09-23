@@ -3,7 +3,7 @@
 
 import type React from "react";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Card,
   CardContent,
@@ -42,120 +42,77 @@ import ProjectForm from "@/components/dashboard-component/ProjectForm";
 import BlogForm from "@/components/dashboard-component/BlogForm";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
+import axios from "axios";
 
-// Mock data
-const initialProjects = [
-  {
-    id: 1,
-    title: "Website Redesign",
-    description:
-      "Complete overhaul of company website with modern design and improved UX",
-    url: "https://company-website.com",
-    img: "/modern-website-design.png",
-    stack: ["React", "Next.js", "Tailwind CSS", "TypeScript"],
-  },
-  {
-    id: 2,
-    title: "Mobile App",
-    description:
-      "Cross-platform mobile application for iOS and Android with real-time features",
-    url: "https://github.com/company/mobile-app",
-    img: "/mobile-app-interface.png",
-    stack: ["React Native", "Firebase", "Redux", "Node.js"],
-  },
-  {
-    id: 3,
-    title: "Marketing Campaign",
-    description:
-      "Digital marketing campaign with social media integration and analytics tracking",
-    url: "https://marketing.company.com",
-    img: "/marketing-dashboard.png",
-    stack: ["Google Analytics", "Facebook Ads", "Mailchimp", "WordPress"],
-  },
-];
+interface Project {
+  id: string;
+  name: string;
+  description: string;
+  link: string;
+  repoUrl?: string;
+  image?: string;
+  stack: string[];
+}
 
-const initialBlogPosts = [
-  {
-    id: 1,
-    title: "Company Growth in 2024",
-    content:
-      "This year has been remarkable for our company. We've expanded our team by 50% and launched three major products that have revolutionized how our customers work. Our revenue has grown by 200% and we've established partnerships with industry leaders.",
-    img: "/company-growth-chart.jpg",
-    author: "John Doe",
-    status: "Published",
-    date: "2024-01-15",
-  },
-  {
-    id: 2,
-    title: "New Product Launch",
-    content:
-      "We're excited to announce the launch of our latest product - a revolutionary platform that combines AI with user-friendly design. This product has been in development for over a year and represents the future of our industry.",
-    img: "/product-launch.png",
-    author: "Jane Smith",
-    status: "Draft",
-    date: "2024-01-20",
-  },
-  {
-    id: 3,
-    title: "Industry Insights",
-    content:
-      "The tech industry is evolving rapidly, and staying ahead requires constant innovation. In this post, we explore the latest trends, emerging technologies, and what they mean for businesses like ours.",
-    img: "/technology-trends-analysis.jpg",
-    author: "Mike Johnson",
-    status: "Review",
-    date: "2024-01-25",
-  },
-];
+interface BlogPosts {
+  id: string;
+  title: string;
+  content: string;
+  img: string;
+  date?: string;
+  status?: string;
+  createdAt: string;
+  author?: string;
+}
 
-const initialTeamMembers = [
-  {
-    id: 1,
-    name: "John Doe",
-    position: "CEO",
-    img: "https://api.dicebear.com/7.x/avataaars/svg?seed=John",
-    about:
-      "Experienced leader with 15+ years in tech industry. Passionate about innovation and team building.",
-    socialLinks: {
-      linkedin: "https://linkedin.com/in/johndoe",
-      twitter: "https://twitter.com/johndoe",
-      github: "https://github.com/johndoe",
-    },
-  },
-  {
-    id: 2,
-    name: "Jane Smith",
-    position: "CTO",
-    img: "https://api.dicebear.com/7.x/avataaars/svg?seed=Jane",
-    about:
-      "Full-stack developer and technology strategist. Loves building scalable systems and mentoring developers.",
-    socialLinks: {
-      linkedin: "https://linkedin.com/in/janesmith",
-      github: "https://github.com/janesmith",
-    },
-  },
-  {
-    id: 3,
-    name: "Mike Johnson",
-    position: "Marketing Director",
-    img: "https://api.dicebear.com/7.x/avataaars/svg?seed=Mike",
-    about:
-      "Creative marketing professional with expertise in digital campaigns and brand strategy.",
-    socialLinks: {
-      linkedin: "https://linkedin.com/in/mikejohnson",
-      twitter: "https://twitter.com/mikejohnson",
-    },
-  },
-];
+interface TeamMember {
+  id: string;
+  name: string;
+  email: string;
+  githubUrl?: string;
+  twitterUrl?: string;
+  linkedInUrl?: string;
+  image?: string;
+  about?: string;
+  position?: string;
+}
 
 export default function Dashboard() {
-  const [projects, setProjects] = useState(initialProjects);
-  const [blogPosts, setBlogPosts] = useState(initialBlogPosts);
-  const [teamMembers, setTeamMembers] = useState(initialTeamMembers);
+  const [projects, setProjects] = useState<Project[] | null>(null);
+  const [blogPosts, setBlogPosts] = useState<BlogPosts[] | null>(null);
+  const [teamMembers, setTeamMembers] = useState<TeamMember[] | null>(null);
   const [activeTab, setActiveTab] = useState("projects");
 
   const [projectDialogOpen, setProjectDialogOpen] = useState(false);
   const [postDialogOpen, setPostDialogOpen] = useState<boolean>(false);
   const [memberDialogOpen, setMemberDialogOpen] = useState<boolean>(false);
+
+  async function getProjects() {
+    try {
+      const response = await axios.get("/api/projects");
+      if (response.status === 200) return setProjects(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function getTeams() {
+    try {
+      const response = await axios.get("/api/users/get-users");
+      if (response.status === 200) return setTeamMembers(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function getBlogPosts() {
+    try {
+      const response = await axios.get("/api/posts");
+      if (response.status === 200) return setBlogPosts(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   const getStatusColor = (status: string) => {
     switch (status.toLowerCase()) {
@@ -184,6 +141,12 @@ export default function Dashboard() {
       },
     });
   }
+
+  useEffect(() => {
+    getBlogPosts();
+    getProjects();
+    getTeams();
+  }, []);
 
   return (
     <div className="min-h-screen bg-background">
@@ -264,14 +227,14 @@ export default function Dashboard() {
             </div>
 
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {projects.map((project) => (
+              {projects?.map((project) => (
                 <Card
                   key={project.id}
                   className="hover:shadow-lg transition-shadow"
                 >
                   <CardHeader>
                     <div className="flex items-center justify-between">
-                      <CardTitle className="text-lg">{project.title}</CardTitle>
+                      <CardTitle className="text-lg">{project?.name}</CardTitle>
                       <div className="flex gap-2">
                         <Button
                           variant="ghost"
@@ -296,17 +259,17 @@ export default function Dashboard() {
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-3">
-                      {project.img && (
+                      {project?.image && (
                         <img
-                          src={project.img || "/placeholder.svg"}
-                          alt={project.title}
+                          src={project?.image || "/placeholder.svg"}
+                          alt={project?.name}
                           className="w-full h-32 object-cover rounded-md"
                         />
                       )}
                       <p className="text-sm text-muted-foreground line-clamp-2">
                         {project.description}
                       </p>
-                      {project.url && (
+                      {project?.link && (
                         <Button
                           variant="outline"
                           size="sm"
@@ -314,7 +277,7 @@ export default function Dashboard() {
                           className="w-full bg-transparent"
                         >
                           <a
-                            href={project.url}
+                            href={project.link}
                             target="_blank"
                             rel="noopener noreferrer"
                           >
@@ -369,7 +332,7 @@ export default function Dashboard() {
             </div>
 
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {blogPosts.map((post) => (
+              {blogPosts?.map((post) => (
                 <Card
                   key={post.id}
                   className="hover:shadow-lg transition-shadow"
@@ -392,7 +355,7 @@ export default function Dashboard() {
                           size="sm"
                           onClick={() =>
                             setBlogPosts(
-                              blogPosts.filter((p) => p.id !== post.id)
+                              blogPosts?.filter((p) => p.id !== post.id)
                             )
                           }
                         >
@@ -400,9 +363,9 @@ export default function Dashboard() {
                         </Button>
                       </div>
                     </div>
-                    <Badge className={getStatusColor(post.status)}>
+                    {/* <Badge className={getStatusColor(post?.status)}>
                       {post.status}
-                    </Badge>
+                    </Badge> */}
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-3">
@@ -420,11 +383,11 @@ export default function Dashboard() {
                       )}
                       <div className="flex items-center gap-2 text-sm text-muted-foreground">
                         <User className="h-4 w-4" />
-                        {post.author}
+                        {post?.author}
                       </div>
                       <div className="flex items-center gap-2 text-sm text-muted-foreground">
                         <Calendar className="h-4 w-4" />
-                        {post.date}
+                        {post?.date}
                       </div>
                     </div>
                   </CardContent>
@@ -467,7 +430,7 @@ export default function Dashboard() {
             </div>
 
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {teamMembers.map((member) => (
+              {teamMembers?.map((member) => (
                 <Card
                   key={member.id}
                   className="hover:shadow-lg transition-shadow"
@@ -478,7 +441,7 @@ export default function Dashboard() {
                         <Avatar className="h-12 w-12">
                           <AvatarImage
                             src={
-                              member.img ||
+                              member?.image ||
                               `https://api.dicebear.com/7.x/initials/svg?seed=${member.name}`
                             }
                           />
@@ -526,10 +489,10 @@ export default function Dashboard() {
                         </p>
                       )}
                       <div className="flex gap-2">
-                        {member.socialLinks?.linkedin && (
+                        {member?.linkedInUrl && (
                           <Button variant="ghost" size="sm" asChild>
                             <a
-                              href={member.socialLinks.linkedin}
+                              href={member?.linkedInUrl}
                               target="_blank"
                               rel="noopener noreferrer"
                             >
@@ -537,10 +500,10 @@ export default function Dashboard() {
                             </a>
                           </Button>
                         )}
-                        {member.socialLinks?.twitter && (
+                        {member?.twitterUrl && (
                           <Button variant="ghost" size="sm" asChild>
                             <a
-                              href={member.socialLinks.twitter}
+                              href={member?.twitterUrl}
                               target="_blank"
                               rel="noopener noreferrer"
                             >
@@ -548,10 +511,10 @@ export default function Dashboard() {
                             </a>
                           </Button>
                         )}
-                        {member.socialLinks?.github && (
+                        {member?.githubUrl && (
                           <Button variant="ghost" size="sm" asChild>
                             <a
-                              href={member.socialLinks.github}
+                              href={member?.githubUrl}
                               target="_blank"
                               rel="noopener noreferrer"
                             >
