@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { authClient } from "@/lib/auth-client";
 import { Loader2 } from "lucide-react";
+import { toast } from "sonner";
 
 export default function Login(): JSX.Element {
   const [loading, setLoading] = useState<boolean>(false);
@@ -18,14 +19,19 @@ export default function Login(): JSX.Element {
     const password = formData.get("password") as string;
     try {
       setLoading(true);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { data, error } = await authClient.signIn.email({
         email,
         password,
         callbackURL: "/dashboard",
       });
-      if (!error) console.log("data:", data);
+      console.log(data);
+      console.log(error);
+      if (error) return toast.error("Invalid credentials");
+      return toast.success("Login successfull");
     } catch (error) {
       console.log(error);
+      toast.error("Invalid credentials");
     } finally {
       setLoading(false);
     }
