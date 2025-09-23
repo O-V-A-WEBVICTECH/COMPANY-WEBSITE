@@ -11,9 +11,15 @@ import {
 } from "../ui/select";
 import { Button } from "../ui/button";
 
-export default function BlogForm(): JSX.Element {
+interface BlogFormProps {
+  onSuccess?: () => void;
+}
+
+export default function BlogForm({ onSuccess }: BlogFormProps): JSX.Element {
   async function createBlogPost(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    // Assuming the submission is successful
+    if (onSuccess) onSuccess();
   }
 
   return (

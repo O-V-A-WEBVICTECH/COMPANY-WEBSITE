@@ -37,9 +37,12 @@ import {
   Linkedin,
   Twitter,
 } from "lucide-react";
-import TeamForm from "@/components/dashboard-component/TeamForm";
-import ProjectForm from "@/components/dashboard-component/ProjectForm";
-import BlogForm from "@/components/dashboard-component/BlogForm";
+import TeamForm from '@/components/dashboard-component/TeamForm';
+import TeamEditForm from '@/components/dashboard-component/TeamEditForm';
+import ProjectForm from '@/components/dashboard-component/ProjectForm';
+import ProjectEditForm from '@/components/dashboard-component/ProjectEditForm';
+import BlogForm from '@/components/dashboard-component/BlogForm';
+import BlogEditForm from '@/components/dashboard-component/BlogEditForm';
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import axios from "axios";
@@ -86,6 +89,10 @@ export default function Dashboard() {
   const [projectDialogOpen, setProjectDialogOpen] = useState(false);
   const [postDialogOpen, setPostDialogOpen] = useState<boolean>(false);
   const [memberDialogOpen, setMemberDialogOpen] = useState<boolean>(false);
+
+  const [editingProject, setEditingProject] = useState<Project | null>(null);
+  const [editingPost, setEditingPost] = useState<BlogPosts | null>(null);
+  const [editingMember, setEditingMember] = useState<TeamMember | null>(null);
 
   async function getProjects() {
     try {
@@ -149,6 +156,33 @@ export default function Dashboard() {
     getTeams();
   }, []);
 
+  function handleEditProject(project: Project) {
+    setEditingProject(project);
+  }
+
+  function handleEditPost(post: BlogPosts) {
+    setEditingPost(post);
+  }
+
+  function handleEditMember(member: TeamMember) {
+    setEditingMember(member);
+  }
+
+  function handleUpdateProject() {
+    setEditingProject(null);
+    getProjects();
+  }
+
+  function handleUpdatePost() {
+    setEditingPost(null);
+    getBlogPosts();
+  }
+
+  function handleUpdateMember() {
+    setEditingMember(null);
+    getTeams();
+  }
+
   return (
     <div className="min-h-screen bg-background">
       {/* Top Header with Logout */}
@@ -203,13 +237,16 @@ export default function Dashboard() {
             <div className="flex items-center justify-between">
               <h2 className="text-3xl font-bold text-foreground">Projects</h2>
               <Dialog
-                open={projectDialogOpen}
-                onOpenChange={setProjectDialogOpen}
+                open={projectDialogOpen || editingProject !== null}
+                onOpenChange={(open) => {
+                  setProjectDialogOpen(open);
+                  if (!open) setEditingProject(null);
+                }}
               >
                 <DialogTrigger asChild>
                   <Button
                     className="flex items-center gap-2"
-                    // onClick={() => setEditingProject(null)}
+                    onClick={() => setEditingProject(null)}
                   >
                     <Plus className="h-4 w-4" />
                     Add Project
@@ -217,12 +254,24 @@ export default function Dashboard() {
                 </DialogTrigger>
                 <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
                   <DialogHeader>
-                    <DialogTitle>Create New Project</DialogTitle>
+                    <DialogTitle>
+                      {editingProject ? 'Edit Project' : 'Create New Project'}
+                    </DialogTitle>
                     <DialogDescription>
-                      Add a new project to your dashboard
+                      {editingProject 
+                        ? 'Update the project details below'
+                        : 'Add a new project to your dashboard'}
                     </DialogDescription>
                   </DialogHeader>
-                  <ProjectForm />
+                  {editingProject ? (
+                    <ProjectEditForm 
+                      project={editingProject} 
+                      onClose={() => setEditingProject(null)}
+                      onUpdate={handleUpdateProject}
+                    />
+                  ) : (
+                    <ProjectForm onSuccess={() => setProjectDialogOpen(false)} />
+                  )}
                 </DialogContent>
               </Dialog>
             </div>
@@ -240,7 +289,10 @@ export default function Dashboard() {
                         <Button
                           variant="ghost"
                           size="sm"
-                          //   onClick={() => handleEditProject(project)}
+                          onClick={() => {
+                            setEditingProject(project);
+                            setProjectDialogOpen(true);
+                          }}
                         >
                           <Edit className="h-4 w-4" />
                         </Button>
@@ -314,7 +366,7 @@ export default function Dashboard() {
                 <DialogTrigger asChild>
                   <Button
                     className="flex items-center gap-2"
-                    // onClick={() => setEditingPost(null)}
+                    onClick={() => setEditingPost(null)}
                   >
                     <Plus className="h-4 w-4" />
                     Add Post
@@ -322,12 +374,24 @@ export default function Dashboard() {
                 </DialogTrigger>
                 <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
                   <DialogHeader>
-                    <DialogTitle>Create New Blog Post</DialogTitle>
+                    <DialogTitle>
+                      {editingPost ? 'Edit Blog Post' : 'Create New Blog Post'}
+                    </DialogTitle>
                     <DialogDescription>
-                      Add a new blog post to your dashboard
+                      {editingPost 
+                        ? 'Update the blog post details below'
+                        : 'Add a new blog post to your dashboard'}
                     </DialogDescription>
                   </DialogHeader>
-                  <BlogForm />
+                  {editingPost ? (
+                    <BlogEditForm 
+                      blogPost={editingPost} 
+                      onClose={() => setEditingPost(null)}
+                      onUpdate={handleUpdatePost}
+                    />
+                  ) : (
+                    <BlogForm onSuccess={() => setPostDialogOpen(false)} />
+                  )}
                 </DialogContent>
               </Dialog>
             </div>
@@ -347,7 +411,10 @@ export default function Dashboard() {
                         <Button
                           variant="ghost"
                           size="sm"
-                          //   onClick={() => handleEditPost(post)}
+                          onClick={() => {
+                            setEditingPost(post);
+                            setPostDialogOpen(true);
+                          }}
                         >
                           <Edit className="h-4 w-4" />
                         </Button>
@@ -406,13 +473,16 @@ export default function Dashboard() {
                 Team Members
               </h2>
               <Dialog
-                open={memberDialogOpen}
-                onOpenChange={setMemberDialogOpen}
+                open={memberDialogOpen || editingMember !== null}
+                onOpenChange={(open) => {
+                  setMemberDialogOpen(open);
+                  if (!open) setEditingMember(null);
+                }}
               >
                 <DialogTrigger asChild>
                   <Button
                     className="flex items-center gap-2"
-                    // onClick={() => setEditingMember(null)}
+                    onClick={() => setEditingPost(null)}
                   >
                     <Plus className="h-4 w-4" />
                     Add Member
@@ -420,22 +490,31 @@ export default function Dashboard() {
                 </DialogTrigger>
                 <DialogContent className="max-w-md max-h-[80vh] overflow-y-auto">
                   <DialogHeader>
-                    <DialogTitle>Add Team Member</DialogTitle>
+                    <DialogTitle>
+                      {editingMember ? 'Edit Team Member' : 'Add Team Member'}
+                    </DialogTitle>
                     <DialogDescription>
-                      Add a new team member to your dashboard
+                      {editingMember 
+                        ? 'Update the team member details below'
+                        : 'Add a new team member to your dashboard'}
                     </DialogDescription>
                   </DialogHeader>
-                  <TeamForm />
+                  {editingMember ? (
+                    <TeamEditForm 
+                      teamMember={editingMember} 
+                      onClose={() => setEditingMember(null)}
+                      onUpdate={handleUpdateMember}
+                    />
+                  ) : (
+                    <TeamForm onSuccess={() => setMemberDialogOpen(false)} />
+                  )}
                 </DialogContent>
               </Dialog>
             </div>
 
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {teamMembers?.map((member) => (
-                <Card
-                  key={member.id}
-                  className="hover:shadow-lg transition-shadow"
-                >
+              {teamMembers?.map((member, index) => (
+                <Card key={index} className="hover:shadow-lg transition-shadow">
                   <CardHeader>
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
@@ -464,7 +543,10 @@ export default function Dashboard() {
                         <Button
                           variant="ghost"
                           size="sm"
-                          //   onClick={() => handleEditMember(member)}
+                          onClick={() => {
+                            setEditingMember(member);
+                            setMemberDialogOpen(true);
+                          }}
                         >
                           <Edit className="h-4 w-4" />
                         </Button>

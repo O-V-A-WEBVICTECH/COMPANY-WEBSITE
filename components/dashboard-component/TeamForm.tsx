@@ -7,7 +7,11 @@ import { Textarea } from "../ui/textarea";
 import axios from "axios";
 import { Loader2 } from "lucide-react";
 
-export default function TeamForm(): JSX.Element {
+interface TeamFormProps {
+  onSuccess?: () => void;
+}
+
+export default function TeamForm({ onSuccess }: TeamFormProps): JSX.Element {
   const [loading, setloading] = useState<boolean>(false);
   async function createNewMember(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -38,7 +42,9 @@ export default function TeamForm(): JSX.Element {
         }
       );
 
-      console.log("response:", response);
+      if (response.status === 201) {
+        if (onSuccess) onSuccess();
+      }
     } catch (error) {
       console.log(error);
     } finally {

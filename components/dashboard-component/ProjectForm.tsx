@@ -6,7 +6,11 @@ import { Textarea } from "../ui/textarea";
 import { FormEvent, JSX, useState } from "react";
 import axios from "axios";
 
-export default function ProjectForm(): JSX.Element {
+interface ProjectFormProps {
+  onSuccess?: () => void;
+}
+
+export default function ProjectForm({ onSuccess }: ProjectFormProps): JSX.Element {
   const [stack, setStack] = useState<string[]>([]);
   const [stackInput, setStackInput] = useState(""); // for the raw input value
 
@@ -25,7 +29,9 @@ export default function ProjectForm(): JSX.Element {
           withCredentials: true,
         }
       );
-      console.log("response:", response.data);
+      if (response.status === 201) {
+        if (onSuccess) onSuccess();
+      }
     } catch (error) {
       console.log(error);
     }
