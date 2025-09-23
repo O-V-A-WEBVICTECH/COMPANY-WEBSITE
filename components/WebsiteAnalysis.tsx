@@ -1,68 +1,45 @@
 "use client";
 import { JSX, useState } from "react";
+import axios from "axios";
 
-type Result = {
+type ApiResponse = {
+  url: string;
   performance: number;
-  security: number;
-  seo: number;
-  accessibility: number;
-  issues: { title: string; severity: "high" | "medium" | "low" }[];
+  metrics: {
+    fcp: string;
+    lcp: string;
+    tbt: string;
+    cls: string;
+    si: string;
+  };
+  recommendations: {
+    title: string;
+    description: string;
+    savings: string;
+  }[];
 };
 
 export default function WebsiteAnalysis(): JSX.Element {
   const [url, setUrl] = useState("");
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<Result | null>(null);
-
-  function simulateAnalysis(target: string): Result {
-    // Simple deterministic pseudo-random based on string length
-    const seed = target.length;
-    const performance = Math.min(95, 60 + ((seed * 7) % 36));
-    const security = Math.min(94, 50 + ((seed * 5) % 44));
-    const seo = Math.min(98, 65 + ((seed * 3) % 34));
-    const accessibility = Math.min(90, 55 + ((seed * 4) % 36));
-
-    const issues = [];
-    if (performance < 80)
-      issues.push({
-        title: "Large images without compression",
-        severity: "high" as const,
-      });
-    if (security < 80)
-      issues.push({
-        title: "Missing security headers (CSP)",
-        severity: "medium" as const,
-      });
-    if (seo < 85)
-      issues.push({
-        title: "Missing meta description",
-        severity: "low" as const,
-      });
-    if (accessibility < 80)
-      issues.push({
-        title: "Insufficient color contrast",
-        severity: "medium" as const,
-      });
-    if (issues.length === 0)
-      issues.push({
-        title: "No major issues detected",
-        severity: "low" as const,
-      });
-
-    return { performance, security, seo, accessibility, issues };
-  }
+  const [result, setResult] = useState<ApiResponse | null>(null);
 
   async function handleAnalyze(e?: React.FormEvent) {
     e?.preventDefault();
     if (!url) return;
     setLoading(true);
     setResult(null);
-    // mimic network delay
-    setTimeout(() => {
-      const res = simulateAnalysis(url);
-      setResult(res);
+
+    try {
+      const res = await axios.get<ApiResponse>("/api/web-performance", {
+        params: { websiteUrl: url },
+      });
+      setResult(res.data);
+    } catch (err) {
+      console.error("Error fetching analysis", err);
+    } finally {
       setLoading(false);
-    }, 700);
+    }
   }
 
   return (
@@ -72,9 +49,9 @@ export default function WebsiteAnalysis(): JSX.Element {
     >
       <div className="max-w-4xl mx-auto px-6">
         <div className="bg-white p-8 rounded-xl shadow">
-          <h2 className="text-2xl font-bold mb-2">Website Analysis with AI</h2>
+          <h2 className="text-2xl font-bold mb-2">Website Analysis</h2>
           <p className="text-slate-600 mb-6">
-            Enter your website URL to get a free comprehensive analysis
+            Enter your website URL to get a free performance analysis
           </p>
 
           <form
@@ -91,15 +68,9 @@ export default function WebsiteAnalysis(): JSX.Element {
             <button
               type="submit"
               disabled={loading}
-              className="px-6 py-3 rounded-full bg-blue-800 bg-qwen text-white font-semibold disabled:opacity-50"
+              className="px-6 py-3 rounded-full bg-blue-800 text-white font-semibold disabled:opacity-50"
             >
-              {loading ? (
-                "Analyzing..."
-              ) : (
-                <>
-                  <i className="fas fa-search mr-2"></i> Analyze Website
-                </>
-              )}
+              {loading ? "Analyzing..." : "Analyze Website"}
             </button>
           </form>
 
@@ -107,106 +78,60 @@ export default function WebsiteAnalysis(): JSX.Element {
             <div className="mt-8">
               <h3 className="text-lg font-bold mb-4">
                 Analysis Results for{" "}
-                <span className="text-blue-600">{url}</span>
+                <span className="text-blue-600">{result.url}</span>
               </h3>
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-                <div className="p-4 rounded-lg bg-slate-50">
-                  <div className="flex justify-between items-center mb-2">
-                    <div className="font-semibold">Performance</div>
-                    <div className="text-xl font-bold">
-                      {result.performance}%
-                    </div>
-                  </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2.5">
-                    <div
-                      className="bg-blue-600 h-2.5 rounded-full"
-                      style={{ width: `${result.performance}%` }}
-                    />
-                  </div>
+
+              {/* Performance Score */}
+              <div className="p-4 rounded-lg bg-slate-50 mb-6">
+                <div className="flex justify-between items-center mb-2">
+                  <div className="font-semibold">Performance</div>
+                  <div className="text-xl font-bold">{result.performance}%</div>
                 </div>
-                <div className="p-4 rounded-lg bg-slate-50">
-                  <div className="flex justify-between items-center mb-2">
-                    <div className="font-semibold">Security</div>
-                    <div className="text-xl font-bold">{result.security}%</div>
-                  </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2.5">
-                    <div
-                      className="bg-red-600 h-2.5 rounded-full"
-                      style={{ width: `${result.security}%` }}
-                    />
-                  </div>
-                </div>
-                <div className="p-4 rounded-lg bg-slate-50">
-                  <div className="flex justify-between items-center mb-2">
-                    <div className="font-semibold">SEO</div>
-                    <div className="text-xl font-bold">{result.seo}%</div>
-                  </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2.5">
-                    <div
-                      className="bg-green-600 h-2.5 rounded-full"
-                      style={{ width: `${result.seo}%` }}
-                    />
-                  </div>
-                </div>
-                <div className="p-4 rounded-lg bg-slate-50">
-                  <div className="flex justify-between items-center mb-2">
-                    <div className="font-semibold">Accessibility</div>
-                    <div className="text-xl font-bold">
-                      {result.accessibility}%
-                    </div>
-                  </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2.5">
-                    <div
-                      className="bg-yellow-500 h-2.5 rounded-full"
-                      style={{ width: `${result.accessibility}%` }}
-                    />
-                  </div>
+                <div className="w-full bg-gray-200 rounded-full h-2.5">
+                  <div
+                    className={`h-2.5 rounded-full ${
+                      result.performance >= 90
+                        ? "bg-green-600"
+                        : result.performance >= 50
+                        ? "bg-yellow-500"
+                        : "bg-red-600"
+                    }`}
+                    style={{ width: `${result.performance}%` }}
+                  />
                 </div>
               </div>
 
+              {/* Core Web Vitals */}
+              <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
+                {Object.entries(result.metrics).map(([key, value]) => (
+                  <div
+                    key={key}
+                    className="p-4 rounded-lg bg-slate-50 text-center"
+                  >
+                    <div className="font-semibold uppercase">{key}</div>
+                    <div className="text-lg font-bold">{value}</div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Recommendations */}
               <div className="bg-white rounded-lg border p-4">
-                <h4 className="font-semibold mb-2">Issues Detected</h4>
-                <div className="space-y-3">
-                  {result.issues.map((issue, idx) => (
-                    <div key={idx} className="flex items-start gap-3">
-                      <div
-                        className={`w-3 h-3 rounded-full mt-2 ${
-                          issue.severity === "high"
-                            ? "bg-red-500"
-                            : issue.severity === "medium"
-                            ? "bg-yellow-500"
-                            : "bg-green-500"
-                        }`}
-                      ></div>
-                      <div>
-                        <div className="font-medium">{issue.title}</div>
+                <h4 className="font-semibold mb-2">Recommendations</h4>
+                <ul className="list-disc list-inside space-y-2">
+                  {result.recommendations.length > 0 ? (
+                    result.recommendations.map((rec, idx) => (
+                      <li key={idx}>
+                        <div className="font-medium">{rec.title}</div>
                         <div className="text-sm text-slate-500">
-                          Severity: {issue.severity}
+                          {rec.description} —{" "}
+                          <span className="text-blue-600">{rec.savings}</span>
                         </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
-                <div className="flex gap-4">
-                  <div className="text-blue-600 text-2xl">
-                    <i className="fas fa-info-circle"></i>
-                  </div>
-                  <div>
-                    <h4 className="text-blue-800 font-bold">
-                      Want to fix these issues automatically?
-                    </h4>
-                    <p className="text-blue-700">
-                      Our AI can automatically resolve these issues for you.
-                      Upgrade to a paid plan to get instant fixes.
-                    </p>
-                    <button className="mt-3 bg-blue-600 text-white px-4 py-2 rounded-lg">
-                      Upgrade to Fix Issues
-                    </button>
-                  </div>
-                </div>
+                      </li>
+                    ))
+                  ) : (
+                    <li>No major recommendations 🎉</li>
+                  )}
+                </ul>
               </div>
             </div>
           )}
