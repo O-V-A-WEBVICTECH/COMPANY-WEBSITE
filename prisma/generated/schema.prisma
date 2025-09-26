@@ -46,7 +46,7 @@ model SubscriptionPlan {
 
   subscriptions Subscription[]
 
-  @@map("subscription_plan")
+  @@map("subscriptionPlan")
 }
 
 model Subscription {
