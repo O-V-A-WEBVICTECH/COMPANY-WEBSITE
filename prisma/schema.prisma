@@ -14,36 +14,54 @@ model User {
   email         String     @unique
   emailVerified Boolean    @default(false)
   image         String?
-  position      String?
-  role          String     @default("user") 
+  role          String     @default("user") // 'admin', 'user' for dashboard
   banned        Boolean    @default(false)
   banReason     String?
-  about         String?
-  twitterUrl          String? @default("")
-  linkedInUrl   String? @default("")
-  githubUrl     String  @default("")
   banExpires    DateTime?
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @default(now()) @updatedAt
+  paystackCustomerId String? @unique
+  paystackAuthorizationCode String?
+  subscriptions    Subscription[]
   sessions      Session[]
   accounts      Account[]
- 
-  blogPosts         Blog[]
+  blogPosts     Blog[]
+  reports       Report[] // New relation for reports
 
   @@map("user")
 }
 
-model Team {
-  id            String     @id @default(uuid())
-  name          String?
-  email         String     @unique
-  emailVerified Boolean    @default(false)
-  image         String?
-  position      String?
-  about         String?
-  twitterUrl     String? @default("")
-  linkedInUrl   String? @default("")
-  githubUrl     String  @default("")
+model Subscription {
+  id                String   @id @default(uuid())
+  status            String   
+  planType          String   // 'free', 'paid', 'enterprise'
+  paystackSubscriptionId String? @unique
+  paystackPlanCode  String?  // Null for free tier
+  planAmount        Int?     // In kobo, null for free
+  startDate         DateTime @default(now())
+  nextPaymentDate   DateTime?
+  cancelledAt       DateTime?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  userId            String
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, paystackSubscriptionId], name: "user_subscription_unique")
+  @@map("better_auth_subscription")
+}
+
+model Report {
+  id            String   @id @default(uuid())
+  url           String
+  performance   Int
+  metrics       Json     // Store metrics as JSON (fcp, lcp, tbt, cls, si)
+  recommendations Json  // Store recommendations as JSON array
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  userId        String
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("report")
 }
 
 model Session {
@@ -81,8 +99,6 @@ model Account {
   @@map("account")
 }
 
-
-
 model VerificationToken {
   id         String   @id @default(uuid())
   identifier String
@@ -105,6 +121,19 @@ model Blog {
   author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
 }
 
+model Team {
+  id            String     @id @default(uuid())
+  name          String?
+  email         String     @unique
+  emailVerified Boolean    @default(false)
+  image         String?
+  position      String?
+  about         String?
+  twitterUrl    String? @default("")
+  linkedInUrl   String? @default("")
+  githubUrl     String  @default("")
+}
+
 model Project {
   id        String   @id @default(uuid())
   name      String
@@ -112,7 +141,7 @@ model Project {
   repoUrl  String?
   link      String?
   stack    String[]
-  image   String?
+  image    String?
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 }

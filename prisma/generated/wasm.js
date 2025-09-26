@@ -98,30 +98,40 @@ exports.Prisma.UserScalarFieldEnum = {
   email: 'email',
   emailVerified: 'emailVerified',
   image: 'image',
-  position: 'position',
   role: 'role',
   banned: 'banned',
   banReason: 'banReason',
-  about: 'about',
-  twitterUrl: 'twitterUrl',
-  linkedInUrl: 'linkedInUrl',
-  githubUrl: 'githubUrl',
   banExpires: 'banExpires',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  paystackCustomerId: 'paystackCustomerId',
+  paystackAuthorizationCode: 'paystackAuthorizationCode'
 };
 
-exports.Prisma.TeamScalarFieldEnum = {
+exports.Prisma.SubscriptionScalarFieldEnum = {
   id: 'id',
-  name: 'name',
-  email: 'email',
-  emailVerified: 'emailVerified',
-  image: 'image',
-  position: 'position',
-  about: 'about',
-  twitterUrl: 'twitterUrl',
-  linkedInUrl: 'linkedInUrl',
-  githubUrl: 'githubUrl'
+  status: 'status',
+  planType: 'planType',
+  paystackSubscriptionId: 'paystackSubscriptionId',
+  paystackPlanCode: 'paystackPlanCode',
+  planAmount: 'planAmount',
+  startDate: 'startDate',
+  nextPaymentDate: 'nextPaymentDate',
+  cancelledAt: 'cancelledAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  userId: 'userId'
+};
+
+exports.Prisma.ReportScalarFieldEnum = {
+  id: 'id',
+  url: 'url',
+  performance: 'performance',
+  metrics: 'metrics',
+  recommendations: 'recommendations',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  userId: 'userId'
 };
 
 exports.Prisma.SessionScalarFieldEnum = {
@@ -172,6 +182,19 @@ exports.Prisma.BlogScalarFieldEnum = {
   authorId: 'authorId'
 };
 
+exports.Prisma.TeamScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  email: 'email',
+  emailVerified: 'emailVerified',
+  image: 'image',
+  position: 'position',
+  about: 'about',
+  twitterUrl: 'twitterUrl',
+  linkedInUrl: 'linkedInUrl',
+  githubUrl: 'githubUrl'
+};
+
 exports.Prisma.ProjectScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -189,6 +212,10 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
+exports.Prisma.JsonNullValueInput = {
+  JsonNull: Prisma.JsonNull
+};
+
 exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
@@ -199,14 +226,22 @@ exports.Prisma.NullsOrder = {
   last: 'last'
 };
 
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
+};
+
 
 exports.Prisma.ModelName = {
   User: 'User',
-  Team: 'Team',
+  Subscription: 'Subscription',
+  Report: 'Report',
   Session: 'Session',
   Account: 'Account',
   VerificationToken: 'VerificationToken',
   Blog: 'Blog',
+  Team: 'Team',
   Project: 'Project'
 };
 /**
@@ -256,13 +291,13 @@ const config = {
       }
     }
   },
-  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"generated/\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id            String    @id @default(uuid())\n  name          String?\n  email         String    @unique\n  emailVerified Boolean   @default(false)\n  image         String?\n  position      String?\n  role          String    @default(\"user\")\n  banned        Boolean   @default(false)\n  banReason     String?\n  about         String?\n  twitterUrl    String?   @default(\"\")\n  linkedInUrl   String?   @default(\"\")\n  githubUrl     String    @default(\"\")\n  banExpires    DateTime?\n  createdAt     DateTime  @default(now())\n  updatedAt     DateTime  @default(now()) @updatedAt\n  sessions      Session[]\n  accounts      Account[]\n\n  blogPosts Blog[]\n\n  @@map(\"user\")\n}\n\nmodel Team {\n  id            String  @id @default(uuid())\n  name          String?\n  email         String  @unique\n  emailVerified Boolean @default(false)\n  image         String?\n  position      String?\n  about         String?\n  twitterUrl    String? @default(\"\")\n  linkedInUrl   String? @default(\"\")\n  githubUrl     String  @default(\"\")\n}\n\nmodel Session {\n  id             String   @id @default(uuid())\n  expiresAt      DateTime\n  token          String   @unique\n  createdAt      DateTime @default(now())\n  updatedAt      DateTime @updatedAt\n  ipAddress      String?\n  userAgent      String?\n  impersonatedBy String?\n  userId         String\n  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)\n\n  @@map(\"session\")\n}\n\nmodel Account {\n  id                    String    @id @default(uuid())\n  accountId             String\n  providerId            String\n  userId                String\n  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)\n  accessToken           String?\n  refreshToken          String?\n  position              String?\n  idToken               String?\n  accessTokenExpiresAt  DateTime?\n  refreshTokenExpiresAt DateTime?\n  scope                 String?\n  password              String?\n  createdAt             DateTime  @default(now())\n  updatedAt             DateTime  @updatedAt\n\n  @@map(\"account\")\n}\n\nmodel VerificationToken {\n  id         String   @id @default(uuid())\n  identifier String\n  value      String\n  expiresAt  DateTime\n  createdAt  DateTime @default(now())\n  updatedAt  DateTime @default(now()) @updatedAt\n\n  @@map(\"verification\")\n}\n\nmodel Blog {\n  id        String   @id @default(uuid())\n  title     String\n  img       String?\n  content   String\n  createdAt DateTime @default(now())\n  updatedAt DateTime @default(now()) @updatedAt\n  authorId  String\n  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)\n}\n\nmodel Project {\n  id          String   @id @default(uuid())\n  name        String\n  description String?\n  repoUrl     String?\n  link        String?\n  stack       String[]\n  image       String?\n  createdAt   DateTime @default(now())\n  updatedAt   DateTime @default(now()) @updatedAt\n}\n",
-  "inlineSchemaHash": "2bf64a6d6bfd18f735e87ac13731ad03ce00b97132b9195b2f0a2f552e4e3aa7",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"generated/\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id                        String         @id @default(uuid())\n  name                      String?\n  email                     String         @unique\n  emailVerified             Boolean        @default(false)\n  image                     String?\n  role                      String         @default(\"user\") // 'admin', 'user' for dashboard\n  banned                    Boolean        @default(false)\n  banReason                 String?\n  banExpires                DateTime?\n  createdAt                 DateTime       @default(now())\n  updatedAt                 DateTime       @default(now()) @updatedAt\n  paystackCustomerId        String?        @unique\n  paystackAuthorizationCode String?\n  subscriptions             Subscription[]\n  sessions                  Session[]\n  accounts                  Account[]\n  blogPosts                 Blog[]\n  reports                   Report[] // New relation for reports\n\n  @@map(\"user\")\n}\n\nmodel Subscription {\n  id                     String    @id @default(uuid())\n  status                 String\n  planType               String // 'free', 'paid', 'enterprise'\n  paystackSubscriptionId String?   @unique\n  paystackPlanCode       String? // Null for free tier\n  planAmount             Int? // In kobo, null for free\n  startDate              DateTime  @default(now())\n  nextPaymentDate        DateTime?\n  cancelledAt            DateTime?\n  createdAt              DateTime  @default(now())\n  updatedAt              DateTime  @updatedAt\n  userId                 String\n  user                   User      @relation(fields: [userId], references: [id], onDelete: Cascade)\n\n  @@unique([userId, paystackSubscriptionId], name: \"user_subscription_unique\")\n  @@map(\"better_auth_subscription\")\n}\n\nmodel Report {\n  id              String   @id @default(uuid())\n  url             String\n  performance     Int\n  metrics         Json // Store metrics as JSON (fcp, lcp, tbt, cls, si)\n  recommendations Json // Store recommendations as JSON array\n  createdAt       DateTime @default(now())\n  updatedAt       DateTime @updatedAt\n  userId          String\n  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)\n\n  @@map(\"report\")\n}\n\nmodel Session {\n  id             String   @id @default(uuid())\n  expiresAt      DateTime\n  token          String   @unique\n  createdAt      DateTime @default(now())\n  updatedAt      DateTime @updatedAt\n  ipAddress      String?\n  userAgent      String?\n  impersonatedBy String?\n  userId         String\n  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)\n\n  @@map(\"session\")\n}\n\nmodel Account {\n  id                    String    @id @default(uuid())\n  accountId             String\n  providerId            String\n  userId                String\n  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)\n  accessToken           String?\n  refreshToken          String?\n  position              String?\n  idToken               String?\n  accessTokenExpiresAt  DateTime?\n  refreshTokenExpiresAt DateTime?\n  scope                 String?\n  password              String?\n  createdAt             DateTime  @default(now())\n  updatedAt             DateTime  @updatedAt\n\n  @@map(\"account\")\n}\n\nmodel VerificationToken {\n  id         String   @id @default(uuid())\n  identifier String\n  value      String\n  expiresAt  DateTime\n  createdAt  DateTime @default(now())\n  updatedAt  DateTime @default(now()) @updatedAt\n\n  @@map(\"verification\")\n}\n\nmodel Blog {\n  id        String   @id @default(uuid())\n  title     String\n  img       String?\n  content   String\n  createdAt DateTime @default(now())\n  updatedAt DateTime @default(now()) @updatedAt\n  authorId  String\n  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)\n}\n\nmodel Team {\n  id            String  @id @default(uuid())\n  name          String?\n  email         String  @unique\n  emailVerified Boolean @default(false)\n  image         String?\n  position      String?\n  about         String?\n  twitterUrl    String? @default(\"\")\n  linkedInUrl   String? @default(\"\")\n  githubUrl     String  @default(\"\")\n}\n\nmodel Project {\n  id          String   @id @default(uuid())\n  name        String\n  description String?\n  repoUrl     String?\n  link        String?\n  stack       String[]\n  image       String?\n  createdAt   DateTime @default(now())\n  updatedAt   DateTime @default(now()) @updatedAt\n}\n",
+  "inlineSchemaHash": "648aec614a9c31214d3bc1ea797ec7425a8c949b8fce77c9096e90f5978c7a4d",
   "copyEngine": true
 }
 config.dirname = '/'
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"emailVerified\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"image\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"position\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"role\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"banned\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"banReason\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"about\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"twitterUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"linkedInUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"githubUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"banExpires\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"sessions\",\"kind\":\"object\",\"type\":\"Session\",\"relationName\":\"SessionToUser\"},{\"name\":\"accounts\",\"kind\":\"object\",\"type\":\"Account\",\"relationName\":\"AccountToUser\"},{\"name\":\"blogPosts\",\"kind\":\"object\",\"type\":\"Blog\",\"relationName\":\"BlogToUser\"}],\"dbName\":\"user\"},\"Team\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"emailVerified\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"image\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"position\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"about\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"twitterUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"linkedInUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"githubUrl\",\"kind\":\"scalar\",\"type\":\"String\"}],\"dbName\":null},\"Session\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"expiresAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"token\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"ipAddress\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userAgent\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"impersonatedBy\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"SessionToUser\"}],\"dbName\":\"session\"},\"Account\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"accountId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"providerId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"AccountToUser\"},{\"name\":\"accessToken\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"refreshToken\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"position\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"idToken\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"accessTokenExpiresAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"refreshTokenExpiresAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"scope\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":\"account\"},\"VerificationToken\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"identifier\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"value\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"expiresAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":\"verification\"},\"Blog\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"img\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"content\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"authorId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"author\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"BlogToUser\"}],\"dbName\":null},\"Project\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"repoUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"link\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"stack\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"image\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"emailVerified\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"image\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"role\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"banned\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"banReason\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"banExpires\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"paystackCustomerId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"paystackAuthorizationCode\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"subscriptions\",\"kind\":\"object\",\"type\":\"Subscription\",\"relationName\":\"SubscriptionToUser\"},{\"name\":\"sessions\",\"kind\":\"object\",\"type\":\"Session\",\"relationName\":\"SessionToUser\"},{\"name\":\"accounts\",\"kind\":\"object\",\"type\":\"Account\",\"relationName\":\"AccountToUser\"},{\"name\":\"blogPosts\",\"kind\":\"object\",\"type\":\"Blog\",\"relationName\":\"BlogToUser\"},{\"name\":\"reports\",\"kind\":\"object\",\"type\":\"Report\",\"relationName\":\"ReportToUser\"}],\"dbName\":\"user\"},\"Subscription\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"status\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"planType\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"paystackSubscriptionId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"paystackPlanCode\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"planAmount\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"startDate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"nextPaymentDate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"cancelledAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"SubscriptionToUser\"}],\"dbName\":\"better_auth_subscription\"},\"Report\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"url\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"performance\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"metrics\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"recommendations\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"ReportToUser\"}],\"dbName\":\"report\"},\"Session\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"expiresAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"token\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"ipAddress\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userAgent\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"impersonatedBy\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"SessionToUser\"}],\"dbName\":\"session\"},\"Account\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"accountId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"providerId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"AccountToUser\"},{\"name\":\"accessToken\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"refreshToken\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"position\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"idToken\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"accessTokenExpiresAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"refreshTokenExpiresAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"scope\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":\"account\"},\"VerificationToken\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"identifier\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"value\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"expiresAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":\"verification\"},\"Blog\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"img\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"content\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"authorId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"author\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"BlogToUser\"}],\"dbName\":null},\"Team\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"emailVerified\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"image\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"position\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"about\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"twitterUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"linkedInUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"githubUrl\",\"kind\":\"scalar\",\"type\":\"String\"}],\"dbName\":null},\"Project\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"description\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"repoUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"link\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"stack\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"image\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
 config.engineWasm = {
   getRuntime: async () => require('./query_engine_bg.js'),

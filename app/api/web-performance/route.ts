@@ -1,9 +1,44 @@
-import { NextResponse, NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import { auth, prisma } from "@/auth";
 import axios from "axios";
+import { headers } from "next/headers";
 
 export async function GET(request: NextRequest) {
-  const API_KEY = process.env.GOOGLE_PAGE_SPEED_KEY;
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
 
+  if (!session)
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
+  const user = await prisma.user.findUnique({
+    where: { id: session.user.id },
+    include: {
+      subscriptions: { where: { status: "active" } },
+      reports: true,
+    },
+  });
+
+  if (!user)
+    return NextResponse.json({ error: "User not found" }, { status: 404 });
+  if (user.banned)
+    return NextResponse.json({ error: "User banned" }, { status: 403 });
+
+  const activeSub = user.subscriptions[0];
+  const isFreeTier = !activeSub || activeSub.planType === "free";
+
+  // Free tier: Check report count
+  if (isFreeTier && user.role !== "admin") {
+    const reportCount = user.reports.length;
+    if (reportCount >= 1) {
+      return NextResponse.json(
+        { error: "Free tier limited to one report. Upgrade for more." },
+        { status: 403 }
+      );
+    }
+  }
+
+  const API_KEY = process.env.GOOGLE_PAGE_SPEED_KEY;
   const searchParams = request.nextUrl.searchParams;
   const websiteUrl = searchParams.get("websiteUrl");
 
@@ -22,7 +57,6 @@ export async function GET(request: NextRequest) {
     );
 
     const lighthouse = res.data.lighthouseResult;
-
     const performance = Math.round(
       lighthouse.categories.performance.score * 100
     );
@@ -35,9 +69,7 @@ export async function GET(request: NextRequest) {
       si: lighthouse.audits["speed-index"].displayValue,
     };
 
-    // ✅ Extract top recommendations
-    const audits = lighthouse.audits;
-    const recommendations = Object.values(audits)
+    const recommendations = Object.values(lighthouse.audits)
       .filter(
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (audit: any) =>
@@ -50,6 +82,17 @@ export async function GET(request: NextRequest) {
         savings: audit.displayValue || "",
       }));
 
+    // Store report
+    await prisma.report.create({
+      data: {
+        userId: user.id,
+        url: websiteUrl,
+        performance,
+        metrics,
+        recommendations,
+      },
+    });
+
     return NextResponse.json(
       {
         url: websiteUrl,
@@ -60,9 +103,9 @@ export async function GET(request: NextRequest) {
       { status: 200 }
     );
   } catch (error) {
-    console.log(error);
+    console.error("Report error:", error);
     return NextResponse.json(
-      { error: "internal server error" },
+      { error: "Internal server error" },
       { status: 500 }
     );
   }

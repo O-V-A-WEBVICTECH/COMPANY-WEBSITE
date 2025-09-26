@@ -126,30 +126,40 @@ exports.Prisma.UserScalarFieldEnum = {
   email: 'email',
   emailVerified: 'emailVerified',
   image: 'image',
-  position: 'position',
   role: 'role',
   banned: 'banned',
   banReason: 'banReason',
-  about: 'about',
-  twitterUrl: 'twitterUrl',
-  linkedInUrl: 'linkedInUrl',
-  githubUrl: 'githubUrl',
   banExpires: 'banExpires',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  paystackCustomerId: 'paystackCustomerId',
+  paystackAuthorizationCode: 'paystackAuthorizationCode'
 };
 
-exports.Prisma.TeamScalarFieldEnum = {
+exports.Prisma.SubscriptionScalarFieldEnum = {
   id: 'id',
-  name: 'name',
-  email: 'email',
-  emailVerified: 'emailVerified',
-  image: 'image',
-  position: 'position',
-  about: 'about',
-  twitterUrl: 'twitterUrl',
-  linkedInUrl: 'linkedInUrl',
-  githubUrl: 'githubUrl'
+  status: 'status',
+  planType: 'planType',
+  paystackSubscriptionId: 'paystackSubscriptionId',
+  paystackPlanCode: 'paystackPlanCode',
+  planAmount: 'planAmount',
+  startDate: 'startDate',
+  nextPaymentDate: 'nextPaymentDate',
+  cancelledAt: 'cancelledAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  userId: 'userId'
+};
+
+exports.Prisma.ReportScalarFieldEnum = {
+  id: 'id',
+  url: 'url',
+  performance: 'performance',
+  metrics: 'metrics',
+  recommendations: 'recommendations',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  userId: 'userId'
 };
 
 exports.Prisma.SessionScalarFieldEnum = {
@@ -200,6 +210,19 @@ exports.Prisma.BlogScalarFieldEnum = {
   authorId: 'authorId'
 };
 
+exports.Prisma.TeamScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  email: 'email',
+  emailVerified: 'emailVerified',
+  image: 'image',
+  position: 'position',
+  about: 'about',
+  twitterUrl: 'twitterUrl',
+  linkedInUrl: 'linkedInUrl',
+  githubUrl: 'githubUrl'
+};
+
 exports.Prisma.ProjectScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -217,6 +240,10 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
+exports.Prisma.JsonNullValueInput = {
+  JsonNull: Prisma.JsonNull
+};
+
 exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
@@ -227,14 +254,22 @@ exports.Prisma.NullsOrder = {
   last: 'last'
 };
 
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
+};
+
 
 exports.Prisma.ModelName = {
   User: 'User',
-  Team: 'Team',
+  Subscription: 'Subscription',
+  Report: 'Report',
   Session: 'Session',
   Account: 'Account',
   VerificationToken: 'VerificationToken',
   Blog: 'Blog',
+  Team: 'Team',
   Project: 'Project'
 };
 
