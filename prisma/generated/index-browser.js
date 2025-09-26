@@ -136,12 +136,25 @@ exports.Prisma.UserScalarFieldEnum = {
   paystackAuthorizationCode: 'paystackAuthorizationCode'
 };
 
+exports.Prisma.SubscriptionPlanScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  name: 'name',
+  paystackPlanCode: 'paystackPlanCode',
+  amount: 'amount',
+  interval: 'interval',
+  features: 'features',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SubscriptionScalarFieldEnum = {
   id: 'id',
   status: 'status',
   planType: 'planType',
   paystackSubscriptionId: 'paystackSubscriptionId',
   paystackPlanCode: 'paystackPlanCode',
+  planId: 'planId',
   planAmount: 'planAmount',
   startDate: 'startDate',
   nextPaymentDate: 'nextPaymentDate',
@@ -240,6 +253,11 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull
+};
+
 exports.Prisma.JsonNullValueInput = {
   JsonNull: Prisma.JsonNull
 };
@@ -263,6 +281,7 @@ exports.Prisma.JsonNullValueFilter = {
 
 exports.Prisma.ModelName = {
   User: 'User',
+  SubscriptionPlan: 'SubscriptionPlan',
   Subscription: 'Subscription',
   Report: 'Report',
   Session: 'Session',

@@ -33,6 +33,7 @@ export default function WebsiteAnalysis(): JSX.Element {
     try {
       const res = await axios.get<ApiResponse>("/api/web-performance", {
         params: { websiteUrl: url },
+        withCredentials: true,
       });
       setResult(res.data);
     } catch (err) {
@@ -103,7 +104,7 @@ export default function WebsiteAnalysis(): JSX.Element {
 
               {/* Core Web Vitals */}
               <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
-                {Object.entries(result.metrics).map(([key, value]) => (
+                {Object.entries(result?.metrics).map(([key, value]) => (
                   <div
                     key={key}
                     className="p-4 rounded-lg bg-slate-50 text-center"

@@ -9,57 +9,85 @@ datasource db {
 }
 
 model User {
-  id                        String         @id @default(uuid())
-  name                      String?
-  email                     String         @unique
-  emailVerified             Boolean        @default(false)
-  image                     String?
-  role                      String         @default("user") // 'admin', 'user' for dashboard
-  banned                    Boolean        @default(false)
-  banReason                 String?
-  banExpires                DateTime?
-  createdAt                 DateTime       @default(now())
-  updatedAt                 DateTime       @default(now()) @updatedAt
-  paystackCustomerId        String?        @unique
+  id            String    @id @default(uuid())
+  name          String?
+  email         String    @unique
+  emailVerified Boolean   @default(false)
+  image         String?
+  role          String    @default("user") // 'admin', 'user', etc.
+  banned        Boolean   @default(false)
+  banReason     String?
+  banExpires    DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @default(now()) @updatedAt
+
+  paystackCustomerId        String? @unique
   paystackAuthorizationCode String?
-  subscriptions             Subscription[]
-  sessions                  Session[]
-  accounts                  Account[]
-  blogPosts                 Blog[]
-  reports                   Report[] // New relation for reports
+
+  subscriptions Subscription[]
+  sessions      Session[]
+  accounts      Account[]
+  reports       Report[]
+  blogPosts     Blog[]
 
   @@map("user")
 }
 
+model SubscriptionPlan {
+  id               String   @id @default(uuid())
+  code             String   @unique // e.g. "free", "pro", "enterprise"
+  name             String
+  paystackPlanCode String? // Code used by Paystack for paid plans
+  amount           Int? // in kobo (for paid plans), null or 0 for free
+  interval         String // e.g. "monthly", "yearly"
+  features         Json? // optional JSON field to encode plan limits etc.
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @default(now()) @updatedAt
+
+  subscriptions Subscription[]
+
+  @@map("subscription_plan")
+}
+
 model Subscription {
-  id                     String    @id @default(uuid())
-  status                 String
-  planType               String // 'free', 'paid', 'enterprise'
-  paystackSubscriptionId String?   @unique
-  paystackPlanCode       String? // Null for free tier
-  planAmount             Int? // In kobo, null for free
-  startDate              DateTime  @default(now())
-  nextPaymentDate        DateTime?
-  cancelledAt            DateTime?
-  createdAt              DateTime  @default(now())
-  updatedAt              DateTime  @updatedAt
-  userId                 String
-  user                   User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id       String  @id @default(uuid())
+  status   String // e.g. "active", "pending", "cancelled", "past_due"
+  // planType becomes redundant / optional when plan relation exists
+  planType String?
+
+  paystackSubscriptionId String? @unique
+  paystackPlanCode       String?
+
+  // reference to plan
+  planId String?
+  plan   SubscriptionPlan? @relation(fields: [planId], references: [id])
+
+  planAmount      Int? // in kobo
+  startDate       DateTime  @default(now())
+  nextPaymentDate DateTime?
+  cancelledAt     DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, paystackSubscriptionId], name: "user_subscription_unique")
-  @@map("better_auth_subscription")
+  @@map("subscription")
 }
 
 model Report {
   id              String   @id @default(uuid())
   url             String
   performance     Int
-  metrics         Json // Store metrics as JSON (fcp, lcp, tbt, cls, si)
-  recommendations Json // Store recommendations as JSON array
+  metrics         Json // JSON object: { fcp, lcp, tbt, cls, si, … }
+  recommendations Json // JSON array / object of recommendation items
   createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-  userId          String
-  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  updatedAt       DateTime @default(now()) @updatedAt
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("report")
 }
@@ -69,12 +97,13 @@ model Session {
   expiresAt      DateTime
   token          String   @unique
   createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  updatedAt      DateTime @default(now()) @updatedAt
   ipAddress      String?
   userAgent      String?
   impersonatedBy String?
-  userId         String
-  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("session")
 }
@@ -93,8 +122,9 @@ model Account {
   refreshTokenExpiresAt DateTime?
   scope                 String?
   password              String?
-  createdAt             DateTime  @default(now())
-  updatedAt             DateTime  @updatedAt
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 
   @@map("account")
 }
@@ -117,8 +147,9 @@ model Blog {
   content   String
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
-  authorId  String
-  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  authorId String
+  author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
 }
 
 model Team {
