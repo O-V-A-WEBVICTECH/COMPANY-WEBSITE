@@ -14,6 +14,7 @@ export async function POST(req: NextRequest) {
         { status: 400 }
       );
     }
+    console.log(planCode);
 
     // 1. Look up plan in DB
     const plan = await prisma.subscriptionPlan.findUnique({
@@ -33,8 +34,8 @@ export async function POST(req: NextRequest) {
       "https://api.paystack.co/transaction/initialize",
       {
         email,
-        amount: plan.amount * 100, // kobo
-        plan: plan.paystackPlanCode, // Paystack plan code from your DB
+        amount: plan.amount * 100,
+        plan: plan.paystackPlanCode,
         metadata: {
           planCode: plan.code,
         },
