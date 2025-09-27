@@ -161,7 +161,9 @@ exports.Prisma.SubscriptionScalarFieldEnum = {
   cancelledAt: 'cancelledAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  userId: 'userId'
+  userId: 'userId',
+  endDate: 'endDate',
+  reference: 'reference'
 };
 
 exports.Prisma.ReportScalarFieldEnum = {

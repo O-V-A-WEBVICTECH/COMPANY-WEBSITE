@@ -4248,6 +4248,8 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     userId: string | null
+    endDate: Date | null
+    reference: string | null
   }
 
   export type SubscriptionMaxAggregateOutputType = {
@@ -4264,6 +4266,8 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     userId: string | null
+    endDate: Date | null
+    reference: string | null
   }
 
   export type SubscriptionCountAggregateOutputType = {
@@ -4280,6 +4284,8 @@ export namespace Prisma {
     createdAt: number
     updatedAt: number
     userId: number
+    endDate: number
+    reference: number
     _all: number
   }
 
@@ -4306,6 +4312,8 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     userId?: true
+    endDate?: true
+    reference?: true
   }
 
   export type SubscriptionMaxAggregateInputType = {
@@ -4322,6 +4330,8 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     userId?: true
+    endDate?: true
+    reference?: true
   }
 
   export type SubscriptionCountAggregateInputType = {
@@ -4338,6 +4348,8 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     userId?: true
+    endDate?: true
+    reference?: true
     _all?: true
   }
 
@@ -4441,6 +4453,8 @@ export namespace Prisma {
     createdAt: Date
     updatedAt: Date
     userId: string
+    endDate: Date | null
+    reference: string | null
     _count: SubscriptionCountAggregateOutputType | null
     _avg: SubscriptionAvgAggregateOutputType | null
     _sum: SubscriptionSumAggregateOutputType | null
@@ -4476,6 +4490,8 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     userId?: boolean
+    endDate?: boolean
+    reference?: boolean
     plan?: boolean | Subscription$planArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["subscription"]>
@@ -4494,6 +4510,8 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     userId?: boolean
+    endDate?: boolean
+    reference?: boolean
     plan?: boolean | Subscription$planArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["subscription"]>
@@ -4512,6 +4530,8 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     userId?: boolean
+    endDate?: boolean
+    reference?: boolean
     plan?: boolean | Subscription$planArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["subscription"]>
@@ -4530,9 +4550,11 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     userId?: boolean
+    endDate?: boolean
+    reference?: boolean
   }
 
-  export type SubscriptionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "status" | "planType" | "paystackSubscriptionId" | "paystackPlanCode" | "planId" | "planAmount" | "startDate" | "nextPaymentDate" | "cancelledAt" | "createdAt" | "updatedAt" | "userId", ExtArgs["result"]["subscription"]>
+  export type SubscriptionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "status" | "planType" | "paystackSubscriptionId" | "paystackPlanCode" | "planId" | "planAmount" | "startDate" | "nextPaymentDate" | "cancelledAt" | "createdAt" | "updatedAt" | "userId" | "endDate" | "reference", ExtArgs["result"]["subscription"]>
   export type SubscriptionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     plan?: boolean | Subscription$planArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -4566,6 +4588,8 @@ export namespace Prisma {
       createdAt: Date
       updatedAt: Date
       userId: string
+      endDate: Date | null
+      reference: string | null
     }, ExtArgs["result"]["subscription"]>
     composites: {}
   }
@@ -5004,6 +5028,8 @@ export namespace Prisma {
     readonly createdAt: FieldRef<"Subscription", 'DateTime'>
     readonly updatedAt: FieldRef<"Subscription", 'DateTime'>
     readonly userId: FieldRef<"Subscription", 'String'>
+    readonly endDate: FieldRef<"Subscription", 'DateTime'>
+    readonly reference: FieldRef<"Subscription", 'String'>
   }
     
 
@@ -13101,7 +13127,9 @@ export namespace Prisma {
     cancelledAt: 'cancelledAt',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
-    userId: 'userId'
+    userId: 'userId',
+    endDate: 'endDate',
+    reference: 'reference'
   };
 
   export type SubscriptionScalarFieldEnum = (typeof SubscriptionScalarFieldEnum)[keyof typeof SubscriptionScalarFieldEnum]
@@ -13546,6 +13574,8 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Subscription"> | Date | string
     updatedAt?: DateTimeFilter<"Subscription"> | Date | string
     userId?: StringFilter<"Subscription"> | string
+    endDate?: DateTimeNullableFilter<"Subscription"> | Date | string | null
+    reference?: StringNullableFilter<"Subscription"> | string | null
     plan?: XOR<SubscriptionPlanNullableScalarRelationFilter, SubscriptionPlanWhereInput> | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
@@ -13564,6 +13594,8 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
+    endDate?: SortOrderInput | SortOrder
+    reference?: SortOrderInput | SortOrder
     plan?: SubscriptionPlanOrderByWithRelationInput
     user?: UserOrderByWithRelationInput
   }
@@ -13586,6 +13618,8 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Subscription"> | Date | string
     updatedAt?: DateTimeFilter<"Subscription"> | Date | string
     userId?: StringFilter<"Subscription"> | string
+    endDate?: DateTimeNullableFilter<"Subscription"> | Date | string | null
+    reference?: StringNullableFilter<"Subscription"> | string | null
     plan?: XOR<SubscriptionPlanNullableScalarRelationFilter, SubscriptionPlanWhereInput> | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id" | "paystackSubscriptionId" | "user_subscription_unique">
@@ -13604,6 +13638,8 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
+    endDate?: SortOrderInput | SortOrder
+    reference?: SortOrderInput | SortOrder
     _count?: SubscriptionCountOrderByAggregateInput
     _avg?: SubscriptionAvgOrderByAggregateInput
     _max?: SubscriptionMaxOrderByAggregateInput
@@ -13628,6 +13664,8 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"Subscription"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Subscription"> | Date | string
     userId?: StringWithAggregatesFilter<"Subscription"> | string
+    endDate?: DateTimeNullableWithAggregatesFilter<"Subscription"> | Date | string | null
+    reference?: StringNullableWithAggregatesFilter<"Subscription"> | string | null
   }
 
   export type ReportWhereInput = {
@@ -14380,6 +14418,8 @@ export namespace Prisma {
     cancelledAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    endDate?: Date | string | null
+    reference?: string | null
     plan?: SubscriptionPlanCreateNestedOneWithoutSubscriptionsInput
     user: UserCreateNestedOneWithoutSubscriptionsInput
   }
@@ -14398,6 +14438,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     userId: string
+    endDate?: Date | string | null
+    reference?: string | null
   }
 
   export type SubscriptionUpdateInput = {
@@ -14412,6 +14454,8 @@ export namespace Prisma {
     cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
     plan?: SubscriptionPlanUpdateOneWithoutSubscriptionsNestedInput
     user?: UserUpdateOneRequiredWithoutSubscriptionsNestedInput
   }
@@ -14430,6 +14474,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type SubscriptionCreateManyInput = {
@@ -14446,6 +14492,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     userId: string
+    endDate?: Date | string | null
+    reference?: string | null
   }
 
   export type SubscriptionUpdateManyMutationInput = {
@@ -14460,6 +14508,8 @@ export namespace Prisma {
     cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type SubscriptionUncheckedUpdateManyInput = {
@@ -14476,6 +14526,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ReportCreateInput = {
@@ -15441,6 +15493,8 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
+    endDate?: SortOrder
+    reference?: SortOrder
   }
 
   export type SubscriptionAvgOrderByAggregateInput = {
@@ -15461,6 +15515,8 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
+    endDate?: SortOrder
+    reference?: SortOrder
   }
 
   export type SubscriptionMinOrderByAggregateInput = {
@@ -15477,6 +15533,8 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     userId?: SortOrder
+    endDate?: SortOrder
+    reference?: SortOrder
   }
 
   export type SubscriptionSumOrderByAggregateInput = {
@@ -16463,6 +16521,8 @@ export namespace Prisma {
     cancelledAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    endDate?: Date | string | null
+    reference?: string | null
     plan?: SubscriptionPlanCreateNestedOneWithoutSubscriptionsInput
   }
 
@@ -16479,6 +16539,8 @@ export namespace Prisma {
     cancelledAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    endDate?: Date | string | null
+    reference?: string | null
   }
 
   export type SubscriptionCreateOrConnectWithoutUserInput = {
@@ -16656,6 +16718,8 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Subscription"> | Date | string
     updatedAt?: DateTimeFilter<"Subscription"> | Date | string
     userId?: StringFilter<"Subscription"> | string
+    endDate?: DateTimeNullableFilter<"Subscription"> | Date | string | null
+    reference?: StringNullableFilter<"Subscription"> | string | null
   }
 
   export type SessionUpsertWithWhereUniqueWithoutUserInput = {
@@ -16796,6 +16860,8 @@ export namespace Prisma {
     cancelledAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    endDate?: Date | string | null
+    reference?: string | null
     user: UserCreateNestedOneWithoutSubscriptionsInput
   }
 
@@ -16812,6 +16878,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     userId: string
+    endDate?: Date | string | null
+    reference?: string | null
   }
 
   export type SubscriptionCreateOrConnectWithoutPlanInput = {
@@ -17397,6 +17465,8 @@ export namespace Prisma {
     cancelledAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    endDate?: Date | string | null
+    reference?: string | null
   }
 
   export type SessionCreateManyUserInput = {
@@ -17457,6 +17527,8 @@ export namespace Prisma {
     cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
     plan?: SubscriptionPlanUpdateOneWithoutSubscriptionsNestedInput
   }
 
@@ -17473,6 +17545,8 @@ export namespace Prisma {
     cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type SubscriptionUncheckedUpdateManyWithoutUserInput = {
@@ -17488,6 +17562,8 @@ export namespace Prisma {
     cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type SessionUpdateWithoutUserInput = {
@@ -17641,6 +17717,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     userId: string
+    endDate?: Date | string | null
+    reference?: string | null
   }
 
   export type SubscriptionUpdateWithoutPlanInput = {
@@ -17655,6 +17733,8 @@ export namespace Prisma {
     cancelledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
     user?: UserUpdateOneRequiredWithoutSubscriptionsNestedInput
   }
 
@@ -17671,6 +17751,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type SubscriptionUncheckedUpdateManyWithoutPlanInput = {
@@ -17686,6 +17768,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    reference?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
 
