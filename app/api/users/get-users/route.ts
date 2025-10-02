@@ -22,6 +22,7 @@ export async function GET(request: NextRequest) {
         linkedInUrl: true,
         about: true,
         image: true,
+        position: true,
       },
     });
 

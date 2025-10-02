@@ -203,7 +203,7 @@ export default function Dashboard() {
   async function deleteBlogPost(id: string) {
     try {
       setPostLoading(true);
-      const response = await axios.delete(`/api/posts?postId=${id}`);
+      const response = await axios.delete(`/api/post?postId=${id}`);
       if (response.status === 200)
         toast.success("Blog post  was deleted successfully");
       getBlogPosts();
@@ -438,7 +438,12 @@ export default function Dashboard() {
                       onUpdate={handleUpdatePost}
                     />
                   ) : (
-                    <BlogForm onSuccess={() => setPostDialogOpen(false)} />
+                    <BlogForm
+                      onSuccess={() => {
+                        getBlogPosts();
+                        setPostDialogOpen(false);
+                      }}
+                    />
                   )}
                 </DialogContent>
               </Dialog>
@@ -551,7 +556,12 @@ export default function Dashboard() {
                       onUpdate={handleUpdateMember}
                     />
                   ) : (
-                    <TeamForm onSuccess={() => setMemberDialogOpen(false)} />
+                    <TeamForm
+                      onSuccess={() => {
+                        getTeams();
+                        setMemberDialogOpen(false);
+                      }}
+                    />
                   )}
                 </DialogContent>
               </Dialog>

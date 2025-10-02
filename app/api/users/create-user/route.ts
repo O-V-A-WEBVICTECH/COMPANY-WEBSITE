@@ -9,7 +9,7 @@ export async function POST(req: NextRequest) {
 
   if (!session)
     return NextResponse.json({ error: "not authenticated" }, { status: 401 });
-  const { email, name, position, twitterUrl, githubUrl, linkedInUrl } =
+  const { email, name, position, twitterUrl, githubUrl, linkedInUrl, image } =
     await req.json();
   if (!email || !name)
     return NextResponse.json({
@@ -26,6 +26,7 @@ export async function POST(req: NextRequest) {
         githubUrl,
         linkedInUrl,
         twitterUrl,
+        image,
       },
     });
 

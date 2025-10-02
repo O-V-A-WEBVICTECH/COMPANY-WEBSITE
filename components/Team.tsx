@@ -51,9 +51,7 @@ export default function Team(): JSX.Element {
               <div className="p-4 text-center">
                 <h3 className="font-semibold text-lg">{m.name}</h3>
                 <div className="text-qwen font-medium mb-2">{m?.about}</div>
-                <p className="text-slate-600 text-sm">
-                  Short bio text describing {m.name}&apos;s role and background.
-                </p>
+                <p className="text-slate-600 text-sm">{m.position}&apos;</p>
                 <div className="flex items-center justify-center gap-3 mt-3">
                   <a className="text-slate-600 hover:text-blue-600">
                     <i className="fab fa-linkedin-in"></i>
