@@ -6,12 +6,6 @@ import { prisma } from "@/auth";
 
 //handles get all posts endpoint
 export async function GET(request: NextRequest) {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
-
-  if (!session)
-    return NextResponse.json({ error: "not authenticated" }, { status: 401 });
   try {
     const blogPosts = await prisma.blog.findMany();
     return NextResponse.json(blogPosts, { status: 200 });

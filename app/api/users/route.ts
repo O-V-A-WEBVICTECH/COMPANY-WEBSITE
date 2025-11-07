@@ -14,8 +14,16 @@ export async function PATCH(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
   const teamId = searchParams.get("teamId") as string;
 
-  const { email, name, position, githubUrl, linkedInUrl, twitterUrl, about } =
-    await request.json();
+  const {
+    email,
+    name,
+    position,
+    githubUrl,
+    linkedInUrl,
+    twitterUrl,
+    about,
+    image,
+  } = await request.json();
   try {
     if (session?.user.role !== "admin")
       return NextResponse.json({ error: "not authorized" }, { status: 403 });
@@ -36,6 +44,7 @@ export async function PATCH(request: NextRequest) {
         name,
         position,
         githubUrl,
+        image,
         linkedInUrl,
         twitterUrl,
         about,
@@ -43,7 +52,7 @@ export async function PATCH(request: NextRequest) {
     });
     return NextResponse.json(
       {
-        message: "post was updated successfully",
+        message: "data updated successfully",
         teamMember,
       },
       { status: 200 }
