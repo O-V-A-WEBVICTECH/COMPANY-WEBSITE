@@ -20,27 +20,37 @@ export const auth = betterAuth({
 
   hooks: {
     after: createAuthMiddleware(async (ctx) => {
-      if (ctx.path === "/sign-up/email") {
+      // Handle both email sign-up AND social sign-up
+      if (ctx.path === "/sign-up/email" || ctx.path === "/sign-in/social") {
         const newSession = ctx.context.newSession;
         if (newSession) {
           const user = newSession.user;
 
-          // fetch the "free" plan from SubscriptionPlan table
-          const freePlan = await prisma.subscriptionPlan.findUnique({
-            where: { code: "free" },
+          // Check if user already has a subscription (important for social login)
+          const existingSubscription = await prisma.subscription.findFirst({
+            where: { userId: user.id },
           });
 
-          if (!freePlan) {
-            console.error("Free plan not found in DB");
-          } else {
-            await prisma.subscription.create({
-              data: {
-                userId: user.id,
-                planId: freePlan.id,
-                status: "active",
-                startDate: new Date(),
-              },
+          // Only create subscription if user doesn't have one
+          if (!existingSubscription) {
+            // Fetch the "free" plan from SubscriptionPlan table
+            const freePlan = await prisma.subscriptionPlan.findUnique({
+              where: { code: "free" },
             });
+
+            if (!freePlan) {
+              console.error("Free plan not found in DB");
+            } else {
+              await prisma.subscription.create({
+                data: {
+                  userId: user.id,
+                  planId: freePlan.id,
+                  status: "active",
+                  startDate: new Date(),
+                },
+              });
+              console.log(`Created free subscription for user ${user.email}`);
+            }
           }
         }
       }
@@ -71,6 +81,13 @@ export const auth = betterAuth({
     onPasswordReset: async ({ user }, _request) => {
       console.log(`Password for user ${user.email} has been reset.`);
       // optional: notify user, log audit trail, etc.
+    },
+  },
+
+  socialProviders: {
+    google: {
+      clientId: process.env.GOOGLE_CLIENT_ID as string,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
     },
   },
 });

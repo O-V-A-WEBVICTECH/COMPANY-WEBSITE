@@ -1,6 +1,7 @@
 "use client";
 import { JSX, useState } from "react";
-import axios from "axios";
+import axios, { AxiosError, isAxiosError } from "axios";
+import { toast } from "sonner";
 
 type ApiResponse = {
   url: string;
@@ -11,6 +12,9 @@ type ApiResponse = {
     tbt: string;
     cls: string;
     si: string;
+  };
+  error?: {
+    error: string;
   };
   recommendations: {
     title: string;
@@ -31,13 +35,16 @@ export default function WebsiteAnalysis(): JSX.Element {
     setResult(null);
 
     try {
-      const res = await axios.get<ApiResponse>("/api/web-performance", {
+      const res = await axios.get("/api/web-performance", {
         params: { websiteUrl: url },
         withCredentials: true,
       });
+
       setResult(res.data);
-    } catch (err) {
-      console.error("Error fetching analysis", err);
+    } catch (err: unknown) {
+      // console.error("Error fetching analysis", err);
+      if (axios.isAxiosError(err))
+        return toast.error(err.response?.data?.error || "Access forbidden");
     } finally {
       setLoading(false);
     }

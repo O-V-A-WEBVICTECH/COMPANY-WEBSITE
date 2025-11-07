@@ -250,6 +250,15 @@ exports.Prisma.ProjectScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.VerificationScalarFieldEnum = {
+  id: 'id',
+  identifier: 'identifier',
+  value: 'value',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -291,7 +300,8 @@ exports.Prisma.ModelName = {
   VerificationToken: 'VerificationToken',
   Blog: 'Blog',
   Team: 'Team',
-  Project: 'Project'
+  Project: 'Project',
+  Verification: 'Verification'
 };
 
 /**

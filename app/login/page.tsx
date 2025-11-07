@@ -159,7 +159,7 @@ export default function Login(): JSX.Element {
           >
             <div className="flex items-center">
               <FcGoogle size={26} />
-              <p>Sign in with Google</p>
+              <p>continue with Google</p>
             </div>
           </Button>
 
