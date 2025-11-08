@@ -1,27 +1,28 @@
 "use client";
+import { authClient } from "@/lib/auth-client";
+import axios from "axios";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 
 export default function PricingPage() {
-  const [isAnnual, setIsAnnual] = useState(false);
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
 
-  const monthlyPrice = 29;
-  const annualPrice = 290; // ~2 months free
-  const savings = Math.round(
-    ((monthlyPrice * 12 - annualPrice) / (monthlyPrice * 12)) * 100
-  );
+  const monthlyPrice = 5000;
 
-  const handleSubscribe = async () => {
+  async function handleSubscribe() {
     setLoading(true);
-    // Add your subscription logic here
-    // e.g., redirect to checkout, call API, etc.
-    setTimeout(() => {
+    try {
+      const { data: session } = await authClient.getSession();
+      const res = await axios.post("/api/subscriptions", {
+        email: session?.user?.email,
+        planCode: "pro",
+      });
+      return window.open(res.data.authorizationUrl, "_blank");
+    } catch (error) {
+      console.log(error);
+    } finally {
       setLoading(false);
-      // router.push("/checkout");
-    }, 1000);
-  };
+    }
+  }
 
   const features = [
     {
@@ -78,36 +79,9 @@ export default function PricingPage() {
           <h1 className="text-5xl font-bold text-slate-900 mb-4">
             Simple, Transparent Pricing
           </h1>
-          <p className="text-xl text-slate-600 mb-8">
+          <p className="text-xl text-slate-600">
             Everything you need to optimize your website performance
           </p>
-
-          {/* Billing Toggle */}
-          <div className="inline-flex items-center gap-4 p-1 bg-white rounded-full shadow-sm">
-            <button
-              onClick={() => setIsAnnual(false)}
-              className={`px-6 py-2 rounded-full font-semibold transition ${
-                !isAnnual
-                  ? "bg-blue-800 text-white"
-                  : "text-slate-600 hover:text-slate-900"
-              }`}
-            >
-              Monthly
-            </button>
-            <button
-              onClick={() => setIsAnnual(true)}
-              className={`px-6 py-2 rounded-full font-semibold transition relative ${
-                isAnnual
-                  ? "bg-blue-800 text-white"
-                  : "text-slate-600 hover:text-slate-900"
-              }`}
-            >
-              Annual
-              <span className="absolute -top-2 -right-2 bg-green-500 text-white text-xs px-2 py-0.5 rounded-full">
-                Save {savings}%
-              </span>
-            </button>
-          </div>
         </div>
 
         {/* Pricing Card */}
@@ -133,19 +107,11 @@ export default function PricingPage() {
               <div className="text-center mb-8">
                 <div className="flex items-end justify-center gap-2 mb-2">
                   <span className="text-5xl font-bold text-slate-900">
-                    ${isAnnual ? Math.round(annualPrice / 12) : monthlyPrice}
+                    ₦{monthlyPrice}
                   </span>
                   <span className="text-2xl text-slate-600 mb-2">/month</span>
                 </div>
-                {isAnnual && (
-                  <p className="text-sm text-green-600 font-semibold">
-                    Billed annually at ${annualPrice} (Save $
-                    {monthlyPrice * 12 - annualPrice})
-                  </p>
-                )}
-                {!isAnnual && (
-                  <p className="text-sm text-slate-500">Billed monthly</p>
-                )}
+                <p className="text-sm text-slate-500">Billed monthly</p>
               </div>
 
               {/* CTA Button */}

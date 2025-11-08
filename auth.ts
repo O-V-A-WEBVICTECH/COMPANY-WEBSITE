@@ -24,14 +24,11 @@ export const auth = betterAuth({
         const newSession = ctx.context.newSession;
         if (newSession) {
           const user = newSession.user;
-
-          // fetch the "free" plan from SubscriptionPlan table
           const freePlan = await prisma.subscriptionPlan.findUnique({
             where: { code: "free" },
           });
           if (!freePlan) {
             console.error("Free plan not found in DB");
-            // optionally throw here to fail user creation or default fallback
           } else {
             await prisma.subscription.create({
               data: {
@@ -39,8 +36,7 @@ export const auth = betterAuth({
                 planId: freePlan.id,
                 status: "active",
                 startDate: new Date(),
-                // optionally nextPaymentDate, planAmount if free plan has amount
-                // paystackPlanCode: freePlan.paystackPlanCode (if relevant)
+                planType: "free",
               },
             });
           }

@@ -14,7 +14,6 @@ export async function POST(req: NextRequest) {
         { status: 400 }
       );
     }
-    console.log(planCode);
 
     // 1. Look up plan in DB
     const plan = await prisma.subscriptionPlan.findUnique({
