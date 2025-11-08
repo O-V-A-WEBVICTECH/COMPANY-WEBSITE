@@ -1,6 +1,6 @@
 "use client";
 /* eslint-disable @next/next/no-img-element */
-import { BlogPosts } from "@/app/dashboard/page";
+import { BlogPosts } from "@/app/admin-dashboard/page";
 import axios from "axios";
 import { JSX, useEffect, useState } from "react";
 

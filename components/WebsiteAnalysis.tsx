@@ -1,7 +1,8 @@
 "use client";
 import { JSX, useState } from "react";
-import axios, { AxiosError, isAxiosError } from "axios";
+import axios from "axios";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 type ApiResponse = {
   url: string;
@@ -27,12 +28,15 @@ export default function WebsiteAnalysis(): JSX.Element {
   const [url, setUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<ApiResponse | null>(null);
+  const [showUpgradePrompt, setShowUpgradePrompt] = useState(false);
+  const router = useRouter();
 
   async function handleAnalyze(e?: React.FormEvent) {
     e?.preventDefault();
     if (!url) return;
     setLoading(true);
     setResult(null);
+    setShowUpgradePrompt(false);
 
     try {
       const res = await axios.get("/api/web-performance", {
@@ -42,13 +46,28 @@ export default function WebsiteAnalysis(): JSX.Element {
 
       setResult(res.data);
     } catch (err: unknown) {
-      // console.error("Error fetching analysis", err);
-      if (axios.isAxiosError(err))
-        return toast.error(err.response?.data?.error || "Access forbidden");
+      if (axios.isAxiosError(err)) {
+        const errorMessage = err.response?.data?.error;
+
+        // Check if it's the free tier limit error
+        if (
+          errorMessage === "Free tier limited to one report. Upgrade for more."
+        ) {
+          setShowUpgradePrompt(true);
+        } else {
+          toast.error(errorMessage || "An error occurred during analysis");
+        }
+      } else {
+        toast.error("An unexpected error occurred");
+      }
     } finally {
       setLoading(false);
     }
   }
+
+  const handleUpgradeClick = () => {
+    router.push("/pricing"); // or "/upgrade" - adjust to your route
+  };
 
   return (
     <section
@@ -81,6 +100,53 @@ export default function WebsiteAnalysis(): JSX.Element {
               {loading ? "Analyzing..." : "Analyze Website"}
             </button>
           </form>
+
+          {/* Upgrade Prompt */}
+          {showUpgradePrompt && (
+            <div className="mt-8 p-6 rounded-lg bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200">
+              <div className="flex items-start gap-4">
+                <div className="flex-shrink-0">
+                  <svg
+                    className="w-12 h-12 text-blue-600"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M13 10V3L4 14h7v7l9-11h-7z"
+                    />
+                  </svg>
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-xl font-bold text-slate-900 mb-2">
+                    You&apos;ve reached your free analysis limit
+                  </h3>
+                  <p className="text-slate-600 mb-4">
+                    Great news! You&apos;ve used your free website analysis. To
+                    unlock unlimited reports, detailed insights, and advanced
+                    optimization recommendations, upgrade to our premium plan.
+                  </p>
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <button
+                      onClick={handleUpgradeClick}
+                      className="px-6 py-3 rounded-full bg-blue-800 text-white font-semibold hover:bg-blue-900 transition"
+                    >
+                      Upgrade Now
+                    </button>
+                    <button
+                      onClick={() => setShowUpgradePrompt(false)}
+                      className="px-6 py-3 rounded-full border border-slate-300 text-slate-700 font-semibold hover:bg-slate-50 transition"
+                    >
+                      Maybe Later
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
 
           {result && (
             <div className="mt-8">

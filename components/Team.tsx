@@ -2,7 +2,7 @@
 "use client";
 import { JSX } from "react";
 import { useState, useEffect } from "react";
-import { TeamMember } from "@/app/dashboard/page";
+import { TeamMember } from "@/app/admin-dashboard/page";
 import axios from "axios";
 
 export default function Team(): JSX.Element {

@@ -39,7 +39,6 @@ export const auth = betterAuth({
             });
 
             if (!freePlan) {
-              console.error("Free plan not found in DB");
             } else {
               await prisma.subscription.create({
                 data: {
@@ -49,7 +48,6 @@ export const auth = betterAuth({
                   startDate: new Date(),
                 },
               });
-              console.log(`Created free subscription for user ${user.email}`);
             }
           }
         }
