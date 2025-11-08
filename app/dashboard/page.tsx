@@ -141,7 +141,7 @@ export default function Dashboard() {
                 onClick={handleUpgrade}
                 className="px-4 py-2 text-sm font-medium text-blue-600 hover:text-blue-700"
               >
-                {user?.subscriptions[0].planType === "free"
+                {user?.subscriptions[0]?.planType === "free"
                   ? "Upgrade to Pro"
                   : "Manage Plan"}
               </button>
