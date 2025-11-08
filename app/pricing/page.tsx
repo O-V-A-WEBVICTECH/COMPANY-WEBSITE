@@ -16,7 +16,8 @@ export default function PricingPage() {
         email: session?.user?.email,
         planCode: "pro",
       });
-      return window.open(res.data.authorizationUrl, "_blank");
+      if (res.status === 200)
+        return window.open(res.data.authorizationUrl, "_blank");
     } catch (error) {
       console.log(error);
     } finally {

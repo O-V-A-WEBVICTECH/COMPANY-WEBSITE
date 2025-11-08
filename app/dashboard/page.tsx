@@ -135,11 +135,13 @@ export default function Dashboard() {
       <header className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex justify-between items-center">
-            <h1 className="text-2xl font-bold text-slate-900">Dashboard</h1>
+            <h1 className="text-lg md:text-2xl font-bold text-slate-900">
+              Dashboard
+            </h1>
             <div className="flex items-center gap-4">
               <button
                 onClick={handleUpgrade}
-                className="px-4 py-2 text-sm font-medium text-blue-600 hover:text-blue-700"
+                className="px-4 py-2 text-xs lg:text-sm font-medium text-blue-600 hover:text-blue-700"
               >
                 {user?.subscriptions[0]?.planType === "free"
                   ? "Upgrade to Pro"
@@ -147,7 +149,7 @@ export default function Dashboard() {
               </button>
               <button
                 onClick={handleLogout}
-                className="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 transition"
+                className="px-4 py-2 text-xs lg:text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 transition"
               >
                 Logout
               </button>
@@ -161,7 +163,7 @@ export default function Dashboard() {
           {/* Sidebar */}
           <div className="lg:col-span-1 space-y-6">
             {/* User Profile Card */}
-            <div className="bg-white rounded-xl shadow-sm p-6">
+            <div className="bg-white w-full rounded-xl shadow-sm p-6">
               <div className="flex items-center gap-4 mb-4">
                 <img
                   src={
@@ -171,11 +173,13 @@ export default function Dashboard() {
                   alt="Profile"
                   className="w-16 h-16 rounded-full"
                 />
-                <div>
+                <div className="w-full relative">
                   <h2 className="font-bold text-lg text-slate-900">
                     {user?.name}
                   </h2>
-                  <p className="text-sm text-slate-600">{user?.email}</p>
+                  <p className="text-sm w-[70%] lg:w-full truncate text-slate-600">
+                    {user?.email}
+                  </p>
                 </div>
               </div>
 

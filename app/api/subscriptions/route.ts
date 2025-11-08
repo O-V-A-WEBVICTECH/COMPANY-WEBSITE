@@ -28,6 +28,8 @@ export async function POST(req: NextRequest) {
       throw new Error("Plan amount is not set for this subscription plan");
     }
 
+    console.log("plan_code", plan.paystackPlanCode);
+
     // 2. Initialize Paystack transaction
     const response = await axios.post(
       "https://api.paystack.co/transaction/initialize",
@@ -41,12 +43,15 @@ export async function POST(req: NextRequest) {
         },
       },
       {
+        withCredentials: true,
         headers: {
           Authorization: `Bearer ${process.env.PAYSTACK_SECRET_KEY}`,
           "Content-Type": "application/json",
         },
       }
     );
+
+    console.log("paystack-init-req:", response.data);
 
     return NextResponse.json({
       authorizationUrl: response.data.data.authorization_url,

@@ -114,7 +114,7 @@ export default function Header(): JSX.Element {
                   Login
                 </button>
                 <button
-                  onClick={() => router.push("/pricing")}
+                  onClick={() => router.push("/register")}
                   className="px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition"
                 >
                   Get Started
