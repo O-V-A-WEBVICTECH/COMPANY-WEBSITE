@@ -3,13 +3,6 @@ import { JSX, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 
-type User = {
-  id: string;
-  email: string;
-  name: string;
-  image?: string | null;
-};
-
 export default function Header(): JSX.Element {
   const [open, setOpen] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);

@@ -10,10 +10,13 @@ import { Loader2, Mail, Lock, User } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
 import { toast } from "sonner";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function Register(): JSX.Element {
   const [loading, setLoading] = useState<boolean>(false);
   const [googleLoading, setGoogleLoading] = useState<boolean>(false);
+
+  const router = useRouter();
 
   // Handle email/password registration
   async function handleRegister(event: FormEvent<HTMLFormElement>) {
@@ -49,7 +52,8 @@ export default function Register(): JSX.Element {
       }
 
       toast.success("Account created successfully! Redirecting...");
-      // Redirect handled by callbackURL
+
+      return router.push("/dashboard");
     } catch (err) {
       console.error("Registration error:", err);
       //   toast.error(err.message || "An unexpected error occurred");

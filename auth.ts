@@ -20,35 +20,29 @@ export const auth = betterAuth({
 
   hooks: {
     after: createAuthMiddleware(async (ctx) => {
-      // Handle both email sign-up AND social sign-up
-      if (ctx.path === "/sign-up/email" || ctx.path === "/sign-in/social") {
+      if (ctx.path === "/sign-up/email" || ctx.path === "/callback/:id") {
         const newSession = ctx.context.newSession;
         if (newSession) {
           const user = newSession.user;
 
-          // Check if user already has a subscription (important for social login)
-          const existingSubscription = await prisma.subscription.findFirst({
-            where: { userId: user.id },
+          // fetch the "free" plan from SubscriptionPlan table
+          const freePlan = await prisma.subscriptionPlan.findUnique({
+            where: { code: "free" },
           });
-
-          // Only create subscription if user doesn't have one
-          if (!existingSubscription) {
-            // Fetch the "free" plan from SubscriptionPlan table
-            const freePlan = await prisma.subscriptionPlan.findUnique({
-              where: { code: "free" },
+          if (!freePlan) {
+            console.error("Free plan not found in DB");
+            // optionally throw here to fail user creation or default fallback
+          } else {
+            await prisma.subscription.create({
+              data: {
+                userId: user.id,
+                planId: freePlan.id,
+                status: "active",
+                startDate: new Date(),
+                // optionally nextPaymentDate, planAmount if free plan has amount
+                // paystackPlanCode: freePlan.paystackPlanCode (if relevant)
+              },
             });
-
-            if (!freePlan) {
-            } else {
-              await prisma.subscription.create({
-                data: {
-                  userId: user.id,
-                  planId: freePlan.id,
-                  status: "active",
-                  startDate: new Date(),
-                },
-              });
-            }
           }
         }
       }

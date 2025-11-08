@@ -14714,6 +14714,7 @@ export namespace Prisma {
   export type SubscriptionWhereUniqueInput = Prisma.AtLeast<{
     id?: string
     paystackSubscriptionId?: string
+    userId?: string
     user_subscription_unique?: SubscriptionUser_subscription_uniqueCompoundUniqueInput
     AND?: SubscriptionWhereInput | SubscriptionWhereInput[]
     OR?: SubscriptionWhereInput[]
@@ -14728,12 +14729,11 @@ export namespace Prisma {
     cancelledAt?: DateTimeNullableFilter<"Subscription"> | Date | string | null
     createdAt?: DateTimeFilter<"Subscription"> | Date | string
     updatedAt?: DateTimeFilter<"Subscription"> | Date | string
-    userId?: StringFilter<"Subscription"> | string
     endDate?: DateTimeNullableFilter<"Subscription"> | Date | string | null
     reference?: StringNullableFilter<"Subscription"> | string | null
     plan?: XOR<SubscriptionPlanNullableScalarRelationFilter, SubscriptionPlanWhereInput> | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
-  }, "id" | "paystackSubscriptionId" | "user_subscription_unique">
+  }, "id" | "paystackSubscriptionId" | "userId" | "user_subscription_unique">
 
   export type SubscriptionOrderByWithAggregationInput = {
     id?: SortOrder

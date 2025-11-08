@@ -56,9 +56,12 @@ export async function POST(request: NextRequest) {
       }
 
       // Save subscription
-      await prisma.subscription.create({
-        data: {
+      await prisma.subscription.update({
+        where: {
           userId: user.id,
+        },
+        data: {
+          planType: "Pro",
           planId: plan.id,
           startDate: new Date(),
           endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),

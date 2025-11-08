@@ -13,7 +13,7 @@ export default function Team(): JSX.Element {
   async function getTeams() {
     try {
       setLoading(true);
-      const response = await axios.get<TeamMember[]>("/api/users/get-users");
+      const response = await axios.get<TeamMember[]>("/api/users/get-team");
       if (response.status === 200) setTeamMembers(response.data);
       return setLoading(false);
     } catch (error) {

@@ -1,7 +1,10 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
+import { authClient } from "@/lib/auth-client";
+import axios from "axios";
 import { useState, useEffect } from "react";
 
-type AnalysisReport = {
+interface AnalysisReport {
   id: string;
   url: string;
   performance: number;
@@ -13,20 +16,37 @@ type AnalysisReport = {
     cls: string;
     si: string;
   };
-};
+}
 
-type UserData = {
+interface UserData {
   name: string;
   email: string;
-  image?: string;
-  plan: "free" | "pro";
-  reportsUsed: number;
-  reportsLimit: number;
-};
+  image: string;
+  subscriptions: Subscription[];
+  reports: Report[];
+}
+
+interface Report {
+  id: string;
+  createdAt: Date;
+  updatedAt: Date;
+  userId: string;
+  url: string;
+  performance: number;
+  metrics: string;
+  recommendations: string;
+}
+
+interface Subscription {
+  id: string;
+  planAmount: number;
+  startDate: string;
+  nextPaymentDate: string;
+  planType: string;
+}
 
 export default function Dashboard() {
   const [user, setUser] = useState<UserData | null>(null);
-  const [reports, setReports] = useState<AnalysisReport[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedReport, setSelectedReport] = useState<AnalysisReport | null>(
     null
@@ -34,72 +54,27 @@ export default function Dashboard() {
 
   useEffect(() => {
     fetchUserData();
-    fetchReports();
   }, []);
 
   const fetchUserData = async () => {
     try {
-      const res = await fetch("/api/user/profile");
-      const data = await res.json();
-      setUser(data);
+      const { data: session } = await authClient.getSession();
+      const res = await axios.get(
+        `/api/users/get-user?userId=${session?.user?.id}`
+      );
+      console.log(res.data);
+      setUser(res.data);
     } catch (error) {
       console.error("Error fetching user data:", error);
       // Mock data for demonstration
-      setUser({
-        name: "John Doe",
-        email: "john@example.com",
-        image: "https://api.dicebear.com/7.x/avataaars/svg?seed=John",
-        plan: "free",
-        reportsUsed: 1,
-        reportsLimit: 1,
-      });
     } finally {
       setLoading(false);
     }
   };
 
-  const fetchReports = async () => {
-    try {
-      const res = await fetch("/api/user/reports");
-      const data = await res.json();
-      setReports(data);
-    } catch (error) {
-      console.error("Error fetching reports:", error);
-      // Mock data for demonstration
-      setReports([
-        {
-          id: "1",
-          url: "https://example.com",
-          performance: 87,
-          createdAt: new Date().toISOString(),
-          metrics: {
-            fcp: "1.2s",
-            lcp: "2.1s",
-            tbt: "150ms",
-            cls: "0.05",
-            si: "2.8s",
-          },
-        },
-        {
-          id: "2",
-          url: "https://mywebsite.com",
-          performance: 65,
-          createdAt: new Date(Date.now() - 86400000).toISOString(),
-          metrics: {
-            fcp: "2.1s",
-            lcp: "3.5s",
-            tbt: "300ms",
-            cls: "0.12",
-            si: "4.2s",
-          },
-        },
-      ]);
-    }
-  };
-
   const handleLogout = async () => {
     try {
-      await fetch("/api/auth/sign-out", { method: "POST" });
+      await axios.post("/api/auth/sign-out");
       window.location.href = "/";
     } catch (error) {
       console.error("Error logging out:", error);
@@ -111,7 +86,14 @@ export default function Dashboard() {
 
     try {
       await fetch(`/api/user/reports/${reportId}`, { method: "DELETE" });
-      setReports(reports.filter((r) => r.id !== reportId));
+      setUser((prevUser) => {
+        if (!prevUser) return prevUser;
+
+        return {
+          ...prevUser,
+          reports: prevUser.reports?.filter((r) => r.id !== reportId) || [],
+        };
+      });
     } catch (error) {
       console.error("Error deleting report:", error);
     }
@@ -159,7 +141,9 @@ export default function Dashboard() {
                 onClick={handleUpgrade}
                 className="px-4 py-2 text-sm font-medium text-blue-600 hover:text-blue-700"
               >
-                {user?.plan === "free" ? "Upgrade to Pro" : "Manage Plan"}
+                {user?.subscriptions[0].planType === "free"
+                  ? "Upgrade to Pro"
+                  : "Manage Plan"}
               </button>
               <button
                 onClick={handleLogout}
@@ -202,24 +186,26 @@ export default function Dashboard() {
                   </span>
                   <span
                     className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                      user?.plan === "pro"
+                      user?.subscriptions[0]?.planType === "Pro"
                         ? "bg-blue-100 text-blue-800"
                         : "bg-gray-100 text-gray-800"
                     }`}
                   >
-                    {user?.plan === "pro" ? "Pro" : "Free"}
+                    {user?.subscriptions[0]?.planType === "Pro"
+                      ? "Pro"
+                      : "Free"}
                   </span>
                 </div>
 
-                {user?.plan === "free" && (
+                {user?.subscriptions[0]?.planType === "free" && (
                   <div className="mt-4">
                     <div className="flex justify-between text-sm mb-2">
                       <span className="text-slate-600">Reports Used</span>
-                      <span className="font-semibold text-slate-900">
+                      {/* <span className="font-semibold text-slate-900">
                         {user?.reportsUsed} / {user?.reportsLimit}
-                      </span>
+                      </span> */}
                     </div>
-                    <div className="w-full bg-gray-200 rounded-full h-2">
+                    {/* <div className="w-full bg-gray-200 rounded-full h-2">
                       <div
                         className="bg-blue-600 h-2 rounded-full transition-all"
                         style={{
@@ -228,7 +214,7 @@ export default function Dashboard() {
                           }%`,
                         }}
                       />
-                    </div>
+                    </div> */}
                   </div>
                 )}
               </div>
@@ -241,7 +227,7 @@ export default function Dashboard() {
                 <div className="flex justify-between items-center">
                   <span className="text-sm text-slate-600">Total Reports</span>
                   <span className="font-bold text-slate-900">
-                    {reports.length}
+                    {user?.reports?.length}
                   </span>
                 </div>
                 <div className="flex justify-between items-center">
@@ -249,10 +235,12 @@ export default function Dashboard() {
                     Avg Performance
                   </span>
                   <span className="font-bold text-slate-900">
-                    {reports.length > 0
+                    {user && user?.reports?.length > 0
                       ? Math.round(
-                          reports.reduce((acc, r) => acc + r.performance, 0) /
-                            reports.length
+                          user.reports.reduce(
+                            (acc, r) => acc + r.performance,
+                            0
+                          ) / user?.reports.length
                         )
                       : 0}
                     %
@@ -271,13 +259,13 @@ export default function Dashboard() {
             {/* Quick Actions */}
             <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl shadow-sm p-6 mb-6 text-white">
               <h2 className="text-xl font-bold mb-2">Ready to analyze?</h2>
-              <p className="text-blue-100 mb-4">
-                {user?.plan === "free"
+              {/* <p className="text-blue-100 mb-4">
+                {user?.subscriptions.planType === "free"
                   ? `You have ${
                       user.reportsLimit - user.reportsUsed
                     } analysis remaining on your free plan.`
                   : "Analyze unlimited websites with your Pro plan!"}
-              </p>
+              </p> */}
               <button
                 onClick={handleNewAnalysis}
                 className="px-6 py-2 bg-white text-blue-600 font-semibold rounded-lg hover:bg-blue-50 transition"
@@ -294,7 +282,7 @@ export default function Dashboard() {
                 </h2>
               </div>
 
-              {reports.length === 0 ? (
+              {user?.reports.length === 0 ? (
                 <div className="p-12 text-center">
                   <svg
                     className="w-16 h-16 text-gray-300 mx-auto mb-4"
@@ -319,20 +307,20 @@ export default function Dashboard() {
                 </div>
               ) : (
                 <div className="divide-y divide-gray-200">
-                  {reports.map((report) => (
+                  {user?.reports.map((report) => (
                     <div
                       key={report.id}
                       className="p-6 hover:bg-gray-50 transition cursor-pointer"
-                      onClick={() => setSelectedReport(report)}
+                      // onClick={() => setSelectedReport(report)}
                     >
                       <div className="flex justify-between items-start mb-3">
                         <div className="flex-1">
                           <h3 className="font-semibold text-slate-900 mb-1 hover:text-blue-600">
                             {report.url}
                           </h3>
-                          <p className="text-sm text-slate-500">
+                          {/* <p className="text-sm text-slate-500">
                             {formatDate(report.createdAt)}
-                          </p>
+                          </p> */}
                         </div>
                         <div className="flex items-center gap-3">
                           <div className="text-right">

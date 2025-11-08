@@ -51,8 +51,8 @@ model SubscriptionPlan {
 
 model Subscription {
   id                       String      @id @default(uuid())
-  status                   String     // e.g. "active", "pending", "cancelled", "past_due"
-  planType                 String?   
+  status                   String     
+  planType                 String?     @default("free")
   paystackSubscriptionId   String?     @unique
   paystackPlanCode         String?
   planId                   String?
@@ -63,7 +63,7 @@ model Subscription {
   cancelledAt              DateTime?
   createdAt                DateTime    @default(now())
   updatedAt                DateTime    @default(now()) @updatedAt
-  userId                   String
+  userId                   String      @unique
   endDate                  DateTime?
   reference                String?
   user                     User        @relation(fields: [userId], references: [id], onDelete: Cascade)
