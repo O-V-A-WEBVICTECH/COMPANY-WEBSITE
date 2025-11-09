@@ -101,7 +101,7 @@ export default function Register(): JSX.Element {
           <Button
             variant="outline"
             size="lg"
-            className="w-full h-12 flex items-center justify-center gap-3 font-medium border-gray-300 hover:border-gray-400 hover:bg-gray-50 transition-all"
+            className="w-full h-12 flex cursor-pointer items-center justify-center gap-3 font-medium border-gray-300 hover:border-gray-400 hover:bg-gray-50 transition-all"
             onClick={handleGoogleSignUp}
             disabled={googleLoading || loading}
           >
@@ -188,7 +188,7 @@ export default function Register(): JSX.Element {
             <Button
               type="submit"
               size="lg"
-              className="w-full h-12 font-semibold text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 transition-all transform hover:scale-[1.01] active:scale-[0.99] shadow-lg"
+              className="w-full h-12 cursor font-semibold text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 transition-all transform hover:scale-[1.01] active:scale-[0.99] shadow-lg"
               disabled={loading || googleLoading}
             >
               {loading ? (
@@ -209,7 +209,7 @@ export default function Register(): JSX.Element {
             </p>
 
             <Link href="/login">
-              <span className="flex items-center justify-center gap-2">
+              <span className="flex cursor-pointer items-center justify-center gap-2">
                 <svg
                   className="w-6 h-6"
                   viewBox="0 0 24 24"
