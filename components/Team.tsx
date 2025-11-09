@@ -43,7 +43,10 @@ export default function Team(): JSX.Element {
             >
               <div className="h-56 overflow-hidden">
                 <img
-                  src={`${m?.image}?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80`}
+                  src={
+                    `${m?.image}?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80` ||
+                    "https://api.dicebear.com/7.x/avataaars/svg?seed=User"
+                  }
                   alt={m.name}
                   className="w-full h-full object-cover transition-transform transform hover:scale-105"
                 />

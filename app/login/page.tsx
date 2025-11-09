@@ -125,7 +125,7 @@ export default function Login(): JSX.Element {
             <Button
               type="submit"
               size="lg"
-              className="w-full h-11 font-medium bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 transition-all"
+              className="w-full cursor-pointer h-11 font-medium bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 transition-all"
               disabled={loading || googleLoading}
             >
               {loading ? (
@@ -152,7 +152,7 @@ export default function Login(): JSX.Element {
           <Button
             variant="outline"
             size="lg"
-            className="w-full flex items-center justify-center gap-3 font-medium"
+            className="w-full cursor-pointer flex items-center justify-center gap-3 font-medium"
             onClick={handleGoogleSignIn}
             disabled={googleLoading || loading}
             asChild

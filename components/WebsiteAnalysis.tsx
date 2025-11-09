@@ -3,6 +3,7 @@ import { JSX, useState } from "react";
 import axios from "axios";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { Button } from "./ui/button";
 
 type ApiResponse = {
   url: string;
@@ -92,13 +93,13 @@ export default function WebsiteAnalysis(): JSX.Element {
               placeholder="https://yourwebsite.com"
               className="flex-1 p-3 rounded-full border border-slate-200 focus:ring-2 focus:ring-blue-200"
             />
-            <button
+            <Button
               type="submit"
               disabled={loading}
-              className="px-6 py-3 rounded-full bg-blue-800 text-white font-semibold disabled:opacity-50"
+              className="px-6 py-3 cursor-pointer rounded-full bg-blue-800 text-white font-semibold disabled:opacity-50"
             >
               {loading ? "Analyzing..." : "Analyze Website"}
-            </button>
+            </Button>
           </form>
 
           {/* Upgrade Prompt */}
