@@ -1,0 +1,50 @@
+"use client";
+import { useEffect, useState } from "react";
+import QuoteForm from "@/components/quote-form";
+import QuoteResult from "@/components/quote-result";
+import axios from "axios";
+import Footer from "@/components/Footer";
+import Header from "@/components/Header";
+
+export default function Home() {
+  const [pricing, setPricing] = useState(null);
+  const [sent, setSent] = useState(null);
+
+  async function getData() {
+    try {
+      const res = await axios.get("/api/pricing");
+      if (res.status === 200) return setPricing(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  return (
+    <div>
+      <Header />
+      <main className="flex-grow p-8 bg-slate-50">
+        <div className="max-w-4xl  mx-auto bg-white rounded-xl shadow p-6">
+          <h1 className="text-2xl font-bold mb-4 text-blue-600">
+            O.V.A{" "}
+            <span className="text-indigo-600">
+              WEBVIC TECH{" "}
+              <span className="text-gray-700">- Project Cost Estimator</span>
+            </span>
+          </h1>
+          {!pricing ? (
+            <p>Loading...</p>
+          ) : !sent ? (
+            <QuoteForm pricing={pricing} />
+          ) : (
+            <QuoteResult report={sent} />
+          )}
+        </div>
+      </main>
+      <Footer />
+    </div>
+  );
+}

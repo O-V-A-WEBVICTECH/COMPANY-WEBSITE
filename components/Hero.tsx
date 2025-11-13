@@ -27,7 +27,7 @@ export default function Hero(): JSX.Element {
               Analyze Your Website
             </a>
             <a
-              href="/comming-soon"
+              href="/create-website"
               className="inline-block border-2 border-blue-600 text-blue-600 px-6 py-3 rounded-full font-semibold hover:bg-blue-600 hover:text-white transition"
             >
               Create Website
