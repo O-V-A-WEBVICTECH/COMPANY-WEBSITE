@@ -43,7 +43,7 @@ export default function Home() {
           ) : !sent ? (
             <QuoteForm pricing={pricing} onSent={setSent} />
           ) : (
-            <QuoteResult report={sent} />
+            <QuoteResult />
           )}
         </div>
       </main>
