@@ -1,4 +1,5 @@
 "use client";
+import axios from "axios";
 import { useState, useMemo, FormEvent, ChangeEvent } from "react";
 
 interface PriceRange {
@@ -27,7 +28,7 @@ interface Pricing {
   };
 }
 
-interface QuotePayload {
+export interface QuotePayload {
   title: string;
   type: string;
   platforms: string[];
@@ -48,7 +49,7 @@ interface ApiResponse {
 
 interface QuoteFormProps {
   pricing: Pricing;
-  onSent?: (data: { estimate_id: string; payload: QuotePayload }) => void;
+  onSent: (data: { estimate_id: string; payload: QuotePayload }) => void;
 }
 
 interface Status {
@@ -148,18 +149,10 @@ export default function QuoteForm({ pricing, onSent }: QuoteFormProps) {
     };
 
     try {
-      const res = await fetch("/api/quotes/send", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
+      const res = await axios.post("/api/quote", payload);
 
-      const j: ApiResponse = await res.json();
-
-      if (j.success) {
-        if (typeof onSent === "function" && j.estimate_id) {
-          onSent({ estimate_id: j.estimate_id, payload });
-        }
+      if (res.status === 200) {
+        onSent({ estimate_id: res.data?.estimate_id, payload });
 
         setStatus({
           type: "success",
@@ -169,11 +162,6 @@ export default function QuoteForm({ pricing, onSent }: QuoteFormProps) {
         setTimeout(() => {
           window.location.reload();
         }, 3000);
-      } else {
-        setStatus({
-          type: "error",
-          message: j.message || "Error sending quote.",
-        });
       }
     } catch (err) {
       console.error("Network error:", err);
@@ -294,6 +282,7 @@ export default function QuoteForm({ pricing, onSent }: QuoteFormProps) {
             setBudget(e.target.value)
           }
           placeholder="e.g. ₦150,000"
+          required
         />
       </div>
 

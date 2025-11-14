@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import QuoteForm from "@/components/quote-form";
+import QuoteForm, { QuotePayload } from "@/components/quote-form";
 import QuoteResult from "@/components/quote-result";
 import axios from "axios";
 import Footer from "@/components/Footer";
@@ -8,7 +8,10 @@ import Header from "@/components/Header";
 
 export default function Home() {
   const [pricing, setPricing] = useState(null);
-  const [sent, setSent] = useState(null);
+  const [sent, setSent] = useState<{
+    estimate_id: string;
+    payload: QuotePayload;
+  } | null>(null);
 
   async function getData() {
     try {
@@ -38,7 +41,7 @@ export default function Home() {
           {!pricing ? (
             <p>Loading...</p>
           ) : !sent ? (
-            <QuoteForm pricing={pricing} />
+            <QuoteForm pricing={pricing} onSent={setSent} />
           ) : (
             <QuoteResult report={sent} />
           )}
