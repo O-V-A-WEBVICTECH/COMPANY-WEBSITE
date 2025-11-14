@@ -299,10 +299,10 @@ export default function QuoteForm({ pricing, onSent }: QuoteFormProps) {
 
       <div className="border-t pt-4">
         <div className="flex justify-between items-center">
-          <div className="text-lg font-semibold text-gray-700">
+          <div className="text-sm lg:text-lg font-semibold text-gray-700">
             Estimated total
           </div>
-          <div className="text-xl font-bold">
+          <div className="text-sm lg:text-xl font-bold">
             {fmt(range.min)} - {fmt(range.max)}
           </div>
         </div>

@@ -26,9 +26,9 @@ export default function Home() {
   return (
     <div>
       <Header />
-      <main className="flex-grow p-8 bg-slate-50">
-        <div className="max-w-4xl  mx-auto bg-white rounded-xl shadow p-6">
-          <h1 className="text-2xl font-bold mb-4 text-blue-600">
+      <main className="  p-8 bg-slate-50">
+        <div className="max-w-4xl mt-4  mx-auto bg-white rounded-xl shadow p-6">
+          <h1 className="text-xl lg:text-2xl font-bold mb-4 text-blue-600">
             O.V.A{" "}
             <span className="text-indigo-600">
               WEBVIC TECH{" "}
