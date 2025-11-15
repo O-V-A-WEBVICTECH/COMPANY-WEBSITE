@@ -1,6 +1,6 @@
 "use client";
 import axios from "axios";
-import { useState, useMemo, FormEvent, ChangeEvent } from "react";
+import { useState, useMemo, useEffect, FormEvent, ChangeEvent } from "react";
 
 interface PriceRange {
   min: number;
@@ -39,13 +39,14 @@ export interface QuotePayload {
   email: string;
   phone: string;
   range: string;
+  currency: string;
 }
 
-interface ApiResponse {
-  success: boolean;
-  estimate_id?: string;
-  message?: string;
-}
+// interface ApiResponse {
+//   success: boolean;
+//   estimate_id?: string;
+//   message?: string;
+// }
 
 interface QuoteFormProps {
   pricing: Pricing;
@@ -68,6 +69,44 @@ export default function QuoteForm({ pricing, onSent }: QuoteFormProps) {
   const [email, setEmail] = useState<string>("");
   const [phonenumber, setPhonenumber] = useState<string>("");
   const [status, setStatus] = useState<Status>({ type: "", message: "" });
+  const [currency, setCurrency] = useState<"NGN" | "USD">("NGN");
+  const [exchangeRate, setExchangeRate] = useState<number>(1600); // Default NGN to USD rate
+
+  // Detect user location and set currency
+  useEffect(() => {
+    async function detectLocation() {
+      try {
+        const response = await fetch("https://ipapi.co/json/");
+        const data = await response.json();
+
+        if (data.country_code === "NG") {
+          setCurrency("NGN");
+        } else {
+          setCurrency("USD");
+
+          fetchExchangeRate();
+        }
+      } catch (error) {
+        console.error("Error detecting location:", error);
+
+        setCurrency("NGN");
+      }
+    }
+
+    async function fetchExchangeRate() {
+      try {
+        const response = await fetch(
+          "https://api.exchangerate-api.com/v4/latest/NGN"
+        );
+        const data = await response.json();
+        setExchangeRate(1 / data.rates.USD);
+      } catch (error) {
+        console.error("Error fetching exchange rate:", error);
+      }
+    }
+
+    detectLocation();
+  }, []);
 
   const toggle = (
     arrSetter: React.Dispatch<React.SetStateAction<string[]>>,
@@ -76,6 +115,23 @@ export default function QuoteForm({ pricing, onSent }: QuoteFormProps) {
   ): void => {
     if (arr.includes(value)) arrSetter(arr.filter((a) => a !== value));
     else arrSetter([...arr, value]);
+  };
+
+  // Convert price based on currency
+  const convertPrice = (ngnPrice: number): number => {
+    if (currency === "USD") {
+      return Math.round(ngnPrice / exchangeRate);
+    }
+    return ngnPrice;
+  };
+
+  // Format currency
+  const fmt = (n: number): string => {
+    const convertedAmount = convertPrice(n);
+    if (currency === "USD") {
+      return "$" + convertedAmount.toLocaleString();
+    }
+    return "₦" + convertedAmount.toLocaleString();
   };
 
   // Compute total cost range
@@ -125,8 +181,6 @@ export default function QuoteForm({ pricing, onSent }: QuoteFormProps) {
     return { min, max };
   }, [pricing, type, platforms, features, domain, hosting]);
 
-  const fmt = (n: number): string => "₦" + n.toLocaleString();
-
   async function handleSubmit(e: FormEvent<HTMLFormElement>): Promise<void> {
     e.preventDefault();
 
@@ -146,6 +200,7 @@ export default function QuoteForm({ pricing, onSent }: QuoteFormProps) {
       email,
       phone: phonenumber,
       range: `${fmt(range.min)} - ${fmt(range.max)}`,
+      currency,
     };
 
     try {
@@ -172,6 +227,20 @@ export default function QuoteForm({ pricing, onSent }: QuoteFormProps) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
+      {/* Currency indicator */}
+      <div className="bg-blue-50 border border-blue-200 rounded p-3 flex items-center justify-between">
+        <span className="text-sm text-blue-800">
+          Prices shown in: <strong>{currency}</strong>
+        </span>
+        <button
+          type="button"
+          onClick={() => setCurrency(currency === "NGN" ? "USD" : "NGN")}
+          className="text-xs px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700"
+        >
+          Switch to {currency === "NGN" ? "USD" : "NGN"}
+        </button>
+      </div>
+
       <div>
         <label className="block font-medium">Project name</label>
         <input
@@ -255,7 +324,7 @@ export default function QuoteForm({ pricing, onSent }: QuoteFormProps) {
               checked={domain}
               onChange={() => setDomain(!domain)}
             />
-            <span>Domain (₦35,000 / year)</span>
+            <span>Domain ({fmt(35000)} / year)</span>
           </label>
 
           <label className="flex items-center gap-2">
@@ -265,7 +334,9 @@ export default function QuoteForm({ pricing, onSent }: QuoteFormProps) {
               checked={hosting}
               onChange={() => setHosting(!hosting)}
             />
-            <span>Hosting (₦15,000 first month, ₦12,000 monthly)</span>
+            <span>
+              Hosting ({fmt(15000)} first month, {fmt(12000)} monthly)
+            </span>
           </label>
         </div>
         <p className="text-xs text-gray-500 mt-1">
@@ -281,7 +352,7 @@ export default function QuoteForm({ pricing, onSent }: QuoteFormProps) {
           onChange={(e: ChangeEvent<HTMLInputElement>) =>
             setBudget(e.target.value)
           }
-          placeholder="e.g. ₦150,000"
+          placeholder={`e.g. ${currency === "NGN" ? "₦150,000" : "$100"}`}
           required
         />
       </div>
