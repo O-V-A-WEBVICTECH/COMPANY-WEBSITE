@@ -3,6 +3,7 @@ import { JSX, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 import { Button } from "./ui/button";
+import Link from "next/link";
 
 export default function Header(): JSX.Element {
   const [open, setOpen] = useState(false);
@@ -51,9 +52,11 @@ export default function Header(): JSX.Element {
       <div className="max-w-6xl mx-auto px-6">
         <nav className="flex items-center justify-between h-16">
           <div className="flex items-center gap-3">
-            <h1 className="text-xl font-bold text-blue-600">
-              O.V.A <span className="text-indigo-600">WebvicTech</span>
-            </h1>
+            <Link href="/">
+              <h1 className="text-xl font-bold text-blue-600">
+                O.V.A <span className="text-indigo-600">WebvicTech</span>
+              </h1>
+            </Link>
           </div>
 
           <ul className="hidden md:flex items-center gap-8 text-slate-700">
@@ -185,7 +188,7 @@ export default function Header(): JSX.Element {
             <div className="flex flex-col gap-2 pt-3 border-t border-gray-200">
               {loading ? (
                 <div className="flex justify-center py-2">
-                  <div className="w-6 h-6 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+                  <div className="w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
                 </div>
               ) : loggedIn ? (
                 <>

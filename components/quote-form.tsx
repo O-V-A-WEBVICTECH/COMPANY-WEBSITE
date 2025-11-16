@@ -1,6 +1,46 @@
 "use client";
 import axios from "axios";
 import { useState, useMemo, useEffect, FormEvent, ChangeEvent } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import {
+  Loader2,
+  DollarSign,
+  Smartphone,
+  Puzzle,
+  Plus,
+  Mail,
+  Send,
+  CheckCircle2,
+  XCircle,
+} from "lucide-react";
+import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  FaReact,
+  FaAndroid,
+  FaApple,
+  FaChrome,
+  FaDesktop,
+} from "react-icons/fa";
+import { SiFlutter } from "react-icons/si";
+import { TbWorld } from "react-icons/tb";
 
 interface PriceRange {
   min: number;
@@ -42,12 +82,6 @@ export interface QuotePayload {
   currency: string;
 }
 
-// interface ApiResponse {
-//   success: boolean;
-//   estimate_id?: string;
-//   message?: string;
-// }
-
 interface QuoteFormProps {
   pricing: Pricing;
   onSent: (data: { estimate_id: string; payload: QuotePayload }) => void;
@@ -57,6 +91,17 @@ interface Status {
   type: "success" | "error" | "";
   message: string;
 }
+
+// Platform icon mapping
+const platformIcons: Record<string, React.ReactNode> = {
+  web: <TbWorld className="w-5 h-5" />,
+  android: <FaAndroid className="w-5 h-5" />,
+  ios: <FaApple className="w-5 h-5" />,
+  desktop: <FaDesktop className="w-5 h-5" />,
+  react: <FaReact className="w-5 h-5" />,
+  flutter: <SiFlutter className="w-5 h-5" />,
+  pwa: <FaChrome className="w-5 h-5" />,
+};
 
 export default function QuoteForm({ pricing, onSent }: QuoteFormProps) {
   const [title, setTitle] = useState<string>("");
@@ -70,36 +115,30 @@ export default function QuoteForm({ pricing, onSent }: QuoteFormProps) {
   const [phonenumber, setPhonenumber] = useState<string>("");
   const [status, setStatus] = useState<Status>({ type: "", message: "" });
   const [currency, setCurrency] = useState<"NGN" | "USD">("NGN");
-  const [exchangeRate, setExchangeRate] = useState<number>(1600); // Default NGN to USD rate
+  const [exchangeRate, setExchangeRate] = useState<number>(1600);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
-  // Detect user location and set currency
   useEffect(() => {
     async function detectLocation() {
       try {
-        const response = await fetch("https://ipapi.co/json/");
-        const data = await response.json();
+        const response = await axios.get("https://ipapi.co/json/");
 
-        if (data.country_code === "NG") {
+        if (response?.data.country_code === "NG") {
           setCurrency("NGN");
         } else {
           setCurrency("USD");
-
-          fetchExchangeRate();
+          await fetchExchangeRate();
         }
       } catch (error) {
         console.error("Error detecting location:", error);
-
         setCurrency("NGN");
       }
     }
 
     async function fetchExchangeRate() {
       try {
-        const response = await fetch(
-          "https://api.exchangerate-api.com/v4/latest/NGN"
-        );
-        const data = await response.json();
-        setExchangeRate(1 / data.rates.USD);
+        const res = await axios.get("https://open.er-api.com/v6/latest/NGN");
+        setExchangeRate(res.data.rates.USD);
       } catch (error) {
         console.error("Error fetching exchange rate:", error);
       }
@@ -117,7 +156,6 @@ export default function QuoteForm({ pricing, onSent }: QuoteFormProps) {
     else arrSetter([...arr, value]);
   };
 
-  // Convert price based on currency
   const convertPrice = (ngnPrice: number): number => {
     if (currency === "USD") {
       return Math.round(ngnPrice / exchangeRate);
@@ -125,7 +163,6 @@ export default function QuoteForm({ pricing, onSent }: QuoteFormProps) {
     return ngnPrice;
   };
 
-  // Format currency
   const fmt = (n: number): string => {
     const convertedAmount = convertPrice(n);
     if (currency === "USD") {
@@ -134,7 +171,6 @@ export default function QuoteForm({ pricing, onSent }: QuoteFormProps) {
     return "₦" + convertedAmount.toLocaleString();
   };
 
-  // Compute total cost range
   const range = useMemo<PriceRange>(() => {
     let min = pricing.website.base.min || 0;
     let max = pricing.website.base.max || 0;
@@ -189,6 +225,8 @@ export default function QuoteForm({ pricing, onSent }: QuoteFormProps) {
       return;
     }
 
+    setIsSubmitting(true);
+
     const payload: QuotePayload = {
       title,
       type,
@@ -216,206 +254,361 @@ export default function QuoteForm({ pricing, onSent }: QuoteFormProps) {
 
         setTimeout(() => {
           window.location.reload();
-        }, 3000);
+        }, 2000);
       }
     } catch (err) {
       console.error("Network error:", err);
       const errorMessage = err instanceof Error ? err.message : "Unknown error";
       setStatus({ type: "error", message: "Network error: " + errorMessage });
+      setIsSubmitting(false);
     }
   }
 
+  // Get icon for platform or return default
+  const getPlatformIcon = (value: string) => {
+    return (
+      platformIcons[value.toLowerCase()] || <Smartphone className="w-5 h-5" />
+    );
+  };
+
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-      {/* Currency indicator */}
-      <div className="bg-blue-50 border border-blue-200 rounded p-3 flex items-center justify-between">
-        <span className="text-sm text-blue-800">
-          Prices shown in: <strong>{currency}</strong>
-        </span>
-        <button
-          type="button"
-          onClick={() => setCurrency(currency === "NGN" ? "USD" : "NGN")}
-          className="text-xs px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700"
-        >
-          Switch to {currency === "NGN" ? "USD" : "NGN"}
-        </button>
-      </div>
-
-      <div>
-        <label className="block font-medium">Project name</label>
-        <input
-          className="mt-1 border p-2 w-full rounded"
-          value={title}
-          onChange={(e: ChangeEvent<HTMLInputElement>) =>
-            setTitle(e.target.value)
-          }
-        />
-      </div>
-
-      <div>
-        <label className="block font-medium">Project Type</label>
-        <select
-          className="mt-1 border p-2 w-full rounded"
-          value={type}
-          onChange={(e: ChangeEvent<HTMLSelectElement>) =>
-            setType(e.target.value)
-          }
-        >
-          {pricing.website.types.map((t) => (
-            <option key={t.value} value={t.value}>
-              {t.label} — {fmt(t.min)} - {fmt(t.max)}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      <div>
-        <label className="block font-medium">Platforms</label>
-        <div className="flex flex-wrap gap-2 mt-2">
-          {pricing.website.platforms.map((p) => (
-            <button
-              type="button"
-              key={p.value}
-              className={`px-3 py-1 rounded ${
-                platforms.includes(p.value)
-                  ? "bg-blue-600 text-white"
-                  : "bg-gray-200"
-              }`}
-              onClick={() => toggle(setPlatforms, platforms, p.value)}
-            >
-              {p.label} ({fmt(p.min)} - {fmt(p.max)})
-            </button>
-          ))}
+    <div className="max-w-4xl mx-auto">
+      <form onSubmit={handleSubmit} className="space-y-6">
+        {/* Currency Toggle - Sticky */}
+        <div className="sticky top-4 z-10">
+          <Alert className="bg-gradient-to-r from-blue-50 to-indigo-50 border-blue-200">
+            <AlertDescription className="flex items-center justify-between">
+              <span className="text-sm font-medium">
+                Currency: <strong className="text-blue-700">{currency}</strong>
+              </span>
+              <Button
+                type="button"
+                size="sm"
+                onClick={() => setCurrency(currency === "NGN" ? "USD" : "NGN")}
+              >
+                Switch to {currency === "NGN" ? "USD" : "NGN"}
+              </Button>
+            </AlertDescription>
+          </Alert>
         </div>
-      </div>
 
-      <div>
-        <label className="block font-medium">Extra Features</label>
-        <div className="grid md:grid-cols-2 gap-2 mt-2">
-          {pricing.website.features.map((f) => (
-            <label
-              key={f.value}
-              className="flex items-center gap-2 p-2 border rounded"
-            >
-              <input
-                type="checkbox"
-                checked={features.includes(f.value)}
-                onChange={() => toggle(setFeatures, features, f.value)}
+        {/* Project Details Section */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                />
+              </svg>
+              Project Details
+            </CardTitle>
+            <CardDescription>Tell us about your project</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4 p-4">
+            <div className="space-y-2">
+              <Label htmlFor="project-name">Project Name</Label>
+              <Input
+                id="project-name"
+                value={title}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  setTitle(e.target.value)
+                }
+                placeholder="e.g., My E-commerce Store"
               />
-              <div>
-                <div className="font-semibold">{f.label}</div>
-                <div className="text-sm text-gray-500">{f.description}</div>
-              </div>
-              <div className="ml-auto font-medium">
-                {fmt(f.min)} - {fmt(f.max)}
-              </div>
-            </label>
-          ))}
-        </div>
-      </div>
+            </div>
 
-      <div className="mt-4">
-        <h3 className="font-semibold mb-2">Optional Add-ons</h3>
-        <div className="flex flex-col gap-2">
-          <label className="flex items-center gap-2">
-            <input
-              type="checkbox"
-              name="domain"
-              checked={domain}
-              onChange={() => setDomain(!domain)}
+            <div className="space-y-2 mt-2">
+              <Label htmlFor="project-type">Project Type</Label>
+              <Select value={type} onValueChange={setType}>
+                <SelectTrigger id="project-type">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {pricing.website.types.map((t) => (
+                    <SelectItem
+                      className="w-full"
+                      key={t.value}
+                      value={t.value}
+                    >
+                      <div className="flex items-start flex-col gap-1">
+                        <div className="font-medium">{t.label}</div>
+                        <div className="text-xs text-muted-foreground">
+                          {fmt(t.min)} - {fmt(t.max)}
+                        </div>
+                      </div>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Platforms Section with Icons */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Smartphone className="w-5 h-5" />
+              Platforms
+            </CardTitle>
+            <CardDescription>Select the platforms you need</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-center space-y-3 flex-col">
+              {pricing.website.platforms.map((p) => (
+                <Button
+                  type="button"
+                  key={p.value}
+                  variant={platforms.includes(p.value) ? "default" : "outline"}
+                  onClick={() => toggle(setPlatforms, platforms, p.value)}
+                  className="flex w-full flex-col items-center h-auto py-4 gap-2"
+                >
+                  {getPlatformIcon(p.value)}
+                  <div className="text-center">
+                    <div className="font-medium text-sm">{p.label}</div>
+                    <div className="text-xs opacity-80 mt-1">
+                      {fmt(p.min)} - {fmt(p.max)}
+                    </div>
+                  </div>
+                </Button>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Features Section */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Puzzle className="w-5 h-5" />
+              Extra Features
+            </CardTitle>
+            <CardDescription>
+              Choose additional features for your project
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="grid md:grid-cols-2 gap-4">
+              {pricing.website.features.map((f) => (
+                <label
+                  key={f.value}
+                  htmlFor={`feature-${f.value}`}
+                  className={`flex items-start gap-3 p-4 border-2 rounded-lg cursor-pointer transition-all ${
+                    features.includes(f.value)
+                      ? "border-primary bg-primary/5"
+                      : "border-border hover:border-primary/50"
+                  }`}
+                >
+                  <Checkbox
+                    id={`feature-${f.value}`}
+                    checked={features.includes(f.value)}
+                    onCheckedChange={() =>
+                      toggle(setFeatures, features, f.value)
+                    }
+                  />
+                  <div className="flex-1 space-y-1">
+                    <div className="font-semibold">{f.label}</div>
+                    <div className="text-sm text-muted-foreground">
+                      {f.description}
+                    </div>
+                    <Badge variant="secondary" className="mt-2">
+                      {fmt(f.min)} - {fmt(f.max)}
+                    </Badge>
+                  </div>
+                </label>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Optional Add-ons Section */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Plus className="w-5 h-5" />
+              Optional Add-ons
+            </CardTitle>
+            <CardDescription>
+              Additional services you might need
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="flex items-center space-x-3 p-4 border rounded-lg">
+              <Checkbox
+                id="domain"
+                checked={domain}
+                onCheckedChange={(checked) => setDomain(checked as boolean)}
+              />
+              <label
+                htmlFor="domain"
+                className="flex-1 cursor-pointer font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                Domain Registration
+                <span className="text-sm text-muted-foreground ml-2">
+                  ({fmt(35000)} / year)
+                </span>
+              </label>
+            </div>
+
+            <div className="flex items-center space-x-3 p-4 border rounded-lg">
+              <Checkbox
+                id="hosting"
+                checked={hosting}
+                onCheckedChange={(checked) => setHosting(checked as boolean)}
+              />
+              <label
+                htmlFor="hosting"
+                className="flex-1 cursor-pointer font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                Web Hosting
+                <span className="text-sm text-muted-foreground ml-2">
+                  ({fmt(15000)} first month, {fmt(12000)} monthly)
+                </span>
+              </label>
+            </div>
+
+            <Alert>
+              <AlertDescription className="text-sm">
+                💡 These add-ons are optional — leave unchecked to skip
+              </AlertDescription>
+            </Alert>
+          </CardContent>
+        </Card>
+
+        {/* Budget Section */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <DollarSign className="w-5 h-5" />
+              Your Budget
+            </CardTitle>
+            <CardDescription>
+              What&apos;s your budget for this project?
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Input
+              value={budget}
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                setBudget(e.target.value)
+              }
+              placeholder={`e.g. ${currency === "NGN" ? "₦150,000" : "$100"}`}
+              required
             />
-            <span>Domain ({fmt(35000)} / year)</span>
-          </label>
+          </CardContent>
+        </Card>
 
-          <label className="flex items-center gap-2">
-            <input
-              type="checkbox"
-              name="hosting"
-              checked={hosting}
-              onChange={() => setHosting(!hosting)}
-            />
-            <span>
-              Hosting ({fmt(15000)} first month, {fmt(12000)} monthly)
-            </span>
-          </label>
+        {/* Estimated Total - Sticky Bottom */}
+        <div className="sticky bottom-4 z-10">
+          <Card className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white border-0 shadow-lg">
+            <CardContent className="pt-6">
+              <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+                <div>
+                  <div className="text-sm  text-center opacity-90">
+                    Estimated Project Cost
+                  </div>
+                  <div className="text-xl lg:text-3xl font-bold mt-1">
+                    {fmt(range.min)} - {fmt(range.max)}
+                  </div>
+                </div>
+                <div className="text-sm opacity-90 text-center md:text-right">
+                  Final pricing may vary based on
+                  <br />
+                  specific requirements
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         </div>
-        <p className="text-xs text-gray-500 mt-1">
-          These add-ons are optional — leave unchecked to skip.
-        </p>
-      </div>
 
-      <div>
-        <label className="block font-medium">Your Budget</label>
-        <input
-          className="mt-1 border p-2 w-full rounded"
-          value={budget}
-          onChange={(e: ChangeEvent<HTMLInputElement>) =>
-            setBudget(e.target.value)
-          }
-          placeholder={`e.g. ${currency === "NGN" ? "₦150,000" : "$100"}`}
-          required
-        />
-      </div>
+        {/* Contact Information Section */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Mail className="w-5 h-5" />
+              Contact Information
+            </CardTitle>
+            <CardDescription>How can we reach you?</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="email">
+                Email Address <span className="text-destructive">*</span>
+              </Label>
+              <Input
+                id="email"
+                type="email"
+                value={email}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  setEmail(e.target.value)
+                }
+                placeholder="e.g. noreply@gmail.com"
+                required
+              />
+            </div>
 
-      <div className="border-t pt-4">
-        <div className="flex justify-between items-center">
-          <div className="text-sm lg:text-lg font-semibold text-gray-700">
-            Estimated total
-          </div>
-          <div className="text-sm lg:text-xl font-bold">
-            {fmt(range.min)} - {fmt(range.max)}
-          </div>
+            <div className="space-y-2">
+              <Label htmlFor="phone">
+                Phone Number <span className="text-destructive">*</span>
+              </Label>
+              <Input
+                id="phone"
+                type="tel"
+                value={phonenumber}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  setPhonenumber(e.target.value)
+                }
+                placeholder="e.g. +2348012345678"
+                required
+              />
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Submit Button */}
+        <div className="flex flex-col items-center gap-4">
+          <Button
+            type="submit"
+            size="lg"
+            disabled={isSubmitting}
+            className="w-full md:w-auto"
+          >
+            {isSubmitting ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Sending...
+              </>
+            ) : (
+              <>
+                <Send className="mr-2 h-4 w-4" />
+                Submit Quote Request
+              </>
+            )}
+          </Button>
+
+          {status.message && (
+            <Alert
+              variant={status.type === "success" ? "default" : "destructive"}
+            >
+              {status.type === "success" ? (
+                <CheckCircle2 className="h-4 w-4" />
+              ) : (
+                <XCircle className="h-4 w-4" />
+              )}
+              <AlertDescription>{status.message}</AlertDescription>
+            </Alert>
+          )}
         </div>
-      </div>
-
-      <div>
-        <label className="block font-medium">Your Email (required)</label>
-        <input
-          type="email"
-          className="mt-1 border p-2 w-full rounded"
-          value={email}
-          onChange={(e: ChangeEvent<HTMLInputElement>) =>
-            setEmail(e.target.value)
-          }
-          placeholder="e.g. noreply@gmail.com"
-          required
-        />
-      </div>
-
-      <div>
-        <label className="block font-medium">
-          Your phone number (required)
-        </label>
-        <input
-          type="tel"
-          className="mt-1 border p-2 w-full rounded"
-          value={phonenumber}
-          onChange={(e: ChangeEvent<HTMLInputElement>) =>
-            setPhonenumber(e.target.value)
-          }
-          placeholder="e.g. +2348012345678"
-          required
-        />
-      </div>
-
-      <div>
-        <button
-          type="submit"
-          className="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
-        >
-          Send
-        </button>
-      </div>
-
-      {status.message && (
-        <p
-          className={`text-sm mt-2 text-center ${
-            status.type === "success" ? "text-green-600" : "text-red-600"
-          }`}
-        >
-          {status.message}
-        </p>
-      )}
-    </form>
+      </form>
+    </div>
   );
 }

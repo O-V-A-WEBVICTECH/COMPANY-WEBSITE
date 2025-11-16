@@ -5,6 +5,7 @@ import QuoteResult from "@/components/quote-result";
 import axios from "axios";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
+import "@fortawesome/fontawesome-free/css/all.min.css";
 
 export default function Home() {
   const [pricing, setPricing] = useState(null);
@@ -27,15 +28,13 @@ export default function Home() {
   }, []);
 
   return (
-    <div>
+    <>
       <Header />
       <main className="  p-8 bg-slate-50">
         <div className="max-w-4xl mt-4  mx-auto bg-white rounded-xl shadow p-6">
           <h1 className="text-xl lg:text-2xl font-bold mb-4 text-blue-600">
-            O.V.A{" "}
             <span className="text-indigo-600">
-              WEBVIC TECH{" "}
-              <span className="text-gray-700">- Project Cost Estimator</span>
+              <span className="text-gray-700">Project Cost Estimator</span>
             </span>
           </h1>
           {!pricing ? (
@@ -48,6 +47,6 @@ export default function Home() {
         </div>
       </main>
       <Footer />
-    </div>
+    </>
   );
 }
