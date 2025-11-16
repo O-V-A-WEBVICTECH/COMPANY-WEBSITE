@@ -83,7 +83,7 @@ export default function Hero(): JSX.Element {
                 className="group text-base px-8 h-14 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-lg hover:shadow-xl transition-all duration-300"
                 asChild
               >
-                <a href="/create-website">
+                <a href="/create-project">
                   Start Your Project
                   <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </a>
