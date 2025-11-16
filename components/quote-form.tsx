@@ -254,7 +254,7 @@ export default function QuoteForm({ pricing, onSent }: QuoteFormProps) {
 
         setTimeout(() => {
           window.location.reload();
-        }, 2000);
+        }, 5000);
       }
     } catch (err) {
       console.error("Network error:", err);
