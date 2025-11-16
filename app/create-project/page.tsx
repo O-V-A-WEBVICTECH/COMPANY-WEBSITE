@@ -30,7 +30,7 @@ export default function Home() {
   return (
     <>
       <Header />
-      <main className="  p-8 bg-slate-50">
+      <main className="py-8 px-3 bg-slate-50">
         <div className="max-w-4xl mt-4  mx-auto bg-white rounded-xl shadow p-6">
           <h1 className="text-xl lg:text-2xl font-bold mb-4 text-blue-600">
             <span className="text-indigo-600">
