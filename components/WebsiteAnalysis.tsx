@@ -25,6 +25,7 @@ import {
   ArrowRight,
   Sparkles,
 } from "lucide-react";
+import { authClient } from "@/lib/auth-client";
 
 type ApiResponse = {
   url: string;
@@ -67,20 +68,27 @@ export default function WebsiteAnalysis(): JSX.Element {
   const [showUpgradePrompt, setShowUpgradePrompt] = useState(false);
   const router = useRouter();
 
-  async function handleAnalyze(e?: React.FormEvent) {
-    e?.preventDefault();
+  async function handleAnalyze(e: React.FormEvent) {
+    e.preventDefault();
     if (!url) return;
     setLoading(true);
     setResult(null);
     setShowUpgradePrompt(false);
 
     try {
+      const { data: session } = await authClient.getSession();
+      if (!session) {
+        alert("You need to be logged in");
+        return router.push("/login");
+      }
+
       const res = await axios.get("/api/web-performance", {
         params: { websiteUrl: url },
         withCredentials: true,
       });
 
       setResult(res.data);
+      console.log(session);
     } catch (err: unknown) {
       if (axios.isAxiosError(err)) {
         const errorMessage = err.response?.data?.error;

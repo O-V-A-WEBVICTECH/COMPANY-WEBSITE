@@ -29,9 +29,7 @@ export default function Footer(): JSX.Element {
             <li>
               <a>About</a>
             </li>
-            <li>
-              <a>Careers</a>
-            </li>
+
             <li>
               <a>Blog</a>
             </li>

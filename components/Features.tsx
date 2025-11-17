@@ -170,7 +170,7 @@ export default function Features(): JSX.Element {
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
             <a
-              href="/create-website"
+              href="/create-project"
               className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-xl hover:shadow-lg transition-all duration-300 hover:scale-105"
             >
               Start a Project
