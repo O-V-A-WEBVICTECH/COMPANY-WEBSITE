@@ -32,6 +32,12 @@ export const auth = betterAuth({
           if (!freePlan) {
             console.error("Free plan not found in DB");
           } else {
+            const existingRecord = await prisma.subscription.findUnique({
+              where: {
+                userId: user.id,
+              },
+            });
+            if (existingRecord) return;
             await prisma.subscription.create({
               data: {
                 userId: user.id,
