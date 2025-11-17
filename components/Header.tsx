@@ -4,15 +4,25 @@ import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 import { Button } from "./ui/button";
 import Link from "next/link";
+import { Menu, X } from "lucide-react";
 
 export default function Header(): JSX.Element {
   const [open, setOpen] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [scrolled, setScrolled] = useState(false);
+
   const router = useRouter();
 
   useEffect(() => {
     checkAuth();
+
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const checkAuth = async () => {
@@ -40,7 +50,6 @@ export default function Header(): JSX.Element {
   const handleLogout = async () => {
     try {
       await authClient.signOut();
-
       return checkAuth();
     } catch (error) {
       console.error("Error logging out:", error);
@@ -48,36 +57,65 @@ export default function Header(): JSX.Element {
   };
 
   return (
-    <header className="fixed w-full bg-white shadow z-30">
-      <div className="max-w-6xl mx-auto px-6">
+    <header
+      className={`fixed w-full z-50 transition-all duration-300 ${
+        scrolled
+          ? "bg-white/95 backdrop-blur-md shadow-lg"
+          : "bg-white shadow-md"
+      }`}
+    >
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <nav className="flex items-center justify-between h-16">
-          <div className="flex items-center gap-3">
-            <Link href="/">
-              <h1 className="text-xl font-bold text-blue-600">
-                O.V.A <span className="text-indigo-600">WebvicTech</span>
-              </h1>
-            </Link>
-          </div>
+          {/* Logo */}
+          <Link href="/" className="flex items-center gap-3 group">
+            <h1 className="text-xl font-bold">
+              <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                O.V.A
+              </span>{" "}
+              <span className="text-slate-800">WebvicTech</span>
+            </h1>
+          </Link>
 
-          <ul className="hidden md:flex items-center gap-8 text-slate-700">
+          {/* Desktop Navigation */}
+          <ul className="hidden md:flex items-center gap-6 text-slate-700">
             <li>
-              <a href="#home" className="hover:text-blue-600">
+              <a href="#home" className="hover:text-blue-600 transition-colors">
                 Home
               </a>
             </li>
             <li>
-              <a href="#about" className="hover:text-blue-600">
-                About Us
+              <a
+                href="#about"
+                className="hover:text-blue-600 transition-colors"
+              >
+                About
               </a>
             </li>
 
             <li>
-              <a href="#blog" className="hover:text-blue-600">
-                Blog
+              <a
+                href="#services"
+                className="block py-2 hover:text-blue-600 transition-colors"
+                onClick={() => setOpen(false)}
+              >
+                Services
               </a>
             </li>
+
             <li>
-              <a href="#contact" className="hover:text-blue-600">
+              <a
+                href="#portfolio"
+                className="hover:text-blue-600 transition-colors"
+              >
+                Portfolio
+              </a>
+            </li>
+
+            <li>
+              <a
+                href="#contact"
+                className="hover:text-blue-600 transition-colors"
+              >
                 Contact
               </a>
             </li>
@@ -91,15 +129,12 @@ export default function Header(): JSX.Element {
               <>
                 <Button
                   onClick={handleAuthAction}
-                  className="px-4 py-2 text-blue-600 cursor-pointer font-semibold hover:text-blue-700 transition"
+                  variant="ghost"
+                  className="text-blue-600 hover:text-blue-700 hover:bg-blue-50"
                 >
                   Dashboard
                 </Button>
-                <Button
-                  variant="destructive"
-                  onClick={handleLogout}
-                  className="px-4 py-2 bg-red-600 text-white cursor-pointer  font-semibold rounded-lg hover:bg-red-700 transition"
-                >
+                <Button variant="destructive" onClick={handleLogout}>
                   Logout
                 </Button>
               </>
@@ -108,13 +143,13 @@ export default function Header(): JSX.Element {
                 <Button
                   variant="ghost"
                   onClick={handleAuthAction}
-                  className="px-4 py-2 text-blue-600 cursor-pointer font-semibold hover:text-blue-700 transition"
+                  className="text-blue-600 hover:text-blue-700 hover:bg-blue-50"
                 >
                   Login
                 </Button>
                 <Button
                   onClick={() => router.push("/register")}
-                  className="px-4 py-2 bg-blue-600 text-white cursor-pointer font-semibold rounded-lg hover:bg-blue-700 transition"
+                  className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700"
                 >
                   Get Started
                 </Button>
@@ -123,24 +158,27 @@ export default function Header(): JSX.Element {
           </div>
 
           {/* Mobile Menu Toggle */}
-          <div className="md:hidden">
-            <button
-              onClick={() => setOpen(!open)}
-              className="p-2 rounded-md focus:outline-none focus:ring"
-            >
-              <i className={`fas ${open ? "fa-times" : "fa-bars"} text-lg`}></i>
-            </button>
-          </div>
+          <button
+            onClick={() => setOpen(!open)}
+            className="md:hidden p-2 rounded-lg hover:bg-slate-100 transition-colors"
+            aria-label="Toggle menu"
+          >
+            {open ? (
+              <X className="w-6 h-6 text-slate-700" />
+            ) : (
+              <Menu className="w-6 h-6 text-slate-700" />
+            )}
+          </button>
         </nav>
 
         {/* Mobile Menu */}
         {open && (
           <div className="md:hidden pb-4">
-            <ul className="flex flex-col gap-3 text-slate-700 mb-4">
+            <ul className="flex flex-col gap-1 text-slate-700 mb-4">
               <li>
                 <a
                   href="#home"
-                  className="block"
+                  className="block py-2 hover:text-blue-600 transition-colors"
                   onClick={() => setOpen(false)}
                 >
                   Home
@@ -149,34 +187,38 @@ export default function Header(): JSX.Element {
               <li>
                 <a
                   href="#about"
-                  className="block"
+                  className="block py-2 hover:text-blue-600 transition-colors"
                   onClick={() => setOpen(false)}
                 >
-                  About Us
+                  About
                 </a>
               </li>
+
+              {/* Mobile Services */}
               <li>
                 <a
-                  href="#team"
-                  className="block"
+                  href="#services"
+                  className="block py-2 hover:text-blue-600 transition-colors"
                   onClick={() => setOpen(false)}
                 >
-                  Our Team
+                  Services
                 </a>
               </li>
+
               <li>
                 <a
-                  href="#blog"
-                  className="block"
+                  href="#portfolio"
+                  className="block py-2 hover:text-blue-600 transition-colors"
                   onClick={() => setOpen(false)}
                 >
-                  Blog
+                  Portfolio
                 </a>
               </li>
+
               <li>
                 <a
                   href="#contact"
-                  className="block"
+                  className="block py-2 hover:text-blue-600 transition-colors"
                   onClick={() => setOpen(false)}
                 >
                   Contact
@@ -185,52 +227,55 @@ export default function Header(): JSX.Element {
             </ul>
 
             {/* Mobile Auth Buttons */}
-            <div className="flex flex-col gap-2 pt-3 border-t border-gray-200">
+            <div className="flex flex-col gap-2 pt-3 border-t border-slate-200">
               {loading ? (
                 <div className="flex justify-center py-2">
                   <div className="w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
                 </div>
               ) : loggedIn ? (
                 <>
-                  <button
+                  <Button
                     onClick={() => {
                       handleAuthAction();
                       setOpen(false);
                     }}
-                    className="w-full px-4 py-2 text-blue-600 font-semibold border border-blue-600 rounded-lg hover:bg-blue-50 transition"
+                    variant="outline"
+                    className="w-full border-blue-600 text-blue-600 hover:bg-blue-50"
                   >
                     Dashboard
-                  </button>
-                  <button
+                  </Button>
+                  <Button
+                    variant="destructive"
                     onClick={() => {
                       handleLogout();
                       setOpen(false);
                     }}
-                    className="w-full px-4 py-2 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 transition"
+                    className="w-full"
                   >
                     Logout
-                  </button>
+                  </Button>
                 </>
               ) : (
                 <>
-                  <button
+                  <Button
                     onClick={() => {
                       handleAuthAction();
                       setOpen(false);
                     }}
-                    className="w-full px-4 py-2 text-blue-600 font-semibold border border-blue-600 rounded-lg hover:bg-blue-50 transition"
+                    variant="outline"
+                    className="w-full border-blue-600 text-blue-600 hover:bg-blue-50"
                   >
                     Login
-                  </button>
-                  <button
+                  </Button>
+                  <Button
                     onClick={() => {
-                      router.push("/pricing");
+                      router.push("/register");
                       setOpen(false);
                     }}
-                    className="w-full px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition"
+                    className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700"
                   >
                     Get Started
-                  </button>
+                  </Button>
                 </>
               )}
             </div>

@@ -4,8 +4,8 @@ import Features from "@/components/Features";
 import WebsiteAnalysis from "@/components/WebsiteAnalysis";
 import About from "@/components/About";
 import Team from "@/components/Team";
-import Blog from "@/components/Blog";
 import Contact from "@/components/Contact";
+import Portfolio from "@/components/Portfolio";
 import Footer from "@/components/Footer";
 
 export default function App() {
@@ -17,8 +17,8 @@ export default function App() {
         <Features />
         <WebsiteAnalysis />
         <About />
+        <Portfolio />
         <Team />
-        <Blog />
         <Contact />
       </main>
       <Footer />

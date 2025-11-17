@@ -68,7 +68,7 @@ export default function Features(): JSX.Element {
   return (
     <section
       id="services"
-      className="py-24 bg-gradient-to-b from-white to-slate-50 relative overflow-hidden"
+      className="pb-24 bg-gradient-to-b from-white to-slate-50 relative overflow-hidden"
     >
       {/* Background decorative elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -85,14 +85,14 @@ export default function Features(): JSX.Element {
             </span>
           </Badge>
 
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900">
+          <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold text-slate-900">
             What We{" "}
             <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
               Build
             </span>
           </h2>
 
-          <p className="text-xl text-slate-600 max-w-3xl mx-auto">
+          <p className="text-base md:text-xl text-slate-600 max-w-3xl mx-auto">
             From concept to deployment, we deliver end-to-end solutions that
             transform your business and engage your users
           </p>
