@@ -93,7 +93,7 @@ export default function Contact(): JSX.Element {
                       <h4 className="font-bold text-base md:text-lg text-slate-900 mb-1">
                         Phone
                       </h4>
-                      <p className="text-slate-600">+2349136600887</p>
+                      <p className="text-slate-600">+234 (913) 660-0887</p>
                     </div>
                   </div>
                 </CardContent>
