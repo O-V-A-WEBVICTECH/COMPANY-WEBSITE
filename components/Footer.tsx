@@ -53,8 +53,8 @@ export default function Footer(): JSX.Element {
 
         <div>
           <h5 className="font-semibold mb-3">Contact</h5>
-          <div className="text-slate-400">info@ovawebvictech.com</div>
-          <div className="text-slate-400 mt-2">+1 (555) 123-4567</div>
+          <div className="text-slate-400">o.v.a.webvictech@gmail.com</div>
+          <div className="text-slate-400 mt-2">+234 (913) 660-0887</div>
         </div>
       </div>
 
