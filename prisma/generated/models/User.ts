@@ -36,8 +36,6 @@ export type UserMinAggregateOutputType = {
   banExpires: Date | null
   createdAt: Date | null
   updatedAt: Date | null
-  paystackCustomerId: string | null
-  paystackAuthorizationCode: string | null
 }
 
 export type UserMaxAggregateOutputType = {
@@ -52,8 +50,6 @@ export type UserMaxAggregateOutputType = {
   banExpires: Date | null
   createdAt: Date | null
   updatedAt: Date | null
-  paystackCustomerId: string | null
-  paystackAuthorizationCode: string | null
 }
 
 export type UserCountAggregateOutputType = {
@@ -68,8 +64,6 @@ export type UserCountAggregateOutputType = {
   banExpires: number
   createdAt: number
   updatedAt: number
-  paystackCustomerId: number
-  paystackAuthorizationCode: number
   _all: number
 }
 
@@ -86,8 +80,6 @@ export type UserMinAggregateInputType = {
   banExpires?: true
   createdAt?: true
   updatedAt?: true
-  paystackCustomerId?: true
-  paystackAuthorizationCode?: true
 }
 
 export type UserMaxAggregateInputType = {
@@ -102,8 +94,6 @@ export type UserMaxAggregateInputType = {
   banExpires?: true
   createdAt?: true
   updatedAt?: true
-  paystackCustomerId?: true
-  paystackAuthorizationCode?: true
 }
 
 export type UserCountAggregateInputType = {
@@ -118,8 +108,6 @@ export type UserCountAggregateInputType = {
   banExpires?: true
   createdAt?: true
   updatedAt?: true
-  paystackCustomerId?: true
-  paystackAuthorizationCode?: true
   _all?: true
 }
 
@@ -207,8 +195,6 @@ export type UserGroupByOutputType = {
   banExpires: Date | null
   createdAt: Date
   updatedAt: Date
-  paystackCustomerId: string | null
-  paystackAuthorizationCode: string | null
   _count: UserCountAggregateOutputType | null
   _min: UserMinAggregateOutputType | null
   _max: UserMaxAggregateOutputType | null
@@ -244,9 +230,6 @@ export type UserWhereInput = {
   banExpires?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
-  paystackCustomerId?: Prisma.StringNullableFilter<"User"> | string | null
-  paystackAuthorizationCode?: Prisma.StringNullableFilter<"User"> | string | null
-  subscriptions?: Prisma.SubscriptionListRelationFilter
   sessions?: Prisma.SessionListRelationFilter
   accounts?: Prisma.AccountListRelationFilter
   reports?: Prisma.ReportListRelationFilter
@@ -265,9 +248,6 @@ export type UserOrderByWithRelationInput = {
   banExpires?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  paystackCustomerId?: Prisma.SortOrderInput | Prisma.SortOrder
-  paystackAuthorizationCode?: Prisma.SortOrderInput | Prisma.SortOrder
-  subscriptions?: Prisma.SubscriptionOrderByRelationAggregateInput
   sessions?: Prisma.SessionOrderByRelationAggregateInput
   accounts?: Prisma.AccountOrderByRelationAggregateInput
   reports?: Prisma.ReportOrderByRelationAggregateInput
@@ -277,7 +257,6 @@ export type UserOrderByWithRelationInput = {
 export type UserWhereUniqueInput = Prisma.AtLeast<{
   id?: string
   email?: string
-  paystackCustomerId?: string
   AND?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   OR?: Prisma.UserWhereInput[]
   NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
@@ -290,13 +269,11 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   banExpires?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
-  paystackAuthorizationCode?: Prisma.StringNullableFilter<"User"> | string | null
-  subscriptions?: Prisma.SubscriptionListRelationFilter
   sessions?: Prisma.SessionListRelationFilter
   accounts?: Prisma.AccountListRelationFilter
   reports?: Prisma.ReportListRelationFilter
   blogPosts?: Prisma.BlogListRelationFilter
-}, "id" | "email" | "paystackCustomerId">
+}, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -310,8 +287,6 @@ export type UserOrderByWithAggregationInput = {
   banExpires?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  paystackCustomerId?: Prisma.SortOrderInput | Prisma.SortOrder
-  paystackAuthorizationCode?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
   _max?: Prisma.UserMaxOrderByAggregateInput
   _min?: Prisma.UserMinOrderByAggregateInput
@@ -332,8 +307,6 @@ export type UserScalarWhereWithAggregatesInput = {
   banExpires?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
-  paystackCustomerId?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
-  paystackAuthorizationCode?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
 }
 
 export type UserCreateInput = {
@@ -348,9 +321,6 @@ export type UserCreateInput = {
   banExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  paystackCustomerId?: string | null
-  paystackAuthorizationCode?: string | null
-  subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   reports?: Prisma.ReportCreateNestedManyWithoutUserInput
@@ -369,9 +339,6 @@ export type UserUncheckedCreateInput = {
   banExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  paystackCustomerId?: string | null
-  paystackAuthorizationCode?: string | null
-  subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   reports?: Prisma.ReportUncheckedCreateNestedManyWithoutUserInput
@@ -390,9 +357,6 @@ export type UserUpdateInput = {
   banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  paystackCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  paystackAuthorizationCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   reports?: Prisma.ReportUpdateManyWithoutUserNestedInput
@@ -411,9 +375,6 @@ export type UserUncheckedUpdateInput = {
   banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  paystackCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  paystackAuthorizationCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   reports?: Prisma.ReportUncheckedUpdateManyWithoutUserNestedInput
@@ -432,8 +393,6 @@ export type UserCreateManyInput = {
   banExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  paystackCustomerId?: string | null
-  paystackAuthorizationCode?: string | null
 }
 
 export type UserUpdateManyMutationInput = {
@@ -448,8 +407,6 @@ export type UserUpdateManyMutationInput = {
   banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  paystackCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  paystackAuthorizationCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type UserUncheckedUpdateManyInput = {
@@ -464,8 +421,6 @@ export type UserUncheckedUpdateManyInput = {
   banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  paystackCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  paystackAuthorizationCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type UserCountOrderByAggregateInput = {
@@ -480,8 +435,6 @@ export type UserCountOrderByAggregateInput = {
   banExpires?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  paystackCustomerId?: Prisma.SortOrder
-  paystackAuthorizationCode?: Prisma.SortOrder
 }
 
 export type UserMaxOrderByAggregateInput = {
@@ -496,8 +449,6 @@ export type UserMaxOrderByAggregateInput = {
   banExpires?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  paystackCustomerId?: Prisma.SortOrder
-  paystackAuthorizationCode?: Prisma.SortOrder
 }
 
 export type UserMinOrderByAggregateInput = {
@@ -512,8 +463,6 @@ export type UserMinOrderByAggregateInput = {
   banExpires?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  paystackCustomerId?: Prisma.SortOrder
-  paystackAuthorizationCode?: Prisma.SortOrder
 }
 
 export type UserScalarRelationFilter = {
@@ -539,20 +488,6 @@ export type NullableDateTimeFieldUpdateOperationsInput = {
 
 export type DateTimeFieldUpdateOperationsInput = {
   set?: Date | string
-}
-
-export type UserCreateNestedOneWithoutSubscriptionsInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutSubscriptionsInput, Prisma.UserUncheckedCreateWithoutSubscriptionsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSubscriptionsInput
-  connect?: Prisma.UserWhereUniqueInput
-}
-
-export type UserUpdateOneRequiredWithoutSubscriptionsNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutSubscriptionsInput, Prisma.UserUncheckedCreateWithoutSubscriptionsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutSubscriptionsInput
-  upsert?: Prisma.UserUpsertWithoutSubscriptionsInput
-  connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutSubscriptionsInput, Prisma.UserUpdateWithoutSubscriptionsInput>, Prisma.UserUncheckedUpdateWithoutSubscriptionsInput>
 }
 
 export type UserCreateNestedOneWithoutReportsInput = {
@@ -611,102 +546,6 @@ export type UserUpdateOneRequiredWithoutBlogPostsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutBlogPostsInput, Prisma.UserUpdateWithoutBlogPostsInput>, Prisma.UserUncheckedUpdateWithoutBlogPostsInput>
 }
 
-export type UserCreateWithoutSubscriptionsInput = {
-  id?: string
-  name?: string | null
-  email: string
-  emailVerified?: boolean
-  image?: string | null
-  role?: string
-  banned?: boolean
-  banReason?: string | null
-  banExpires?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  paystackCustomerId?: string | null
-  paystackAuthorizationCode?: string | null
-  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
-  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
-  reports?: Prisma.ReportCreateNestedManyWithoutUserInput
-  blogPosts?: Prisma.BlogCreateNestedManyWithoutAuthorInput
-}
-
-export type UserUncheckedCreateWithoutSubscriptionsInput = {
-  id?: string
-  name?: string | null
-  email: string
-  emailVerified?: boolean
-  image?: string | null
-  role?: string
-  banned?: boolean
-  banReason?: string | null
-  banExpires?: Date | string | null
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  paystackCustomerId?: string | null
-  paystackAuthorizationCode?: string | null
-  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
-  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
-  reports?: Prisma.ReportUncheckedCreateNestedManyWithoutUserInput
-  blogPosts?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
-}
-
-export type UserCreateOrConnectWithoutSubscriptionsInput = {
-  where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutSubscriptionsInput, Prisma.UserUncheckedCreateWithoutSubscriptionsInput>
-}
-
-export type UserUpsertWithoutSubscriptionsInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutSubscriptionsInput, Prisma.UserUncheckedUpdateWithoutSubscriptionsInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutSubscriptionsInput, Prisma.UserUncheckedCreateWithoutSubscriptionsInput>
-  where?: Prisma.UserWhereInput
-}
-
-export type UserUpdateToOneWithWhereWithoutSubscriptionsInput = {
-  where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutSubscriptionsInput, Prisma.UserUncheckedUpdateWithoutSubscriptionsInput>
-}
-
-export type UserUpdateWithoutSubscriptionsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  role?: Prisma.StringFieldUpdateOperationsInput | string
-  banned?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  paystackCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  paystackAuthorizationCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
-  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
-  reports?: Prisma.ReportUpdateManyWithoutUserNestedInput
-  blogPosts?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
-}
-
-export type UserUncheckedUpdateWithoutSubscriptionsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  email?: Prisma.StringFieldUpdateOperationsInput | string
-  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  role?: Prisma.StringFieldUpdateOperationsInput | string
-  banned?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  banReason?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  paystackCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  paystackAuthorizationCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
-  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
-  reports?: Prisma.ReportUncheckedUpdateManyWithoutUserNestedInput
-  blogPosts?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
-}
-
 export type UserCreateWithoutReportsInput = {
   id?: string
   name?: string | null
@@ -719,9 +558,6 @@ export type UserCreateWithoutReportsInput = {
   banExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  paystackCustomerId?: string | null
-  paystackAuthorizationCode?: string | null
-  subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   blogPosts?: Prisma.BlogCreateNestedManyWithoutAuthorInput
@@ -739,9 +575,6 @@ export type UserUncheckedCreateWithoutReportsInput = {
   banExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  paystackCustomerId?: string | null
-  paystackAuthorizationCode?: string | null
-  subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   blogPosts?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
@@ -775,9 +608,6 @@ export type UserUpdateWithoutReportsInput = {
   banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  paystackCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  paystackAuthorizationCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   blogPosts?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
@@ -795,9 +625,6 @@ export type UserUncheckedUpdateWithoutReportsInput = {
   banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  paystackCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  paystackAuthorizationCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   blogPosts?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
@@ -815,9 +642,6 @@ export type UserCreateWithoutSessionsInput = {
   banExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  paystackCustomerId?: string | null
-  paystackAuthorizationCode?: string | null
-  subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   reports?: Prisma.ReportCreateNestedManyWithoutUserInput
   blogPosts?: Prisma.BlogCreateNestedManyWithoutAuthorInput
@@ -835,9 +659,6 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   banExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  paystackCustomerId?: string | null
-  paystackAuthorizationCode?: string | null
-  subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   reports?: Prisma.ReportUncheckedCreateNestedManyWithoutUserInput
   blogPosts?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
@@ -871,9 +692,6 @@ export type UserUpdateWithoutSessionsInput = {
   banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  paystackCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  paystackAuthorizationCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   reports?: Prisma.ReportUpdateManyWithoutUserNestedInput
   blogPosts?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
@@ -891,9 +709,6 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  paystackCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  paystackAuthorizationCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   reports?: Prisma.ReportUncheckedUpdateManyWithoutUserNestedInput
   blogPosts?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
@@ -911,9 +726,6 @@ export type UserCreateWithoutAccountsInput = {
   banExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  paystackCustomerId?: string | null
-  paystackAuthorizationCode?: string | null
-  subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   reports?: Prisma.ReportCreateNestedManyWithoutUserInput
   blogPosts?: Prisma.BlogCreateNestedManyWithoutAuthorInput
@@ -931,9 +743,6 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   banExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  paystackCustomerId?: string | null
-  paystackAuthorizationCode?: string | null
-  subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   reports?: Prisma.ReportUncheckedCreateNestedManyWithoutUserInput
   blogPosts?: Prisma.BlogUncheckedCreateNestedManyWithoutAuthorInput
@@ -967,9 +776,6 @@ export type UserUpdateWithoutAccountsInput = {
   banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  paystackCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  paystackAuthorizationCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   reports?: Prisma.ReportUpdateManyWithoutUserNestedInput
   blogPosts?: Prisma.BlogUpdateManyWithoutAuthorNestedInput
@@ -987,9 +793,6 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  paystackCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  paystackAuthorizationCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   reports?: Prisma.ReportUncheckedUpdateManyWithoutUserNestedInput
   blogPosts?: Prisma.BlogUncheckedUpdateManyWithoutAuthorNestedInput
@@ -1007,9 +810,6 @@ export type UserCreateWithoutBlogPostsInput = {
   banExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  paystackCustomerId?: string | null
-  paystackAuthorizationCode?: string | null
-  subscriptions?: Prisma.SubscriptionCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   reports?: Prisma.ReportCreateNestedManyWithoutUserInput
@@ -1027,9 +827,6 @@ export type UserUncheckedCreateWithoutBlogPostsInput = {
   banExpires?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  paystackCustomerId?: string | null
-  paystackAuthorizationCode?: string | null
-  subscriptions?: Prisma.SubscriptionUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   reports?: Prisma.ReportUncheckedCreateNestedManyWithoutUserInput
@@ -1063,9 +860,6 @@ export type UserUpdateWithoutBlogPostsInput = {
   banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  paystackCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  paystackAuthorizationCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  subscriptions?: Prisma.SubscriptionUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   reports?: Prisma.ReportUpdateManyWithoutUserNestedInput
@@ -1083,9 +877,6 @@ export type UserUncheckedUpdateWithoutBlogPostsInput = {
   banExpires?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  paystackCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  paystackAuthorizationCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  subscriptions?: Prisma.SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   reports?: Prisma.ReportUncheckedUpdateManyWithoutUserNestedInput
@@ -1097,7 +888,6 @@ export type UserUncheckedUpdateWithoutBlogPostsInput = {
  */
 
 export type UserCountOutputType = {
-  subscriptions: number
   sessions: number
   accounts: number
   reports: number
@@ -1105,7 +895,6 @@ export type UserCountOutputType = {
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  subscriptions?: boolean | UserCountOutputTypeCountSubscriptionsArgs
   sessions?: boolean | UserCountOutputTypeCountSessionsArgs
   accounts?: boolean | UserCountOutputTypeCountAccountsArgs
   reports?: boolean | UserCountOutputTypeCountReportsArgs
@@ -1120,13 +909,6 @@ export type UserCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensi
    * Select specific fields to fetch from the UserCountOutputType
    */
   select?: Prisma.UserCountOutputTypeSelect<ExtArgs> | null
-}
-
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountSubscriptionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.SubscriptionWhereInput
 }
 
 /**
@@ -1170,9 +952,6 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   banExpires?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  paystackCustomerId?: boolean
-  paystackAuthorizationCode?: boolean
-  subscriptions?: boolean | Prisma.User$subscriptionsArgs<ExtArgs>
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
   reports?: boolean | Prisma.User$reportsArgs<ExtArgs>
@@ -1192,8 +971,6 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   banExpires?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  paystackCustomerId?: boolean
-  paystackAuthorizationCode?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1208,8 +985,6 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   banExpires?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  paystackCustomerId?: boolean
-  paystackAuthorizationCode?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectScalar = {
@@ -1224,13 +999,10 @@ export type UserSelectScalar = {
   banExpires?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  paystackCustomerId?: boolean
-  paystackAuthorizationCode?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "role" | "banned" | "banReason" | "banExpires" | "createdAt" | "updatedAt" | "paystackCustomerId" | "paystackAuthorizationCode", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "role" | "banned" | "banReason" | "banExpires" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  subscriptions?: boolean | Prisma.User$subscriptionsArgs<ExtArgs>
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
   reports?: boolean | Prisma.User$reportsArgs<ExtArgs>
@@ -1243,7 +1015,6 @@ export type UserIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
 export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "User"
   objects: {
-    subscriptions: Prisma.$SubscriptionPayload<ExtArgs>[]
     sessions: Prisma.$SessionPayload<ExtArgs>[]
     accounts: Prisma.$AccountPayload<ExtArgs>[]
     reports: Prisma.$ReportPayload<ExtArgs>[]
@@ -1261,8 +1032,6 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     banExpires: Date | null
     createdAt: Date
     updatedAt: Date
-    paystackCustomerId: string | null
-    paystackAuthorizationCode: string | null
   }, ExtArgs["result"]["user"]>
   composites: {}
 }
@@ -1657,7 +1426,6 @@ readonly fields: UserFieldRefs;
  */
 export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  subscriptions<T extends Prisma.User$subscriptionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$subscriptionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SubscriptionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   sessions<T extends Prisma.User$sessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   accounts<T extends Prisma.User$accountsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$accountsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   reports<T extends Prisma.User$reportsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$reportsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -1702,8 +1470,6 @@ export interface UserFieldRefs {
   readonly banExpires: Prisma.FieldRef<"User", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>
-  readonly paystackCustomerId: Prisma.FieldRef<"User", 'String'>
-  readonly paystackAuthorizationCode: Prisma.FieldRef<"User", 'String'>
 }
     
 
@@ -2089,30 +1855,6 @@ export type UserDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
    * Limit how many Users to delete.
    */
   limit?: number
-}
-
-/**
- * User.subscriptions
- */
-export type User$subscriptionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Subscription
-   */
-  select?: Prisma.SubscriptionSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Subscription
-   */
-  omit?: Prisma.SubscriptionOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.SubscriptionInclude<ExtArgs> | null
-  where?: Prisma.SubscriptionWhereInput
-  orderBy?: Prisma.SubscriptionOrderByWithRelationInput | Prisma.SubscriptionOrderByWithRelationInput[]
-  cursor?: Prisma.SubscriptionWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.SubscriptionScalarFieldEnum | Prisma.SubscriptionScalarFieldEnum[]
 }
 
 /**

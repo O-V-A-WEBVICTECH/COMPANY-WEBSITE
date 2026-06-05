@@ -26,39 +26,6 @@ export const auth = betterAuth({
 
   baseURL: process.env.BETTER_AUTH_URL,
 
-  hooks: {
-    after: createAuthMiddleware(async (ctx) => {
-      if (ctx.path === "/sign-up/email" || ctx.path === "/callback/:id") {
-        const newSession = ctx.context.newSession;
-        if (newSession) {
-          const user = newSession.user;
-          const freePlan = await prisma.subscriptionPlan.findUnique({
-            where: { code: "free" },
-          });
-          if (!freePlan) {
-            console.error("Free plan not found in DB");
-          } else {
-            const existingRecord = await prisma.subscription.findUnique({
-              where: {
-                userId: user.id,
-              },
-            });
-            if (existingRecord) return;
-            await prisma.subscription.create({
-              data: {
-                userId: user.id,
-                planId: freePlan.id,
-                status: "active",
-                startDate: new Date(),
-                planType: "free",
-              },
-            });
-          }
-        }
-      }
-    }),
-  },
-
   plugins: [
     admin({
       defaultRole: "user",

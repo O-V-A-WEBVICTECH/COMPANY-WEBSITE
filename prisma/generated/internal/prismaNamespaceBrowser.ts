@@ -50,8 +50,6 @@ export const AnyNull = runtime.objectEnumValues.instances.AnyNull
 
 export const ModelName = {
   User: 'User',
-  SubscriptionPlan: 'SubscriptionPlan',
-  Subscription: 'Subscription',
   Report: 'Report',
   Session: 'Session',
   Account: 'Account',
@@ -90,48 +88,10 @@ export const UserScalarFieldEnum = {
   banReason: 'banReason',
   banExpires: 'banExpires',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  paystackCustomerId: 'paystackCustomerId',
-  paystackAuthorizationCode: 'paystackAuthorizationCode'
-} as const
-
-export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
-
-
-export const SubscriptionPlanScalarFieldEnum = {
-  id: 'id',
-  code: 'code',
-  name: 'name',
-  paystackPlanCode: 'paystackPlanCode',
-  amount: 'amount',
-  interval: 'interval',
-  features: 'features',
-  createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
-export type SubscriptionPlanScalarFieldEnum = (typeof SubscriptionPlanScalarFieldEnum)[keyof typeof SubscriptionPlanScalarFieldEnum]
-
-
-export const SubscriptionScalarFieldEnum = {
-  id: 'id',
-  status: 'status',
-  planType: 'planType',
-  paystackSubscriptionId: 'paystackSubscriptionId',
-  paystackPlanCode: 'paystackPlanCode',
-  planId: 'planId',
-  planAmount: 'planAmount',
-  startDate: 'startDate',
-  nextPaymentDate: 'nextPaymentDate',
-  cancelledAt: 'cancelledAt',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  userId: 'userId',
-  endDate: 'endDate',
-  reference: 'reference'
-} as const
-
-export type SubscriptionScalarFieldEnum = (typeof SubscriptionScalarFieldEnum)[keyof typeof SubscriptionScalarFieldEnum]
+export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
 export const ReportScalarFieldEnum = {
@@ -275,14 +235,6 @@ export const SortOrder = {
 } as const
 
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
-
-
-export const NullableJsonNullValueInput = {
-  DbNull: DbNull,
-  JsonNull: JsonNull
-} as const
-
-export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
 export const JsonNullValueInput = {

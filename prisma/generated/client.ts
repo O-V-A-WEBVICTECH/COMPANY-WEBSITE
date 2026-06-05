@@ -50,16 +50,6 @@ path.join(process.cwd(), "prisma/generated/query_engine-windows.dll.node")
  */
 export type User = Prisma.UserModel
 /**
- * Model SubscriptionPlan
- * 
- */
-export type SubscriptionPlan = Prisma.SubscriptionPlanModel
-/**
- * Model Subscription
- * 
- */
-export type Subscription = Prisma.SubscriptionModel
-/**
  * Model Report
  * 
  */
