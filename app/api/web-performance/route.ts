@@ -14,7 +14,6 @@ export async function GET(request: NextRequest) {
   const user = await prisma.user.findUnique({
     where: { id: session.user.id },
     include: {
-      subscriptions: { where: { status: "active" } },
       reports: true,
     },
   });
@@ -24,16 +23,13 @@ export async function GET(request: NextRequest) {
   if (user.banned)
     return NextResponse.json({ error: "User banned" }, { status: 403 });
 
-  const activeSub = user.subscriptions[0];
-  const isFreeTier = !activeSub || activeSub.planType === "free";
-
-  // Free tier: Check report count
-  if (isFreeTier && user.role !== "admin") {
+  // Free tier: Check report count (limit to 1 for non-admins)
+  if (user.role !== "admin") {
     const reportCount = user.reports.length;
     if (reportCount >= 1) {
       return NextResponse.json(
-        { error: "Free tier limited to one report. Upgrade for more." },
-        { status: 403 }
+        { error: "Limited to one report. Contact support for more access." },
+        { status: 403 },
       );
     }
   }
@@ -45,20 +41,20 @@ export async function GET(request: NextRequest) {
   if (!websiteUrl) {
     return NextResponse.json(
       { error: "websiteUrl is required" },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
   try {
     const res = await axios.get(
       `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${encodeURIComponent(
-        websiteUrl
-      )}&key=${API_KEY}&strategy=mobile`
+        websiteUrl,
+      )}&key=${API_KEY}&strategy=mobile`,
     );
 
     const lighthouse = res.data.lighthouseResult;
     const performance = Math.round(
-      lighthouse.categories.performance.score * 100
+      lighthouse.categories.performance.score * 100,
     );
 
     const metrics = {
@@ -73,7 +69,7 @@ export async function GET(request: NextRequest) {
       .filter(
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (audit: any) =>
-          audit.score !== 1 && audit.details?.type === "opportunity"
+          audit.score !== 1 && audit.details?.type === "opportunity",
       )
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .map((audit: any) => ({
@@ -100,13 +96,13 @@ export async function GET(request: NextRequest) {
         metrics,
         recommendations,
       },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     console.error("Report error:", error);
     return NextResponse.json(
       { error: "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

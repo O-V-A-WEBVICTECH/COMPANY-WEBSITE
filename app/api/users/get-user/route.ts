@@ -1,6 +1,6 @@
 import { NextResponse, NextRequest } from "next/server";
 import { headers } from "next/headers";
-import { auth} from "@/auth";
+import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 
 export async function GET(req: NextRequest) {
@@ -16,7 +16,7 @@ export async function GET(req: NextRequest) {
   if (!userId)
     return NextResponse.json(
       { error: "please provide required query userId" },
-      { status: 400 }
+      { status: 400 },
     );
   try {
     const userAccount = await prisma.user.findUnique({
@@ -28,22 +28,13 @@ export async function GET(req: NextRequest) {
         id: true,
         image: true,
         email: true,
-        subscriptions: {
-          select: {
-            id: true,
-            planAmount: true,
-            planType: true,
-            startDate: true,
-            nextPaymentDate: true,
-          },
-        },
         reports: true,
       },
     });
     if (!userAccount)
       return NextResponse.json(
         { error: "user does not exist" },
-        { status: 404 }
+        { status: 404 },
       );
 
     return NextResponse.json(userAccount, { status: 200 });
@@ -51,7 +42,7 @@ export async function GET(req: NextRequest) {
     console.log(error);
     return NextResponse.json(
       { error: "internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

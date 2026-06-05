@@ -1,51 +1,22 @@
-
 import { config } from "dotenv";
 config();
 import { prisma } from "../lib/prisma";
 
 // ── config ────────────────────────────────────────────────────────────────────
-const ADMIN_EMAIL    = process.env.ADMIN_EMAIL    || "admin@webvictech.com";
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "admin@webvictech.com";
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "Admin@1234!";
-const ADMIN_NAME     = process.env.ADMIN_NAME     || "WebvicTech Admin";
-const ADMIN_ROLE     = process.env.ADMIN_ROLE     || "super_admin"; // "admin" | "super_admin"
-const BASE_URL       = process.env.BETTER_AUTH_URL || "http://localhost:3000";
+const ADMIN_NAME = process.env.ADMIN_NAME || "WebvicTech Admin";
+const ADMIN_ROLE = process.env.ADMIN_ROLE || "super_admin"; // "admin" | "super_admin"
+const BASE_URL = process.env.BETTER_AUTH_URL || "http://localhost:3000";
 // ─────────────────────────────────────────────────────────────────────────────
 
 async function main() {
   console.log("🌱  Seeding admin user...\n");
 
-  // 0. Seed default pricing plan if missing
-  const existingPlan = await prisma.pricingPlan.findUnique({ where: { planCode: "pro" } });
-  if (!existingPlan) {
-    await prisma.pricingPlan.create({
-      data: {
-        planCode: "pro",
-        name: "Pro Plan",
-        subtitle: "For professionals and growing teams",
-        price: 500000, // ₦5,000 in kobo
-        currency: "NGN",
-        interval: "month",
-        isActive: true,
-        isPopular: true,
-        features: [
-          { icon: "🚀", title: "Unlimited Reports", description: "Analyze as many websites as you need" },
-          { icon: "⚡", title: "Priority Processing", description: "Faster results with priority queue access" },
-          { icon: "📊", title: "Advanced Insights", description: "Detailed metrics, historical data, and trends" },
-          { icon: "🎯", title: "Custom Recommendations", description: "Tailored optimization strategies" },
-          { icon: "📈", title: "Performance Tracking", description: "Monitor improvements over time" },
-          { icon: "🔔", title: "Alerts & Monitoring", description: "Get notified when performance drops" },
-          { icon: "🛠️", title: "API Access", description: "Integrate analysis tools into your workflows" },
-          { icon: "💬", title: "Priority Support", description: "Dedicated support team" },
-        ],
-      },
-    });
-    console.log("✅  Default Pro pricing plan created.\n");
-  } else {
-    console.log("ℹ️   Pricing plan already exists.\n");
-  }
-
   // 1. Check if user already exists
-  const existing = await prisma.user.findUnique({ where: { email: ADMIN_EMAIL } });
+  const existing = await prisma.user.findUnique({
+    where: { email: ADMIN_EMAIL },
+  });
   if (existing) {
     // Already exists — just ensure the role is correct
     if (existing.role !== ADMIN_ROLE) {
@@ -55,7 +26,9 @@ async function main() {
       });
       console.log(`✅  User already exists. Role updated to "${ADMIN_ROLE}".`);
     } else {
-      console.log(`ℹ️   Admin user already exists with role "${existing.role}". Nothing to do.`);
+      console.log(
+        `ℹ️   Admin user already exists with role "${existing.role}". Nothing to do.`,
+      );
     }
     return;
   }
@@ -65,7 +38,7 @@ async function main() {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "Origin": BASE_URL,
+      Origin: BASE_URL,
     },
     body: JSON.stringify({
       email: ADMIN_EMAIL,
