@@ -68,6 +68,11 @@ export type Team = Prisma.TeamModel
  */
 export type Project = Prisma.ProjectModel
 /**
+ * Model PricingPlan
+ * 
+ */
+export type PricingPlan = Prisma.PricingPlanModel
+/**
  * Model Verification
  * 
  */

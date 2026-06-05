@@ -1,287 +1,142 @@
 "use client";
 import { JSX, useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { authClient } from "@/lib/auth-client";
-import { Button } from "./ui/button";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
 
+const navLinks = [
+  { label: "Home",      href: "#home" },
+  { label: "About",     href: "#about" },
+  { label: "Services",  href: "#services" },
+  { label: "Portfolio", href: "#portfolio" },
+  { label: "Contact",   href: "#contact" },
+];
+
 export default function Header(): JSX.Element {
-  const [open, setOpen] = useState(false);
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [open, setOpen]       = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
-  const router = useRouter();
-
   useEffect(() => {
-    checkAuth();
-
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const checkAuth = async () => {
-    try {
-      const session = await authClient.getSession();
-      if (session?.data?.user) return setLoggedIn(true);
-    } catch (error) {
-      console.error("Error checking auth:", error);
-      setLoggedIn(false);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleAuthAction = async () => {
-    const session = await authClient.getSession();
-    const user = session?.data?.user;
-    if (user) {
-      router.push("/dashboard");
-    } else {
-      router.push("/login");
-    }
-  };
-
-  const handleLogout = async () => {
-    try {
-      await authClient.signOut();
-      return checkAuth();
-    } catch (error) {
-      console.error("Error logging out:", error);
-    }
-  };
+  // lock body scroll when drawer is open
+  useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [open]);
 
   return (
-    <header
-      className={`fixed w-full z-50 transition-all duration-300 ${
-        scrolled
-          ? "bg-white/95 backdrop-blur-md shadow-lg"
-          : "bg-white shadow-md"
-      }`}
-    >
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <nav className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-3 group">
-            <h1 className="text-xl font-bold">
-              <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-                O.V.A
-              </span>{" "}
-              <span className="text-slate-800">WebvicTech</span>
-            </h1>
-          </Link>
+    <>
+      <header
+        className={`fixed w-full z-50 transition-all duration-300 ${
+          scrolled ? "bg-white/95 backdrop-blur-md shadow-md" : "bg-white shadow-sm"
+        }`}
+      >
+        <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-10">
+          <nav className="flex items-center justify-between h-16">
 
-          {/* Desktop Navigation */}
-          <ul className="hidden md:flex items-center gap-6 text-slate-700">
-            <li>
-              <a href="#home" className="hover:text-blue-600 transition-colors">
-                Home
-              </a>
-            </li>
-            <li>
-              <a
-                href="#about"
-                className="hover:text-blue-600 transition-colors"
-              >
-                About
-              </a>
-            </li>
+            {/* Logo */}
+            <Link href="/" className="flex items-center gap-2 shrink-0">
+              <span className="text-lg font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                WebvicTech
+              </span>
+            </Link>
 
-            <li>
-              <a
-                href="#services"
-                className="block py-2 hover:text-blue-600 transition-colors"
-                onClick={() => setOpen(false)}
-              >
-                Services
-              </a>
-            </li>
-
-            <li>
-              <a
-                href="#portfolio"
-                className="hover:text-blue-600 transition-colors"
-              >
-                Portfolio
-              </a>
-            </li>
-
-            <li>
-              <a
-                href="#contact"
-                className="hover:text-blue-600 transition-colors"
-              >
-                Contact
-              </a>
-            </li>
-          </ul>
-
-          {/* Desktop Auth Buttons */}
-          <div className="hidden md:flex items-center gap-3">
-            {loading ? (
-              <div className="w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
-            ) : loggedIn ? (
-              <>
-                <Button
-                  onClick={handleAuthAction}
-                  variant="ghost"
-                  className="text-blue-600 hover:text-blue-700 hover:bg-blue-50"
-                >
-                  Dashboard
-                </Button>
-                <Button variant="destructive" onClick={handleLogout}>
-                  Logout
-                </Button>
-              </>
-            ) : (
-              <>
-                <Button
-                  variant="ghost"
-                  onClick={handleAuthAction}
-                  className="text-blue-600 hover:text-blue-700 hover:bg-blue-50"
-                >
-                  Login
-                </Button>
-                <Button
-                  onClick={() => router.push("/register")}
-                  className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700"
-                >
-                  Get Started
-                </Button>
-              </>
-            )}
-          </div>
-
-          {/* Mobile Menu Toggle */}
-          <button
-            onClick={() => setOpen(!open)}
-            className="md:hidden p-2 rounded-lg hover:bg-slate-100 transition-colors"
-            aria-label="Toggle menu"
-          >
-            {open ? (
-              <X className="w-6 h-6 text-slate-700" />
-            ) : (
-              <Menu className="w-6 h-6 text-slate-700" />
-            )}
-          </button>
-        </nav>
-
-        {/* Mobile Menu */}
-        {open && (
-          <div className="md:hidden pb-4">
-            <ul className="flex flex-col gap-1 text-slate-700 mb-4">
-              <li>
-                <a
-                  href="#home"
-                  className="block py-2 hover:text-blue-600 transition-colors"
-                  onClick={() => setOpen(false)}
-                >
-                  Home
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#about"
-                  className="block py-2 hover:text-blue-600 transition-colors"
-                  onClick={() => setOpen(false)}
-                >
-                  About
-                </a>
-              </li>
-
-              {/* Mobile Services */}
-              <li>
-                <a
-                  href="#services"
-                  className="block py-2 hover:text-blue-600 transition-colors"
-                  onClick={() => setOpen(false)}
-                >
-                  Services
-                </a>
-              </li>
-
-              <li>
-                <a
-                  href="#portfolio"
-                  className="block py-2 hover:text-blue-600 transition-colors"
-                  onClick={() => setOpen(false)}
-                >
-                  Portfolio
-                </a>
-              </li>
-
-              <li>
-                <a
-                  href="#contact"
-                  className="block py-2 hover:text-blue-600 transition-colors"
-                  onClick={() => setOpen(false)}
-                >
-                  Contact
-                </a>
-              </li>
+            {/* Desktop nav */}
+            <ul className="hidden md:flex items-center gap-7 text-sm font-medium text-slate-600">
+              {navLinks.map((link) => (
+                <li key={link.label}>
+                  <a
+                    href={link.href}
+                    className="hover:text-blue-600 transition-colors"
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))}
             </ul>
 
-            {/* Mobile Auth Buttons */}
-            <div className="flex flex-col gap-2 pt-3 border-t border-slate-200">
-              {loading ? (
-                <div className="flex justify-center py-2">
-                  <div className="w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
-                </div>
-              ) : loggedIn ? (
-                <>
-                  <Button
-                    onClick={() => {
-                      handleAuthAction();
-                      setOpen(false);
-                    }}
-                    variant="outline"
-                    className="w-full border-blue-600 text-blue-600 hover:bg-blue-50"
-                  >
-                    Dashboard
-                  </Button>
-                  <Button
-                    variant="destructive"
-                    onClick={() => {
-                      handleLogout();
-                      setOpen(false);
-                    }}
-                    className="w-full"
-                  >
-                    Logout
-                  </Button>
-                </>
-              ) : (
-                <>
-                  <Button
-                    onClick={() => {
-                      handleAuthAction();
-                      setOpen(false);
-                    }}
-                    variant="outline"
-                    className="w-full border-blue-600 text-blue-600 hover:bg-blue-50"
-                  >
-                    Login
-                  </Button>
-                  <Button
-                    onClick={() => {
-                      router.push("/register");
-                      setOpen(false);
-                    }}
-                    className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700"
-                  >
-                    Get Started
-                  </Button>
-                </>
-              )}
+            {/* Desktop CTA */}
+            <div className="hidden md:flex items-center">
+              <a
+                href="#contact"
+                className="px-5 py-2 text-sm font-semibold rounded-lg bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700 transition-all shadow-sm hover:shadow-md"
+              >
+                Get in Touch
+              </a>
             </div>
-          </div>
-        )}
+
+            {/* Mobile hamburger */}
+            <button
+              onClick={() => setOpen(true)}
+              className="md:hidden p-2 rounded-lg hover:bg-slate-100 transition-colors"
+              aria-label="Open menu"
+            >
+              <Menu className="w-5 h-5 text-slate-700" />
+            </button>
+          </nav>
+        </div>
+      </header>
+
+      {/* ── Mobile drawer overlay ── */}
+      {/* Backdrop */}
+      <div
+        onClick={() => setOpen(false)}
+        className={`fixed inset-0 z-50 bg-black/40 backdrop-blur-sm transition-opacity duration-300 md:hidden ${
+          open ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+        }`}
+      />
+
+      {/* Slide-in panel */}
+      <div
+        className={`fixed top-0 right-0 z-50 h-full w-72 bg-white shadow-2xl flex flex-col transition-transform duration-300 ease-in-out md:hidden ${
+          open ? "translate-x-0" : "translate-x-full"
+        }`}
+      >
+        {/* Drawer header */}
+        <div className="flex items-center justify-between px-5 h-16 border-b border-slate-100">
+          <span className="text-base font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+            WebvicTech
+          </span>
+          <button
+            onClick={() => setOpen(false)}
+            className="p-2 rounded-lg hover:bg-slate-100 transition-colors"
+            aria-label="Close menu"
+          >
+            <X className="w-5 h-5 text-slate-600" />
+          </button>
+        </div>
+
+        {/* Nav links */}
+        <nav className="flex-1 overflow-y-auto px-4 py-6">
+          <ul className="space-y-1">
+            {navLinks.map((link) => (
+              <li key={link.label}>
+                <a
+                  href={link.href}
+                  onClick={() => setOpen(false)}
+                  className="flex items-center px-3 py-3 rounded-xl text-sm font-medium text-slate-700 hover:text-blue-600 hover:bg-blue-50 transition-all"
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        {/* Drawer footer CTA */}
+        <div className="px-4 py-5 border-t border-slate-100">
+          <a
+            href="#contact"
+            onClick={() => setOpen(false)}
+            className="flex items-center justify-center w-full py-3 rounded-xl text-sm font-semibold bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700 transition-all shadow-sm"
+          >
+            Get in Touch
+          </a>
+        </div>
       </div>
-    </header>
+    </>
   );
 }

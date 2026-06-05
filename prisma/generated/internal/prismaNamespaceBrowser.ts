@@ -59,6 +59,7 @@ export const ModelName = {
   Blog: 'Blog',
   Team: 'Team',
   Project: 'Project',
+  PricingPlan: 'PricingPlan',
   Verification: 'Verification'
 } as const
 
@@ -236,6 +237,24 @@ export const ProjectScalarFieldEnum = {
 } as const
 
 export type ProjectScalarFieldEnum = (typeof ProjectScalarFieldEnum)[keyof typeof ProjectScalarFieldEnum]
+
+
+export const PricingPlanScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  subtitle: 'subtitle',
+  price: 'price',
+  currency: 'currency',
+  interval: 'interval',
+  isActive: 'isActive',
+  isPopular: 'isPopular',
+  features: 'features',
+  planCode: 'planCode',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PricingPlanScalarFieldEnum = (typeof PricingPlanScalarFieldEnum)[keyof typeof PricingPlanScalarFieldEnum]
 
 
 export const VerificationScalarFieldEnum = {

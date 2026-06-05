@@ -101,3 +101,5 @@ export const auth = betterAuth({
     },
   },
 });
+export { prisma };
+

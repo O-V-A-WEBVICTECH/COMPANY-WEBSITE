@@ -79,11 +79,7 @@ export default function Features(): JSX.Element {
       <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-16 space-y-4">
-          <Badge variant="secondary" className="px-4 py-2">
-            <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent font-semibold">
-              Our Services
-            </span>
-          </Badge>
+        
 
           <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold text-slate-900">
             What We{" "}

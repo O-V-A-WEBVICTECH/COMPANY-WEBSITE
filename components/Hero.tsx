@@ -147,14 +147,14 @@ export default function Hero(): JSX.Element {
           </div>
 
           {/* ── Right: creative UI mockup ── */}
-          <div className="hidden md:block relative h-[540px] animate-fade-in delay-300">
+          <div className="block relative h-[480px] sm:h-[520px] animate-fade-in delay-300">
 
             {/* Soft glow behind everything */}
             <div className="absolute inset-10 bg-gradient-to-br from-blue-500/10 via-indigo-500/10 to-violet-500/10 rounded-3xl blur-2xl" />
 
             {/* ── Main card: project dashboard mockup ── */}
             <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-[360px] bg-white rounded-2xl shadow-2xl border border-slate-200/80 overflow-hidden">
+              <div className="w-[300px] sm:w-[360px] bg-white rounded-2xl shadow-2xl border border-slate-200/80 overflow-hidden">
 
                 {/* Window chrome */}
                 <div className="flex items-center gap-1.5 px-4 py-3 bg-slate-50 border-b border-slate-100">
@@ -162,7 +162,7 @@ export default function Hero(): JSX.Element {
                   <span className="w-2.5 h-2.5 rounded-full bg-amber-400" />
                   <span className="w-2.5 h-2.5 rounded-full bg-emerald-400" />
                   <div className="flex-1 mx-3 bg-slate-200 rounded-full h-4 flex items-center px-2">
-                    <span className="text-[9px] text-slate-400 font-mono truncate">ovawebvictech.com/dashboard</span>
+                    <span className="text-[9px] text-slate-400 font-mono truncate">webvictech.com/dashboard</span>
                   </div>
                   {/* Live dot */}
                   <span className="flex items-center gap-1 text-[9px] text-emerald-600 font-semibold">
@@ -238,7 +238,7 @@ export default function Hero(): JSX.Element {
             </div>
 
             {/* ── Floating card: active project ── */}
-            <div className="absolute top-6 -left-4 z-20 bg-white rounded-xl shadow-xl border border-slate-200 p-3 w-44 animate-float">
+            <div className="hidden sm:block absolute top-6 -left-4 z-20 bg-white rounded-xl shadow-xl border border-slate-200 p-3 w-44 animate-float">
               <div className="flex items-center gap-2 mb-2">
                 <div className="w-7 h-7 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center shrink-0">
                   <Code2 className="w-3.5 h-3.5 text-white" />
@@ -255,7 +255,7 @@ export default function Hero(): JSX.Element {
             </div>
 
             {/* ── Floating card: client satisfaction ── */}
-            <div className="absolute bottom-12 -right-4 z-20 bg-white rounded-xl shadow-xl border border-slate-200 p-3 w-40 animate-float delay-500">
+            <div className="hidden sm:block absolute bottom-12 -right-4 z-20 bg-white rounded-xl shadow-xl border border-slate-200 p-3 w-40 animate-float delay-500">
               <p className="text-[10px] text-slate-400 font-medium mb-1">Client Satisfaction</p>
               <div className="flex items-end gap-0.5 h-10">
                 {[60, 75, 65, 85, 80, 90, 100].map((h, i) => (
@@ -270,7 +270,7 @@ export default function Hero(): JSX.Element {
             </div>
 
             {/* ── Floating badge: tech stack ── */}
-            <div className="absolute top-1/2 -right-6 -translate-y-1/2 z-20 bg-white rounded-xl shadow-xl border border-slate-200 p-3 animate-float delay-300">
+            <div className="hidden sm:block absolute top-1/2 -right-6 -translate-y-1/2 z-20 bg-white rounded-xl shadow-xl border border-slate-200 p-3 animate-float delay-300">
               <p className="text-[9px] text-slate-400 font-semibold uppercase tracking-wide mb-2">Tech Stack</p>
               <div className="space-y-1.5">
                 {[

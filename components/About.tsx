@@ -90,21 +90,7 @@ export default function About(): JSX.Element {
                 className="w-full h-[500px] object-cover"
               />
               {/* Overlay Badge */}
-              <div className="absolute bottom-6 left-6 right-6 backdrop-blur-md bg-white/90 rounded-2xl p-6 shadow-xl border border-white/50">
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center text-white flex-shrink-0">
-                    <Users className="w-6 h-6" />
-                  </div>
-                  {/* <div>
-                    <div className="font-bold text-slate-900 text-lg">
-                      15+ Developers
-                    </div>
-                    <div className="text-sm text-slate-600">
-                      Experienced Team
-                    </div>
-                  </div> */}
-                </div>
-              </div>
+              
             </div>
           </div>
 
@@ -115,7 +101,7 @@ export default function About(): JSX.Element {
                 Who We Are
               </h3>
               <p className="text-sm text-slate-600 leading-relaxed">
-                O.V.A WebvicTech INT&apos; SERVICE LIMITED is a full-service
+                WebvicTech INT&apos; SERVICE LIMITED is a full-service
                 software development agency. We specialize in creating custom
                 web applications, mobile apps, and enterprise solutions that
                 help businesses thrive in the digital age.

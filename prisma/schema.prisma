@@ -172,6 +172,23 @@ model Project {
   updatedAt   DateTime @default(now()) @updatedAt
 }
 
+model PricingPlan {
+  id          String   @id @default(uuid())
+  name        String                      // e.g. "Pro Plan"
+  subtitle    String?                     // e.g. "For professionals and growing teams"
+  price       Int                         // in smallest currency unit (kobo)
+  currency    String   @default("NGN")
+  interval    String   @default("month")  // "month" | "year"
+  isActive    Boolean  @default(true)
+  isPopular   Boolean  @default(false)
+  features    Json                        // array of { icon, title, description }
+  planCode    String   @unique            // e.g. "pro" — used by subscription API
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now()) @updatedAt
+
+  @@map("pricingPlan")
+}
+
 model Verification {
   id         String   @id @default(cuid())
   identifier String

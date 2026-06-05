@@ -400,6 +400,7 @@ export const ModelName = {
   Blog: 'Blog',
   Team: 'Team',
   Project: 'Project',
+  PricingPlan: 'PricingPlan',
   Verification: 'Verification'
 } as const
 
@@ -416,7 +417,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "subscriptionPlan" | "subscription" | "report" | "session" | "account" | "verificationToken" | "blog" | "team" | "project" | "verification"
+    modelProps: "user" | "subscriptionPlan" | "subscription" | "report" | "session" | "account" | "verificationToken" | "blog" | "team" | "project" | "pricingPlan" | "verification"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1160,6 +1161,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    PricingPlan: {
+      payload: Prisma.$PricingPlanPayload<ExtArgs>
+      fields: Prisma.PricingPlanFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.PricingPlanFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PricingPlanPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.PricingPlanFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PricingPlanPayload>
+        }
+        findFirst: {
+          args: Prisma.PricingPlanFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PricingPlanPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.PricingPlanFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PricingPlanPayload>
+        }
+        findMany: {
+          args: Prisma.PricingPlanFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PricingPlanPayload>[]
+        }
+        create: {
+          args: Prisma.PricingPlanCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PricingPlanPayload>
+        }
+        createMany: {
+          args: Prisma.PricingPlanCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.PricingPlanCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PricingPlanPayload>[]
+        }
+        delete: {
+          args: Prisma.PricingPlanDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PricingPlanPayload>
+        }
+        update: {
+          args: Prisma.PricingPlanUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PricingPlanPayload>
+        }
+        deleteMany: {
+          args: Prisma.PricingPlanDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.PricingPlanUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.PricingPlanUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PricingPlanPayload>[]
+        }
+        upsert: {
+          args: Prisma.PricingPlanUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PricingPlanPayload>
+        }
+        aggregate: {
+          args: Prisma.PricingPlanAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePricingPlan>
+        }
+        groupBy: {
+          args: Prisma.PricingPlanGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PricingPlanGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.PricingPlanCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PricingPlanCountAggregateOutputType> | number
+        }
+      }
+    }
     Verification: {
       payload: Prisma.$VerificationPayload<ExtArgs>
       fields: Prisma.VerificationFieldRefs
@@ -1433,6 +1508,24 @@ export const ProjectScalarFieldEnum = {
 export type ProjectScalarFieldEnum = (typeof ProjectScalarFieldEnum)[keyof typeof ProjectScalarFieldEnum]
 
 
+export const PricingPlanScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  subtitle: 'subtitle',
+  price: 'price',
+  currency: 'currency',
+  interval: 'interval',
+  isActive: 'isActive',
+  isPopular: 'isPopular',
+  features: 'features',
+  planCode: 'planCode',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PricingPlanScalarFieldEnum = (typeof PricingPlanScalarFieldEnum)[keyof typeof PricingPlanScalarFieldEnum]
+
+
 export const VerificationScalarFieldEnum = {
   id: 'id',
   identifier: 'identifier',
@@ -1672,6 +1765,7 @@ export type GlobalOmitConfig = {
   blog?: Prisma.BlogOmit
   team?: Prisma.TeamOmit
   project?: Prisma.ProjectOmit
+  pricingPlan?: Prisma.PricingPlanOmit
   verification?: Prisma.VerificationOmit
 }
 
