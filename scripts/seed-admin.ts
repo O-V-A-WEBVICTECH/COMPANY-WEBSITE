@@ -14,6 +14,36 @@ const BASE_URL       = process.env.BETTER_AUTH_URL || "http://localhost:3000";
 async function main() {
   console.log("🌱  Seeding admin user...\n");
 
+  // 0. Seed default pricing plan if missing
+  const existingPlan = await prisma.pricingPlan.findUnique({ where: { planCode: "pro" } });
+  if (!existingPlan) {
+    await prisma.pricingPlan.create({
+      data: {
+        planCode: "pro",
+        name: "Pro Plan",
+        subtitle: "For professionals and growing teams",
+        price: 500000, // ₦5,000 in kobo
+        currency: "NGN",
+        interval: "month",
+        isActive: true,
+        isPopular: true,
+        features: [
+          { icon: "🚀", title: "Unlimited Reports", description: "Analyze as many websites as you need" },
+          { icon: "⚡", title: "Priority Processing", description: "Faster results with priority queue access" },
+          { icon: "📊", title: "Advanced Insights", description: "Detailed metrics, historical data, and trends" },
+          { icon: "🎯", title: "Custom Recommendations", description: "Tailored optimization strategies" },
+          { icon: "📈", title: "Performance Tracking", description: "Monitor improvements over time" },
+          { icon: "🔔", title: "Alerts & Monitoring", description: "Get notified when performance drops" },
+          { icon: "🛠️", title: "API Access", description: "Integrate analysis tools into your workflows" },
+          { icon: "💬", title: "Priority Support", description: "Dedicated support team" },
+        ],
+      },
+    });
+    console.log("✅  Default Pro pricing plan created.\n");
+  } else {
+    console.log("ℹ️   Pricing plan already exists.\n");
+  }
+
   // 1. Check if user already exists
   const existing = await prisma.user.findUnique({ where: { email: ADMIN_EMAIL } });
   if (existing) {

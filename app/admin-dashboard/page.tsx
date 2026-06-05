@@ -31,6 +31,9 @@ import {
   Calendar,
   User,
   ChevronRight,
+  Tag,
+  ToggleLeft,
+  ToggleRight,
 } from "lucide-react";
 import TeamForm from "@/components/dashboard-component/TeamForm";
 import TeamEditForm from "@/components/dashboard-component/TeamEditForm";
@@ -84,13 +87,27 @@ interface AdminUser {
   role?: string;
 }
 
-type Tab = "overview" | "projects" | "blog" | "team";
+export interface PricingPlan {
+  id: string;
+  name: string;
+  subtitle?: string;
+  price: number;
+  currency: string;
+  interval: string;
+  isActive: boolean;
+  isPopular: boolean;
+  features: { icon: string; title: string; description: string }[];
+  planCode: string;
+}
+
+type Tab = "overview" | "projects" | "blog" | "team" | "pricing";
 
 const navItems: { id: Tab; label: string; icon: React.ReactNode }[] = [
   { id: "overview", label: "Overview",  icon: <LayoutDashboard className="w-4 h-4" /> },
   { id: "projects", label: "Projects",  icon: <FolderOpen className="w-4 h-4" /> },
   { id: "blog",     label: "Blog",      icon: <FileText className="w-4 h-4" /> },
   { id: "team",     label: "Team",      icon: <Users className="w-4 h-4" /> },
+  { id: "pricing",  label: "Pricing",   icon: <Tag className="w-4 h-4" /> },
 ];
 
 /* ── Empty state ── */
@@ -141,6 +158,16 @@ export default function AdminDashboard() {
   const [postLoading, setPostLoading]         = useState(false);
   const [teamLoading, setTeamLoading]         = useState(false);
 
+  const [plans, setPlans]                   = useState<PricingPlan[]>([]);
+  const [planDialogOpen, setPlanDialogOpen] = useState(false);
+  const [editingPlan, setEditingPlan]       = useState<PricingPlan | null>(null);
+  const [planLoading, setPlanLoading]       = useState(false);
+  const [planForm, setPlanForm] = useState({
+    name: "", subtitle: "", price: "", currency: "NGN",
+    interval: "month", isActive: true, isPopular: false,
+    planCode: "", features: "",
+  });
+
   const router = useRouter();
 
   /* ── data fetchers ── */
@@ -163,11 +190,81 @@ export default function AdminDashboard() {
     finally { setTeamLoading(false); }
   };
 
+  const getPlans = async () => {
+    setPlanLoading(true);
+    try { const r = await axios.get<PricingPlan[]>("/api/pricing"); setPlans(r.data); }
+    catch (e) { console.error(e); }
+    finally { setPlanLoading(false); }
+  };
+
+  const openNewPlan = () => {
+    setEditingPlan(null);
+    setPlanForm({ name: "", subtitle: "", price: "", currency: "NGN", interval: "month", isActive: true, isPopular: false, planCode: "", features: "" });
+    setPlanDialogOpen(true);
+  };
+
+  const openEditPlan = (plan: PricingPlan) => {
+    setEditingPlan(plan);
+    setPlanForm({
+      name: plan.name, subtitle: plan.subtitle || "", price: String(plan.price / 100),
+      currency: plan.currency, interval: plan.interval, isActive: plan.isActive,
+      isPopular: plan.isPopular, planCode: plan.planCode,
+      features: plan.features.map(f => `${f.icon} ${f.title}: ${f.description}`).join("\n"),
+    });
+    setPlanDialogOpen(true);
+  };
+
+  const savePlan = async () => {
+    const featuresArr = planForm.features.split("\n").filter(Boolean).map(line => {
+      const icon = line.match(/^(\S+)/)?.[1] || "✅";
+      const rest = line.replace(/^\S+\s*/, "");
+      const [title, ...descParts] = rest.split(":");
+      return { icon, title: title.trim(), description: descParts.join(":").trim() };
+    });
+    const payload = {
+      name: planForm.name, subtitle: planForm.subtitle,
+      price: Math.round(parseFloat(planForm.price) * 100),
+      currency: planForm.currency, interval: planForm.interval,
+      isActive: planForm.isActive, isPopular: planForm.isPopular,
+      planCode: planForm.planCode, features: featuresArr,
+    };
+    try {
+      if (editingPlan) {
+        await axios.patch(`/api/pricing?id=${editingPlan.id}`, payload);
+        toast.success("Plan updated");
+      } else {
+        await axios.post("/api/pricing", payload);
+        toast.success("Plan created");
+      }
+      setPlanDialogOpen(false);
+      getPlans();
+    } catch (e: any) {
+      toast.error(e?.response?.data?.error || "Failed to save plan");
+    }
+  };
+
+  const deletePlan = async (id: string) => {
+    if (!confirm("Delete this pricing plan?")) return;
+    try {
+      await axios.delete(`/api/pricing?id=${id}`);
+      toast.success("Plan deleted");
+      getPlans();
+    } catch { toast.error("Failed to delete plan"); }
+  };
+
+  const togglePlanActive = async (plan: PricingPlan) => {
+    try {
+      await axios.patch(`/api/pricing?id=${plan.id}`, { isActive: !plan.isActive });
+      toast.success(plan.isActive ? "Plan deactivated" : "Plan activated");
+      getPlans();
+    } catch { toast.error("Failed to update plan"); }
+  };
+
   useEffect(() => {
     authClient.getSession().then(({ data }) => {
       if (data?.user) setAdminUser(data.user as AdminUser);
     });
-    getProjects(); getBlogPosts(); getTeams();
+    getProjects(); getBlogPosts(); getTeams(); getPlans();
   }, []);
 
   const handleSignOut = async () => {
@@ -633,6 +730,146 @@ export default function AdminDashboard() {
                               <Github className="w-3.5 h-3.5" />
                             </a>
                           )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )
+              }
+            </div>
+          )}
+
+          {/* ── Pricing ── */}
+          {activeTab === "pricing" && (
+            <div className="space-y-5">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h2 className="text-base font-bold text-slate-900">Pricing Plans</h2>
+                  <p className="text-xs text-slate-500">{plans.length} plan{plans.length !== 1 ? "s" : ""}</p>
+                </div>
+                <Button size="sm" onClick={openNewPlan} className="gap-1.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700">
+                  <Plus className="w-4 h-4" /> Add Plan
+                </Button>
+              </div>
+
+              {/* Plan form dialog */}
+              <Dialog open={planDialogOpen} onOpenChange={setPlanDialogOpen}>
+                <DialogContent className="max-w-lg max-h-[85vh] overflow-y-auto">
+                  <DialogHeader>
+                    <DialogTitle>{editingPlan ? "Edit Plan" : "New Pricing Plan"}</DialogTitle>
+                    <DialogDescription>Fill in the plan details. Price is in full currency units (e.g. ₦5000).</DialogDescription>
+                  </DialogHeader>
+                  <div className="space-y-3 pt-2">
+                    {[
+                      { label: "Plan Name", key: "name", placeholder: "Pro Plan" },
+                      { label: "Subtitle", key: "subtitle", placeholder: "For professionals and growing teams" },
+                      { label: "Plan Code", key: "planCode", placeholder: "pro" },
+                      { label: "Price (₦)", key: "price", placeholder: "5000", type: "number" },
+                      { label: "Currency", key: "currency", placeholder: "NGN" },
+                      { label: "Interval", key: "interval", placeholder: "month" },
+                    ].map(({ label, key, placeholder, type }) => (
+                      <div key={key}>
+                        <label className="block text-xs font-semibold text-slate-600 mb-1">{label}</label>
+                        <input
+                          type={type || "text"}
+                          placeholder={placeholder}
+                          value={(planForm as any)[key]}
+                          onChange={e => setPlanForm(f => ({ ...f, [key]: e.target.value }))}
+                          className="w-full px-3 py-2 rounded-lg border border-slate-200 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-100"
+                        />
+                      </div>
+                    ))}
+                    <div>
+                      <label className="block text-xs font-semibold text-slate-600 mb-1">
+                        Features <span className="text-slate-400 font-normal">(one per line: emoji Title: Description)</span>
+                      </label>
+                      <textarea
+                        rows={6}
+                        placeholder={"🚀 Unlimited Reports: Analyze as many sites as you need\n⚡ Priority Processing: Faster results"}
+                        value={planForm.features}
+                        onChange={e => setPlanForm(f => ({ ...f, features: e.target.value }))}
+                        className="w-full px-3 py-2 rounded-lg border border-slate-200 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-100 resize-none font-mono"
+                      />
+                    </div>
+                    <div className="flex gap-6">
+                      <label className="flex items-center gap-2 text-sm text-slate-700 cursor-pointer">
+                        <input type="checkbox" checked={planForm.isActive} onChange={e => setPlanForm(f => ({ ...f, isActive: e.target.checked }))} className="rounded" />
+                        Active
+                      </label>
+                      <label className="flex items-center gap-2 text-sm text-slate-700 cursor-pointer">
+                        <input type="checkbox" checked={planForm.isPopular} onChange={e => setPlanForm(f => ({ ...f, isPopular: e.target.checked }))} className="rounded" />
+                        Most Popular
+                      </label>
+                    </div>
+                    <div className="flex gap-3 pt-2">
+                      <Button onClick={savePlan} className="flex-1 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700">
+                        {editingPlan ? "Save Changes" : "Create Plan"}
+                      </Button>
+                      <Button variant="outline" onClick={() => setPlanDialogOpen(false)} className="flex-1">
+                        Cancel
+                      </Button>
+                    </div>
+                  </div>
+                </DialogContent>
+              </Dialog>
+
+              {plans.length === 0 && !planLoading
+                ? <Empty icon={<Tag className="w-6 h-6" />} label="No pricing plans yet — add your first one" />
+                : (
+                  <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+                    {plans.map((plan) => (
+                      <div key={plan.id} className={`bg-white rounded-xl border-2 overflow-hidden hover:shadow-md transition-shadow group ${plan.isPopular ? "border-blue-400" : "border-slate-200"}`}>
+                        {plan.isPopular && (
+                          <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-center py-1.5 text-[10px] font-bold tracking-wider uppercase">
+                            🌟 Most Popular
+                          </div>
+                        )}
+                        <div className="p-5 space-y-3">
+                          <div className="flex items-start justify-between gap-2">
+                            <div className="min-w-0">
+                              <h3 className="text-sm font-bold text-slate-900">{plan.name}</h3>
+                              {plan.subtitle && <p className="text-xs text-slate-500 truncate">{plan.subtitle}</p>}
+                            </div>
+                            <div className="flex gap-1 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
+                              <button onClick={() => openEditPlan(plan)} className="p-1.5 rounded-lg hover:bg-slate-100 text-slate-500 hover:text-blue-600 transition-colors">
+                                <Edit className="w-3.5 h-3.5" />
+                              </button>
+                              <button onClick={() => deletePlan(plan.id)} className="p-1.5 rounded-lg hover:bg-red-50 text-slate-500 hover:text-red-600 transition-colors">
+                                <Trash2 className="w-3.5 h-3.5" />
+                              </button>
+                            </div>
+                          </div>
+
+                          <div className="flex items-end gap-1">
+                            <span className="text-2xl font-black text-slate-900">
+                              {plan.currency === "NGN" ? "₦" : plan.currency}{(plan.price / 100).toLocaleString()}
+                            </span>
+                            <span className="text-slate-400 text-xs mb-1">/{plan.interval}</span>
+                          </div>
+
+                          <div className="flex items-center justify-between">
+                            <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${plan.isActive ? "bg-emerald-100 text-emerald-700" : "bg-slate-100 text-slate-500"}`}>
+                              {plan.isActive ? "Active" : "Inactive"}
+                            </span>
+                            <button onClick={() => togglePlanActive(plan)} className="text-slate-400 hover:text-blue-600 transition-colors" title="Toggle active">
+                              {plan.isActive
+                                ? <ToggleRight className="w-5 h-5 text-emerald-500" />
+                                : <ToggleLeft className="w-5 h-5" />
+                              }
+                            </button>
+                          </div>
+
+                          <div className="pt-1 border-t border-slate-100 space-y-1.5">
+                            {plan.features.slice(0, 4).map((f, i) => (
+                              <div key={i} className="flex items-center gap-2 text-xs text-slate-600">
+                                <span>{f.icon}</span>
+                                <span className="font-medium truncate">{f.title}</span>
+                              </div>
+                            ))}
+                            {plan.features.length > 4 && (
+                              <p className="text-[10px] text-slate-400">+{plan.features.length - 4} more features</p>
+                            )}
+                          </div>
                         </div>
                       </div>
                     ))}
