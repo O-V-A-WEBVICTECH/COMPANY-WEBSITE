@@ -4,6 +4,7 @@ import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import { Loader2, Lock, Mail } from "lucide-react";
 import { toast } from "sonner";
+import Link from "next/link";
 
 export default function AdminLogin() {
   const [loading, setLoading] = useState(false);
@@ -22,6 +23,7 @@ export default function AdminLogin() {
 
     setLoading(true);
     try {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { data, error } = await authClient.signIn.email({
         email,
         password,
@@ -35,7 +37,7 @@ export default function AdminLogin() {
 
       // Verify admin role before redirecting
       const session = await authClient.getSession();
-      const role = (session?.data?.user as any)?.role;
+      const role = (session?.data?.user as { role?: string })?.role;
       if (!role || !["admin", "super_admin"].includes(role)) {
         await authClient.signOut();
         toast.error("Access denied. Admin accounts only.");
@@ -123,9 +125,9 @@ export default function AdminLogin() {
         </div>
 
         <p className="text-center text-xs text-slate-400 mt-6">
-          <a href="/" className="hover:text-blue-600 transition-colors">
+          <Link href="/" className="hover:text-blue-600 transition-colors">
             ← Back to website
-          </a>
+          </Link>
         </p>
       </div>
     </main>

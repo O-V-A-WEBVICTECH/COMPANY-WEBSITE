@@ -29,6 +29,7 @@ export default function Login(): JSX.Element {
 
     try {
       setLoading(true);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { data, error } = await authClient.signIn.email({
         email,
         password,

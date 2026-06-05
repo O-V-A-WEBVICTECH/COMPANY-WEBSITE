@@ -1,5 +1,4 @@
 "use client";
-import type { Metadata } from "next";
 import { authClient } from "@/lib/auth-client";
 import axios from "axios";
 import { useState } from "react";

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { betterAuth } from "better-auth";
 import { admin } from "better-auth/plugins";
@@ -7,12 +8,9 @@ import { sendPasswordResetEmail } from "./lib/nodeMailer";
 import { prisma } from "./lib/prisma";
 import { nextCookies } from "better-auth/next-js";
 
-
 const userRole = role({});
 const adminRole = role({});
 const superAdminRole = role({});
-
-
 
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
@@ -74,7 +72,7 @@ export const auth = betterAuth({
       defaultBanReason: "No reason",
       defaultBanExpiresIn: undefined,
     }),
-    nextCookies()
+    nextCookies(),
   ],
 
   emailAndPassword: {
@@ -90,7 +88,6 @@ export const auth = betterAuth({
 
     onPasswordReset: async ({ user }, _request) => {
       console.log(`Password for user ${user.email} has been reset.`);
-      
     },
   },
 
@@ -102,4 +99,3 @@ export const auth = betterAuth({
   },
 });
 export { prisma };
-

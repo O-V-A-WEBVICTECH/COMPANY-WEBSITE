@@ -7,7 +7,7 @@ import axios from "axios";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Linkedin, Twitter, Github, Loader2, Users } from "lucide-react";
+import { Linkedin, Twitter, Github, Users } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default function Team(): JSX.Element {
