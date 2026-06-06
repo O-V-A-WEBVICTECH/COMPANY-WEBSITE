@@ -618,7 +618,7 @@ export default function QuoteForm({ pricing, onSent }: QuoteFormProps) {
             </Card>
 
             <Card className="bg-white border-slate-200 shadow-sm">
-              <CardContent className="space-y-3 p-4">
+              <CardContent className="space-y-3 p-2 md:p-4">
                 <div className="space-y-2">
                   <p className="text-sm uppercase tracking-[0.2em] text-slate-500">
                     Ready to submit
@@ -627,7 +627,7 @@ export default function QuoteForm({ pricing, onSent }: QuoteFormProps) {
                     Send your quote request
                   </h2>
                 </div>
-                <div className="rounded-3xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700">
+                <div className="rounded-3xl border border-slate-200 bg-slate-50 p-2 md:p-4 text-sm text-slate-700">
                   Your request will be reviewed and you will receive an estimate
                   by email shortly. The quote updates live as you choose
                   options.
@@ -674,8 +674,8 @@ export default function QuoteForm({ pricing, onSent }: QuoteFormProps) {
                   We’re happy to assist with your project scope.
                 </CardDescription>
               </CardHeader>
-              <CardContent className="space-y-3 p-4">
-                <div className="rounded-2xl bg-white p-4 shadow-sm">
+              <CardContent className="space-y-3 p-2 md:p-4">
+                <div className="rounded-2xl bg-white p-2 md:p-4 shadow-sm">
                   <p className="text-sm text-slate-600">
                     If you need help choosing the right package, contact us at
                     <strong className="text-slate-900">
