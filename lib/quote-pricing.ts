@@ -42,8 +42,7 @@ export const defaultQuotePricing: QuotePricing = {
       { value: "android", label: "Android", min: 300000, max: 500000 },
       { value: "ios", label: "iOS", min: 300000, max: 500000 },
       { value: "desktop", label: "Desktop", min: 300000, max: 800000 },
-      { value: "react", label: "React Native", min: 250000, max: 600000 },
-      { value: "flutter", label: "Flutter", min: 250000, max: 600000 },
+      
       { value: "pwa", label: "PWA", min: 50000, max: 90000 },
     ],
     features: [
