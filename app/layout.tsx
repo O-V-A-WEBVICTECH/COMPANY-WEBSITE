@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     template: "%s | WebvicTech",
   },
   description:
-    "O.V.A WebvicTech  builds custom web applications, mobile apps, and enterprise software. Fast, secure, and scalable digital solutions for businesses of all sizes.",
+    "WebvicTech builds custom web applications, mobile apps, and enterprise software in Nigeria. Fast, secure, and scalable digital solutions for businesses.",
   keywords: [
     // Core services
     "web development",
@@ -91,15 +91,7 @@ export const metadata: Metadata = {
     siteName: "WebvicTech",
     title: "WebvicTech — Custom Web & Mobile App Development",
     description:
-      "We build custom web applications, mobile apps, and enterprise software that help businesses grow in the digital age.",
-    images: [
-      {
-        url: "/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "WebvicTech — Custom Web & Mobile App Development",
-      },
-    ],
+      "WebvicTech builds custom web applications, mobile apps, and enterprise software in Nigeria. Fast, secure, and scalable digital solutions for businesses.",
   },
   twitter: {
     card: "summary_large_image",
@@ -107,7 +99,7 @@ export const metadata: Metadata = {
     creator: "@webvictech",
     title: "WebvicTech — Custom Web & Mobile App Development",
     description:
-      "We build custom web applications, mobile apps, and enterprise software that help businesses grow.",
+      "WebvicTech builds custom web applications, mobile apps, and enterprise software in Nigeria. Fast, secure, and scalable digital solutions for businesses.",
     images: ["/og-image.png"],
   },
   alternates: {
