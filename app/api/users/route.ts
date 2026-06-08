@@ -27,7 +27,7 @@ export async function PATCH(request: NextRequest) {
     stack,
   } = await request.json();
   try {
-    if (session?.user.role !== "admin")
+    if (session?.user.role !== "admin" && session?.user.role !== "super_admin")
       return NextResponse.json({ error: "not authorized" }, { status: 403 });
     const teamMember = await prisma.team.findUnique({
       where: {
@@ -58,13 +58,13 @@ export async function PATCH(request: NextRequest) {
         message: "data updated successfully",
         teamMember,
       },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     console.log(error);
     return NextResponse.json(
       { error: "internal server error" },
-      { status: 501 }
+      { status: 501 },
     );
   }
 }
@@ -103,13 +103,13 @@ export async function DELETE(request: NextRequest) {
         message: "user was removed successfully",
         teamMember,
       },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     console.log(error);
     return NextResponse.json(
       { error: "internal server error" },
-      { status: 501 }
+      { status: 501 },
     );
   }
 }
