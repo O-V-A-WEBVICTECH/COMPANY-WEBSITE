@@ -682,7 +682,7 @@ export default function AdminDashboard() {
                           <h3 className="text-sm font-bold text-slate-900 leading-tight">
                             {project.name}
                           </h3>
-                          <div className="flex gap-1 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
+                          <div className="flex gap-1 shrink-0 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity">
                             <button
                               onClick={() => {
                                 setEditingProject(project);
@@ -813,7 +813,7 @@ export default function AdminDashboard() {
                           <h3 className="text-sm font-bold text-slate-900 line-clamp-2 leading-tight">
                             {post.title}
                           </h3>
-                          <div className="flex gap-1 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
+                          <div className="flex gap-1 shrink-0 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity">
                             <button
                               onClick={() => {
                                 setEditingPost(post);
@@ -920,7 +920,7 @@ export default function AdminDashboard() {
                             </p>
                           </div>
                         </div>
-                        <div className="flex gap-1 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <div className="flex gap-1 shrink-0 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity">
                           <button
                             onClick={() => {
                               setEditingMember(member);
