@@ -75,7 +75,7 @@ export default function Contact(): JSX.Element {
                         Address
                       </h4>
                       <p className="text-slate-600">
-                        123 Tech Street, Digital City, CA 94103
+                        No.7 adedosu st, ikeja, lagos
                       </p>
                     </div>
                   </div>
@@ -93,7 +93,11 @@ export default function Contact(): JSX.Element {
                       <h4 className="font-bold text-base md:text-lg text-slate-900 mb-1">
                         Phone
                       </h4>
+<<<<<<< HEAD
                       <p className="text-slate-600">+234 (913) 660-0887</p>
+=======
+                      <p className="text-slate-600">+2349136600887</p>
+>>>>>>> 58d061c (updated contact info)
                     </div>
                   </div>
                 </CardContent>
@@ -110,7 +114,13 @@ export default function Contact(): JSX.Element {
                       <h4 className="font-bold text-base md:text-lg text-slate-900 mb-1">
                         Email
                       </h4>
+<<<<<<< HEAD
                       <p className="text-slate-600">o.v.a.webvictech@gmail.com</p>
+=======
+                      <p className="text-slate-600">
+                        o.v.a.webvictech@gmail.com
+                      </p>
+>>>>>>> 58d061c (updated contact info)
                     </div>
                   </div>
                 </CardContent>
