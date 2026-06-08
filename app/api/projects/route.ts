@@ -56,7 +56,7 @@ export async function DELETE(request: NextRequest) {
   const projectId = searchParams.get("projectId") as string;
 
   try {
-    if (session?.user.role !== "admin")
+    if (session?.user.role !== "admin" && session?.user.role !== "super_admin")
       return NextResponse.json({ error: "not authorized" }, { status: 403 });
     const project = await prisma.project.findUnique({
       where: { id: projectId },
@@ -99,7 +99,7 @@ export async function PATCH(request: NextRequest) {
     await request.json();
 
   try {
-    if (session?.user.role !== "admin")
+    if (session?.user.role !== "admin" && session?.user.role !== "super_admin")
       return NextResponse.json({ error: "not authorized" }, { status: 403 });
     const project = await prisma.project.findUnique({
       where: { id: projectId },
