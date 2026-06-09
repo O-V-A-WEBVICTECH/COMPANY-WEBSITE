@@ -39,37 +39,57 @@ export default function Home() {
   return (
     <>
       <Header />
-      <main className="py-8 px-3 bg-slate-50">
-        <div className="max-w-4xl mt-4 p-2.5 mx-auto bg-white rounded-xl shadow md:p-6">
-          <h1 className="text-xl lg:text-2xl font-bold mb-4 text-blue-600">
-            <span className="text-indigo-600">
-              <span className="text-gray-700">Project Cost Estimator</span>
-            </span>
-          </h1>
-          {!pricing ? (
-            <div className="space-y-5 animate-pulse">
-              {/* Currency bar */}
-              <div className="h-12 bg-slate-100 rounded-lg w-full" />
-              {/* Card blocks */}
-              {[1, 2, 3, 4].map((i) => (
-                <div
-                  key={i}
-                  className="border border-slate-200 rounded-xl p-2 md:p-5 space-y-3"
-                >
-                  <div className="h-4 bg-slate-200 rounded w-1/4" />
-                  <div className="h-3 bg-slate-100 rounded w-1/3" />
-                  <div className="h-10 bg-slate-100 rounded w-full" />
-                  <div className="h-10 bg-slate-100 rounded w-full" />
-                </div>
-              ))}
-              {/* Estimate bar */}
-              <div className="h-20 bg-blue-100 rounded-xl w-full" />
-            </div>
-          ) : !sent ? (
-            <QuoteForm pricing={pricing} onSent={setSent} />
-          ) : (
-            <QuoteResult />
-          )}
+      <main className="py-12 px-4 bg-gradient-to-b from-slate-50 via-white to-slate-50 relative min-h-[80vh] overflow-hidden">
+        {/* Ambient background glows */}
+        <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-[120px] pointer-events-none" />
+        <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-indigo-500/5 rounded-full blur-[140px] pointer-events-none" />
+
+        <div className="relative z-10 max-w-4xl mx-auto space-y-8">
+          {/* Redesigned Header Block */}
+          <div className="text-center mt-8  md:mt-10 space-y-3">
+            {/* <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-600 border border-blue-100">
+              <i className="fa-solid fa-calculator text-[10px]" /> Estimator
+              Tool
+            </span> */}
+            <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+              Project Cost{" "}
+              <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                Estimator
+              </span>
+            </h1>
+            <p className="text-sm sm:text-base text-slate-500 max-w-2xl mx-auto leading-relaxed">
+              Plan your budget with ease. Select your desired platform and core
+              features below to receive an instant, transparent price estimate.
+            </p>
+          </div>
+
+          {/* Form Container */}
+          <div className="bg-white border border-slate-200/80 rounded-2xl shadow-xl shadow-slate-100/60 p-5 sm:p-8">
+            {!pricing ? (
+              <div className="space-y-6 animate-pulse">
+                {/* Currency bar placeholder */}
+                <div className="h-12 bg-slate-100 rounded-xl w-full" />
+                {/* Card blocks placeholders */}
+                {[1, 2, 3].map((i) => (
+                  <div
+                    key={i}
+                    className="border border-slate-105 rounded-xl p-5 space-y-3"
+                  >
+                    <div className="h-4 bg-slate-200 rounded w-1/4" />
+                    <div className="h-3 bg-slate-100 rounded w-1/3" />
+                    <div className="h-10 bg-slate-100 rounded w-full" />
+                    <div className="h-10 bg-slate-100 rounded w-full" />
+                  </div>
+                ))}
+                {/* Estimate bar placeholder */}
+                <div className="h-20 bg-blue-50/50 rounded-xl w-full" />
+              </div>
+            ) : !sent ? (
+              <QuoteForm pricing={pricing} onSent={setSent} />
+            ) : (
+              <QuoteResult />
+            )}
+          </div>
         </div>
       </main>
       <Footer />

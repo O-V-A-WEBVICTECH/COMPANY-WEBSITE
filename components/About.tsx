@@ -158,25 +158,32 @@ export default function About(): JSX.Element {
           </div>
         </div>
 
-        {/* Stats Section */}
-        <div className="mb-20">
-          <h3 className="text-xl md:text-3xl font-bold text-slate-900 text-center mb-10">
-            Our Track Record
-          </h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+        {/* Stats Section (Track Record) */}
+        <div className="mb-24 relative z-10">
+          <div className="text-center mb-12 space-y-2">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-indigo-50 text-indigo-600 border border-indigo-100">
+              Our Track Record
+            </span>
+            <h3 className="text-2xl md:text-4xl font-bold text-slate-900">
+              Numbers that speak for themselves
+            </h3>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6">
             {stats.map((stat, idx) => (
               <Card
                 key={idx}
-                className="border-2 hover:border-blue-300 transition-all hover:shadow-lg group"
+                className="border border-slate-200/80 hover:border-blue-400 bg-white rounded-2xl hover:-translate-y-1.5 hover:shadow-xl hover:shadow-blue-500/5 transition-all duration-300 group"
               >
-                <CardContent className="pt-6 text-center space-y-2">
-                  <div className="w-12 h-12 mx-auto bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center text-white group-hover:scale-110 transition-transform">
+                <CardContent className="pt-6 pb-5 sm:pt-8 sm:pb-7 text-center space-y-3 sm:space-y-4 px-2 sm:px-6">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 mx-auto bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center text-white group-hover:rotate-6 transition-transform shadow-md shadow-blue-500/10">
                     {stat.icon}
                   </div>
-                  <div className="text-xl md:text-3xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-                    {stat.value}
+                  <div className="space-y-1">
+                    <div className="text-2xl sm:text-3xl md:text-4xl font-extrabold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent tracking-tight">
+                      {stat.value}
+                    </div>
+                    <div className="text-slate-500 text-sm font-semibold tracking-wide uppercase text-[9px] sm:text-[11px]">{stat.label}</div>
                   </div>
-                  <div className="text-slate-600 font-medium">{stat.label}</div>
                 </CardContent>
               </Card>
             ))}
@@ -184,32 +191,36 @@ export default function About(): JSX.Element {
         </div>
 
         {/* Core Values */}
-        <div>
-          <div className="text-center mb-6 md:mb-12">
-            <h3 className="text-2xl md:text-3xl font-bold text-slate-900 mb-2 md:mb-4">
-              Our Core Values
+        <div className="relative z-10">
+          <div className="text-center mb-12 space-y-2">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-600 border border-blue-100">
+              Our Values
+            </span>
+            <h3 className="text-2xl md:text-4xl font-bold text-slate-900">
+              The principles guiding our work
             </h3>
-            <p className="text-sm text-slate-600 max-w-2xl mx-auto">
-              The principles that guide everything we do
-            </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
             {values.map((value, idx) => (
               <Card
                 key={idx}
-                className="border-2 hover:border-blue-300 transition-all hover:shadow-xl group"
+                className="relative overflow-hidden border border-slate-200/80 hover:border-blue-400 bg-white rounded-2xl hover:-translate-y-1.5 hover:shadow-xl transition-all duration-300 group"
               >
-                <CardContent className="pt-8 space-y-4 text-center">
-                  <div className="w-16 h-16 mx-auto bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center text-white group-hover:scale-110 transition-transform">
+                {/* Visual top bar glow */}
+                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 to-indigo-600" />
+                <CardContent className="pt-10 pb-8 px-6 space-y-4 text-center">
+                  <div className="w-14 h-14 mx-auto bg-slate-50 border border-slate-100 rounded-2xl flex items-center justify-center text-indigo-600 group-hover:scale-110 transition-all duration-300 shadow-inner">
                     {value.icon}
                   </div>
-                  <h4 className="text-lg md:text-xl font-bold text-slate-900">
-                    {value.title}
-                  </h4>
-                  <p className="text-slate-600 text-sm leading-relaxed">
-                    {value.description}
-                  </p>
+                  <div className="space-y-2">
+                    <h4 className="text-lg font-bold text-slate-900 group-hover:text-blue-600 transition-colors">
+                      {value.title}
+                    </h4>
+                    <p className="text-slate-500 text-xs sm:text-sm leading-relaxed">
+                      {value.description}
+                    </p>
+                  </div>
                 </CardContent>
               </Card>
             ))}

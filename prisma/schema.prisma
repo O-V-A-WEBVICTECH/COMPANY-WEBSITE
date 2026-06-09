@@ -122,6 +122,7 @@ model Team {
   twitterUrl    String?    @default("")
   linkedInUrl   String?    @default("")
   githubUrl     String     @default("")
+  stack         String[]
 }
 
 model Project {

@@ -10,14 +10,14 @@ export async function POST(req: NextRequest) {
 
   if (!session)
     return NextResponse.json({ error: "not authenticated" }, { status: 401 });
-  const { email, name, position, twitterUrl, githubUrl, linkedInUrl, image } =
+  const { email, name, position, twitterUrl, githubUrl, linkedInUrl, image, about, stack } =
     await req.json();
   if (!email || !name)
     return NextResponse.json({
       error: "please provide required fields",
     });
   try {
-    if (session?.user.role !== "admin")
+    if (session?.user.role !== "admin" && session?.user.role !== "super_admin")
       return NextResponse.json({ error: "not authorized" }, { status: 403 });
     const newUser = await prisma.team.create({
       data: {
@@ -28,6 +28,8 @@ export async function POST(req: NextRequest) {
         linkedInUrl,
         twitterUrl,
         image,
+        about,
+        stack,
       },
     });
 
@@ -36,13 +38,13 @@ export async function POST(req: NextRequest) {
         message: "new user created",
         user: newUser,
       },
-      { status: 201 }
+      { status: 201 },
     );
   } catch (err) {
     console.log(err);
     return NextResponse.json(
       { error: "internal server error" },
-      { status: 501 }
+      { status: 501 },
     );
   }
 }

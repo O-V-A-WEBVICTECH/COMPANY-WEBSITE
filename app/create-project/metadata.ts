@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://webvictech.com";
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL || "https://www.webvictech.com";
 
 export const metadata: Metadata = {
   title: "Project Cost Estimator  Get Your Software Development Quote",

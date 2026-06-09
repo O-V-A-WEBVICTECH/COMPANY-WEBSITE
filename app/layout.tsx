@@ -10,16 +10,17 @@ const inter = Inter({
   variable: "--font-inter",
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://webvictech.com";
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL || "https://www.webvictech.com";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "WebvicTech — Custom Web & Mobile App Development",
+    default: "WebvicTech Custom Web & Mobile App Development",
     template: "%s | WebvicTech",
   },
   description:
-    "WebvicTech INT' SERVICE LIMITED builds custom web applications, mobile apps, and enterprise software. Fast, secure, and scalable digital solutions for businesses of all sizes.",
+    "O.V.A WebvicTech  builds custom web applications, mobile apps, and enterprise software. Fast, secure, and scalable digital solutions for businesses of all sizes.",
   keywords: [
     // Core services
     "web development",
@@ -113,6 +114,14 @@ export const metadata: Metadata = {
     canonical: siteUrl,
   },
   manifest: "/site.webmanifest",
+  icons: {
+    icon: [
+      { url: "/icon", sizes: "48x48", type: "image/png" },
+      { url: "/favicon.svg", type: "image/svg+xml" },
+    ],
+    shortcut: "/favicon.svg",
+    apple: [{ url: "/apple-icon", sizes: "180x180", type: "image/png" }],
+  },
   verification: {
     google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
   },

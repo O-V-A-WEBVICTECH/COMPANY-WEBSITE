@@ -24,6 +24,7 @@ export async function PATCH(request: NextRequest) {
     twitterUrl,
     about,
     image,
+    stack,
   } = await request.json();
   try {
     if (session?.user.role !== "admin")
@@ -49,6 +50,7 @@ export async function PATCH(request: NextRequest) {
         linkedInUrl,
         twitterUrl,
         about,
+        stack,
       },
     });
     return NextResponse.json(

@@ -5,7 +5,7 @@ export default function Footer(): JSX.Element {
     <footer className="bg-slate-900 text-white py-12">
       <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-4 gap-6">
         <div>
-          <h4 className="text-lg font-semibold mb-3">WebvicTech</h4>
+          <h4 className="text-lg font-semibold mb-3">O.V.A WebvicTech</h4>
           <p className="text-xs text-slate-400">
             Custom web solutions built to optimize performance, security, and
             user experience for your business.
@@ -54,13 +54,16 @@ export default function Footer(): JSX.Element {
         <div className="text-xs">
           <h5 className="font-semibold mb-3">Contact</h5>
           <div className="text-slate-400">o.v.a.webvictech@gmail.com</div>
+<<<<<<< HEAD
           <div className="text-slate-400 mt-2">+234 (913) 660-0887</div>
+=======
+          <div className="text-slate-400 mt-2">+2349136600887</div>
+>>>>>>> f21382d (optimizations and improvements made)
         </div>
       </div>
 
       <div className="mt-8 text-xs text-center text-slate-500">
-        © {new Date().getFullYear()} WebvicTech. All
-        rights reserved.
+        © {new Date().getFullYear()} O.V.A WebvicTech. All rights reserved.
       </div>
     </footer>
   );

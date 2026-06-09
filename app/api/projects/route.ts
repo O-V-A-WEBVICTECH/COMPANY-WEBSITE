@@ -1,4 +1,4 @@
-import { auth} from "@/auth";
+import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
     await request.json();
 
   try {
-    if (session?.user.role !== "admin")
+    if (session?.user.role !== "admin" && session?.user.role !== "super_admin")
       return NextResponse.json({ error: "not authorized" }, { status: 403 });
     const project = await prisma.project.create({
       data: {
@@ -33,13 +33,13 @@ export async function POST(request: NextRequest) {
         message: "new project post was successfully added",
         project,
       },
-      { status: 201 }
+      { status: 201 },
     );
   } catch (error) {
     console.log(error);
     return NextResponse.json(
       { error: "internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -64,7 +64,7 @@ export async function DELETE(request: NextRequest) {
     if (!project)
       return NextResponse.json(
         { error: "project does not exist" },
-        { status: 404 }
+        { status: 404 },
       );
     await prisma.project.delete({
       where: {
@@ -73,13 +73,13 @@ export async function DELETE(request: NextRequest) {
     });
     return NextResponse.json(
       { message: "project was successfully updated", project },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     console.log(error);
     return NextResponse.json(
       { error: "internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -107,7 +107,7 @@ export async function PATCH(request: NextRequest) {
     if (!project)
       return NextResponse.json(
         { error: "project does not exist" },
-        { status: 404 }
+        { status: 404 },
       );
     await prisma.project.update({
       where: {
@@ -124,13 +124,13 @@ export async function PATCH(request: NextRequest) {
     });
     return NextResponse.json(
       { message: "project was successfully deleted" },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     console.log(error);
     return NextResponse.json(
       { error: "internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -138,8 +138,6 @@ export async function PATCH(request: NextRequest) {
 //handles endpoint to get all projects
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export async function GET(request: NextRequest) {
-  
-
   // if (!session)
   //   return NextResponse.json({ error: "not authenticated" }, { status: 401 });
 
@@ -150,7 +148,7 @@ export async function GET(request: NextRequest) {
     console.log(error);
     return NextResponse.json(
       { error: "internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

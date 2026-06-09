@@ -75,6 +75,7 @@ export interface TeamMember {
   image?: string;
   about?: string;
   position?: string;
+  stack?: string[];
 }
 
 interface AdminUser {
@@ -97,7 +98,6 @@ const navItems: { id: Tab; label: string; icon: React.ReactNode }[] = [
     label: "Projects",
     icon: <FolderOpen className="w-4 h-4" />,
   },
-  { id: "blog", label: "Blog", icon: <FileText className="w-4 h-4" /> },
   { id: "team", label: "Team", icon: <Users className="w-4 h-4" /> },
 ];
 
@@ -392,121 +392,244 @@ export default function AdminDashboard() {
         <main className="flex-1 px-5 sm:px-8 py-6 space-y-6">
           {/* ── Overview ── */}
           {activeTab === "overview" && (
-            <div className="space-y-6">
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <StatCard
-                  icon={<FolderOpen className="w-5 h-5 text-blue-600" />}
-                  label="Total Projects"
-                  value={projects.length}
-                  color="bg-blue-50"
-                />
-                <StatCard
-                  icon={<FileText className="w-5 h-5 text-violet-600" />}
-                  label="Blog Posts"
-                  value={blogPosts.length}
-                  color="bg-violet-50"
-                />
-                <StatCard
-                  icon={<Users className="w-5 h-5 text-indigo-600" />}
-                  label="Team Members"
-                  value={teamMembers.length}
-                  color="bg-indigo-50"
-                />
+            <div className="space-y-6 animate-in fade-in duration-500">
+              {/* Premium Welcome Banner */}
+              <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 p-6 sm:p-8 text-white border border-slate-800 shadow-xl">
+                {/* Decorative glowing gradient blur elements */}
+                <div className="absolute right-[-10%] top-[-30%] w-72 h-72 rounded-full bg-blue-500/10 blur-[80px]" />
+                <div className="absolute left-[30%] bottom-[-50%] w-80 h-80 rounded-full bg-indigo-500/15 blur-[100px]" />
+
+                <div className="relative z-10 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                  <div className="space-y-1.5">
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                      <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                      Live Platform Status: Active
+                    </span>
+                    <h2 className="text-xl sm:text-2xl font-bold tracking-tight mt-1">
+                      Welcome back, {adminUser?.name || "Administrator"}!
+                    </h2>
+                    <p className="text-xs sm:text-sm text-slate-300 max-w-xl">
+                      Here is an overview of the WebvicTech platform. Manage your projects, update your team, and track your online presence.
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-3 bg-white/5 border border-white/10 backdrop-blur-md px-4 py-2.5 rounded-xl shrink-0">
+                    <Calendar className="w-4 h-4 text-indigo-400" />
+                    <div className="text-left">
+                      <p className="text-[10px] text-slate-400 font-medium uppercase tracking-wider">Current Date</p>
+                      <p className="text-xs font-semibold">{new Date().toLocaleDateString(undefined, { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' })}</p>
+                    </div>
+                  </div>
+                </div>
               </div>
 
-              {/* Recent projects preview */}
-              <div className="bg-white rounded-xl border border-slate-200">
-                <div className="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
-                  <h2 className="text-sm font-bold text-slate-900">
-                    Recent Projects
-                  </h2>
-                  <button
-                    onClick={() => setActiveTab("projects")}
-                    className="text-xs text-blue-600 hover:underline font-medium"
-                  >
-                    View all
-                  </button>
+              {/* Statistics Grid */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div className="group bg-white rounded-xl border border-slate-200 p-5 flex items-center gap-4 hover:-translate-y-1 hover:shadow-md transition-all duration-300">
+                  <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 bg-blue-50 text-blue-600 group-hover:scale-110 transition-transform">
+                    <FolderOpen className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <p className="text-2xl font-bold text-slate-900">{projects.length}</p>
+                    <p className="text-xs text-slate-500 mt-0.5">Total Projects Showcase</p>
+                  </div>
                 </div>
-                {projects.length === 0 ? (
-                  <Empty
-                    icon={<FolderOpen className="w-6 h-6" />}
-                    label="No projects yet"
-                  />
-                ) : (
-                  <div className="divide-y divide-slate-100">
-                    {projects.slice(0, 4).map((p) => (
-                      <div
-                        key={p.id}
-                        className="px-5 py-3.5 flex items-center gap-3"
+                
+                <div className="group bg-white rounded-xl border border-slate-200 p-5 flex items-center gap-4 hover:-translate-y-1 hover:shadow-md transition-all duration-300">
+                  <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 bg-indigo-50 text-indigo-600 group-hover:scale-110 transition-transform">
+                    <Users className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <p className="text-2xl font-bold text-slate-900">{teamMembers.length}</p>
+                    <p className="text-xs text-slate-500 mt-0.5">Team Members</p>
+                  </div>
+                </div>
+
+                <div className="group bg-white rounded-xl border border-slate-200 p-5 flex items-center gap-4 hover:-translate-y-1 hover:shadow-md transition-all duration-300">
+                  <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 bg-emerald-50 text-emerald-600 group-hover:scale-110 transition-transform">
+                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping absolute" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
+                  </div>
+                  <div>
+                    <p className="text-2xl font-bold text-slate-900">100%</p>
+                    <p className="text-xs text-slate-500 mt-0.5">API Server Health</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Two Column Layout */}
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                {/* Left Column - Recent Projects */}
+                <div className="lg:col-span-2 space-y-4">
+                  <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+                    <div className="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
+                      <div className="space-y-0.5">
+                        <h3 className="text-sm font-bold text-slate-900">Recent Projects</h3>
+                        <p className="text-[11px] text-slate-400">Your latest work portfolio entries</p>
+                      </div>
+                      <button
+                        onClick={() => setActiveTab("projects")}
+                        className="inline-flex items-center gap-1 text-xs text-blue-600 hover:text-blue-700 font-semibold transition-colors"
                       >
-                        <div className="w-9 h-9 bg-slate-100 rounded-lg flex items-center justify-center shrink-0">
-                          <FolderOpen className="w-4 h-4 text-slate-500" />
-                        </div>
-                        <div className="min-w-0 flex-1">
-                          <p className="text-sm font-semibold text-slate-800 truncate">
-                            {p.name}
-                          </p>
-                          <p className="text-xs text-slate-400 truncate">
-                            {p.description}
-                          </p>
-                        </div>
-                        {p.stack.slice(0, 2).map((s) => (
-                          <Badge
-                            key={s}
-                            variant="secondary"
-                            className="text-[10px] shrink-0"
+                        Manage Projects <ChevronRight className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+
+                    {projects.length === 0 ? (
+                      <Empty
+                        icon={<FolderOpen className="w-6 h-6" />}
+                        label="No projects added yet"
+                      />
+                    ) : (
+                      <div className="divide-y divide-slate-100">
+                        {projects.slice(0, 4).map((p) => (
+                          <div
+                            key={p.id}
+                            className="px-5 py-4 flex items-center justify-between gap-4 hover:bg-slate-50/50 transition-colors group/row"
                           >
-                            {s}
-                          </Badge>
+                            <div className="flex items-center gap-3.5 min-w-0">
+                              <div className="w-12 h-12 rounded-xl overflow-hidden bg-slate-100 flex items-center justify-center shrink-0 border border-slate-150">
+                                {p.image ? (
+                                  <img src={p.image} alt={p.name} className="w-full h-full object-cover group-hover/row:scale-105 transition-transform duration-300" />
+                                ) : (
+                                  <FolderOpen className="w-5 h-5 text-slate-400" />
+                                )}
+                              </div>
+                              <div className="min-w-0">
+                                <p className="text-sm font-bold text-slate-800 truncate group-hover/row:text-blue-600 transition-colors">
+                                  {p.name}
+                                </p>
+                                <p className="text-xs text-slate-400 truncate max-w-sm sm:max-w-md">
+                                  {p.description}
+                                </p>
+                              </div>
+                            </div>
+                            <div className="flex items-center gap-2 shrink-0">
+                              <div className="hidden sm:flex gap-1">
+                                {p.stack.slice(0, 2).map((s) => (
+                                  <Badge
+                                    key={s}
+                                    variant="secondary"
+                                    className="text-[10px] font-medium bg-slate-100 hover:bg-slate-200 text-slate-700 border-none shrink-0"
+                                  >
+                                    {s}
+                                  </Badge>
+                                ))}
+                              </div>
+                              {p.link && (
+                                <a
+                                  href={p.link}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="p-1.5 rounded-lg border border-slate-200 text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition-colors"
+                                  title="View Project"
+                                >
+                                  <ExternalLink className="w-3.5 h-3.5" />
+                                </a>
+                              )}
+                            </div>
+                          </div>
                         ))}
                       </div>
-                    ))}
+                    )}
                   </div>
-                )}
-              </div>
-
-              {/* Recent posts preview */}
-              <div className="bg-white rounded-xl border border-slate-200">
-                <div className="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
-                  <h2 className="text-sm font-bold text-slate-900">
-                    Recent Blog Posts
-                  </h2>
-                  <button
-                    onClick={() => setActiveTab("blog")}
-                    className="text-xs text-blue-600 hover:underline font-medium"
-                  >
-                    View all
-                  </button>
                 </div>
-                {blogPosts.length === 0 ? (
-                  <Empty
-                    icon={<FileText className="w-6 h-6" />}
-                    label="No posts yet"
-                  />
-                ) : (
-                  <div className="divide-y divide-slate-100">
-                    {blogPosts.slice(0, 4).map((p) => (
-                      <div
-                        key={p.id}
-                        className="px-5 py-3.5 flex items-center gap-3"
+
+                {/* Right Column - Quick Actions & Team Preview */}
+                <div className="space-y-6">
+                  {/* Quick Actions Card */}
+                  <div className="bg-white rounded-xl border border-slate-200 p-5 shadow-sm space-y-4">
+                    <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider">Quick Actions</h3>
+                    <div className="grid grid-cols-1 gap-2.5">
+                      <button
+                        onClick={() => {
+                          setEditingProject(null);
+                          setProjectDialogOpen(true);
+                        }}
+                        className="w-full flex items-center justify-between p-3 rounded-xl border border-slate-150 hover:border-blue-500 hover:bg-blue-50/20 text-left text-sm font-semibold text-slate-800 transition-all group"
                       >
-                        <div className="w-9 h-9 bg-slate-100 rounded-lg flex items-center justify-center shrink-0">
-                          <FileText className="w-4 h-4 text-slate-500" />
-                        </div>
-                        <div className="min-w-0 flex-1">
-                          <p className="text-sm font-semibold text-slate-800 truncate">
-                            {p.title}
-                          </p>
-                          <p className="text-xs text-slate-400">
-                            {p.createdAt
-                              ? new Date(p.createdAt).toLocaleDateString()
-                              : ""}
-                          </p>
-                        </div>
-                      </div>
-                    ))}
+                        <span className="flex items-center gap-2.5">
+                          <Plus className="w-4 h-4 text-blue-500 group-hover:scale-110 transition-transform" />
+                          Add Project
+                        </span>
+                        <ChevronRight className="w-4 h-4 text-slate-400 group-hover:translate-x-0.5 transition-transform" />
+                      </button>
+
+                      <button
+                        onClick={() => {
+                          setEditingMember(null);
+                          setMemberDialogOpen(true);
+                        }}
+                        className="w-full flex items-center justify-between p-3 rounded-xl border border-slate-150 hover:border-indigo-500 hover:bg-indigo-50/20 text-left text-sm font-semibold text-slate-800 transition-all group"
+                      >
+                        <span className="flex items-center gap-2.5">
+                          <Plus className="w-4 h-4 text-indigo-500 group-hover:scale-110 transition-transform" />
+                          Add Team Member
+                        </span>
+                        <ChevronRight className="w-4 h-4 text-slate-400 group-hover:translate-x-0.5 transition-transform" />
+                      </button>
+
+                      <Link
+                        href="/"
+                        className="w-full flex items-center justify-between p-3 rounded-xl border border-slate-150 hover:border-slate-400 hover:bg-slate-50 text-left text-sm font-semibold text-slate-800 transition-all group"
+                      >
+                        <span className="flex items-center gap-2.5">
+                          <ExternalLink className="w-4 h-4 text-slate-500 group-hover:scale-110 transition-transform" />
+                          View Main Website
+                        </span>
+                        <ChevronRight className="w-4 h-4 text-slate-400 group-hover:translate-x-0.5 transition-transform" />
+                      </Link>
+                    </div>
                   </div>
-                )}
+
+                  {/* Team Preview Card */}
+                  <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+                    <div className="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
+                      <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider">Active Team</h3>
+                      <button
+                        onClick={() => setActiveTab("team")}
+                        className="text-xs text-indigo-600 hover:underline font-semibold"
+                      >
+                        Manage
+                      </button>
+                    </div>
+                    {teamMembers.length === 0 ? (
+                      <Empty
+                        icon={<Users className="w-5 h-5 text-slate-400" />}
+                        label="No team members"
+                      />
+                    ) : (
+                      <div className="divide-y divide-slate-100">
+                        {teamMembers.slice(0, 3).map((member) => (
+                          <div key={member.id} className="p-4 flex items-center gap-3">
+                            <Avatar className="w-8 h-8 shrink-0">
+                              <AvatarImage
+                                src={
+                                  member.image ||
+                                  `https://api.dicebear.com/7.x/initials/svg?seed=${member.name}`
+                                }
+                              />
+                              <AvatarFallback className="text-[10px]">
+                                {member.name
+                                  .split(" ")
+                                  .map((n) => n[0])
+                                  .join("")}
+                              </AvatarFallback>
+                            </Avatar>
+                            <div className="min-w-0 flex-1">
+                              <p className="text-xs font-bold text-slate-800 truncate">
+                                {member.name}
+                              </p>
+                              <p className="text-[10px] text-slate-400 truncate">
+                                {member.position || "Team Member"}
+                              </p>
+                            </div>
+                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0" title="Active" />
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
               </div>
             </div>
           )}
@@ -523,52 +646,16 @@ export default function AdminDashboard() {
                     {projects.length} total
                   </p>
                 </div>
-                <Dialog
-                  open={projectDialogOpen || editingProject !== null}
-                  onOpenChange={(open) => {
-                    setProjectDialogOpen(open);
-                    if (!open) setEditingProject(null);
+                <Button
+                  size="sm"
+                  onClick={() => {
+                    setEditingProject(null);
+                    setProjectDialogOpen(true);
                   }}
+                  className="gap-1.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700"
                 >
-                  <DialogTrigger asChild>
-                    <Button
-                      size="sm"
-                      onClick={() => setEditingProject(null)}
-                      className="gap-1.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700"
-                    >
-                      <Plus className="w-4 h-4" /> Add Project
-                    </Button>
-                  </DialogTrigger>
-                  <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto">
-                    <DialogHeader>
-                      <DialogTitle>
-                        {editingProject ? "Edit Project" : "New Project"}
-                      </DialogTitle>
-                      <DialogDescription>
-                        {editingProject
-                          ? "Update project details"
-                          : "Add a new project to your portfolio"}
-                      </DialogDescription>
-                    </DialogHeader>
-                    {editingProject ? (
-                      <ProjectEditForm
-                        project={editingProject}
-                        onClose={() => setEditingProject(null)}
-                        onUpdate={() => {
-                          setEditingProject(null);
-                          getProjects();
-                        }}
-                      />
-                    ) : (
-                      <ProjectForm
-                        onSuccess={() => {
-                          setProjectDialogOpen(false);
-                          getProjects();
-                        }}
-                      />
-                    )}
-                  </DialogContent>
-                </Dialog>
+                  <Plus className="w-4 h-4" /> Add Project
+                </Button>
               </div>
 
               {projects.length === 0 && !projectLoading ? (
@@ -784,52 +871,16 @@ export default function AdminDashboard() {
                     {teamMembers.length} members
                   </p>
                 </div>
-                <Dialog
-                  open={memberDialogOpen || editingMember !== null}
-                  onOpenChange={(open) => {
-                    setMemberDialogOpen(open);
-                    if (!open) setEditingMember(null);
+                <Button
+                  size="sm"
+                  onClick={() => {
+                    setEditingMember(null);
+                    setMemberDialogOpen(true);
                   }}
+                  className="gap-1.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700"
                 >
-                  <DialogTrigger asChild>
-                    <Button
-                      size="sm"
-                      onClick={() => setEditingMember(null)}
-                      className="gap-1.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700"
-                    >
-                      <Plus className="w-4 h-4" /> Add Member
-                    </Button>
-                  </DialogTrigger>
-                  <DialogContent className="max-w-md max-h-[85vh] overflow-y-auto">
-                    <DialogHeader>
-                      <DialogTitle>
-                        {editingMember ? "Edit Member" : "Add Team Member"}
-                      </DialogTitle>
-                      <DialogDescription>
-                        {editingMember
-                          ? "Update member details"
-                          : "Add a new team member"}
-                      </DialogDescription>
-                    </DialogHeader>
-                    {editingMember ? (
-                      <TeamEditForm
-                        teamMember={editingMember}
-                        onClose={() => setEditingMember(null)}
-                        onUpdate={() => {
-                          setEditingMember(null);
-                          getTeams();
-                        }}
-                      />
-                    ) : (
-                      <TeamForm
-                        onSuccess={() => {
-                          setMemberDialogOpen(false);
-                          getTeams();
-                        }}
-                      />
-                    )}
-                  </DialogContent>
-                </Dialog>
+                  <Plus className="w-4 h-4" /> Add Member
+                </Button>
               </div>
 
               {teamMembers.length === 0 && !teamLoading ? (
@@ -937,6 +988,82 @@ export default function AdminDashboard() {
               )}
             </div>
           )}
+          {/* Global Dialogs for Quick Actions */}
+          <Dialog
+            open={projectDialogOpen || editingProject !== null}
+            onOpenChange={(open) => {
+              setProjectDialogOpen(open);
+              if (!open) setEditingProject(null);
+            }}
+          >
+            <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto">
+              <DialogHeader>
+                <DialogTitle>
+                  {editingProject ? "Edit Project" : "New Project"}
+                </DialogTitle>
+                <DialogDescription>
+                  {editingProject
+                    ? "Update project details"
+                    : "Add a new project to your portfolio"}
+                </DialogDescription>
+              </DialogHeader>
+              {editingProject ? (
+                <ProjectEditForm
+                  project={editingProject}
+                  onClose={() => setEditingProject(null)}
+                  onUpdate={() => {
+                    setEditingProject(null);
+                    getProjects();
+                  }}
+                />
+              ) : (
+                <ProjectForm
+                  onSuccess={() => {
+                    setProjectDialogOpen(false);
+                    getProjects();
+                  }}
+                />
+              )}
+            </DialogContent>
+          </Dialog>
+
+          <Dialog
+            open={memberDialogOpen || editingMember !== null}
+            onOpenChange={(open) => {
+              setMemberDialogOpen(open);
+              if (!open) setEditingMember(null);
+            }}
+          >
+            <DialogContent className="max-w-md max-h-[85vh] overflow-y-auto">
+              <DialogHeader>
+                <DialogTitle>
+                  {editingMember ? "Edit Member" : "Add Team Member"}
+                </DialogTitle>
+                <DialogDescription>
+                  {editingMember
+                    ? "Update member details"
+                    : "Add a new team member"}
+                </DialogDescription>
+              </DialogHeader>
+              {editingMember ? (
+                <TeamEditForm
+                  teamMember={editingMember}
+                  onClose={() => setEditingMember(null)}
+                  onUpdate={() => {
+                    setEditingMember(null);
+                    getTeams();
+                  }}
+                />
+              ) : (
+                <TeamForm
+                  onSuccess={() => {
+                    setMemberDialogOpen(false);
+                    getTeams();
+                  }}
+                />
+              )}
+            </DialogContent>
+          </Dialog>
         </main>
       </div>
     </div>

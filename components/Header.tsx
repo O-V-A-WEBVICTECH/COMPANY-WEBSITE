@@ -43,7 +43,7 @@ export default function Header(): JSX.Element {
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2 shrink-0">
               <span className="text-lg font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-                WebvicTech
+                O.V.A WebvicTech
               </span>
             </Link>
 
@@ -103,7 +103,7 @@ export default function Header(): JSX.Element {
         {/* Drawer header */}
         <div className="flex items-center justify-between px-5 h-16 border-b border-slate-100">
           <span className="text-base font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-            WebvicTech
+            O.V.A WebvicTech
           </span>
           <button
             onClick={() => setOpen(false)}
