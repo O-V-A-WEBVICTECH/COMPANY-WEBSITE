@@ -4,15 +4,15 @@ import Link from "next/link";
 import { Menu, X } from "lucide-react";
 
 const navLinks = [
-  { label: "Home",      href: "#home" },
-  { label: "About",     href: "#about" },
-  { label: "Services",  href: "#services" },
-  { label: "Portfolio", href: "#portfolio" },
-  { label: "Contact",   href: "#contact" },
+  { label: "Home", href: "/" },
+  { label: "About", href: "/#about" },
+  { label: "Services", href: "/#services" },
+  { label: "Portfolio", href: "/#portfolio" },
+  { label: "Contact", href: "/#contact" },
 ];
 
 export default function Header(): JSX.Element {
-  const [open, setOpen]       = useState(false);
+  const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -24,19 +24,22 @@ export default function Header(): JSX.Element {
   // lock body scroll when drawer is open
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
-    return () => { document.body.style.overflow = ""; };
+    return () => {
+      document.body.style.overflow = "";
+    };
   }, [open]);
 
   return (
     <>
       <header
         className={`fixed w-full z-50 transition-all duration-300 ${
-          scrolled ? "bg-white/95 backdrop-blur-md shadow-md" : "bg-white shadow-sm"
+          scrolled
+            ? "bg-white/95 backdrop-blur-md shadow-md"
+            : "bg-white shadow-sm"
         }`}
       >
         <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-10">
           <nav className="flex items-center justify-between h-16">
-
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2 shrink-0">
               <span className="text-lg font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
@@ -48,24 +51,24 @@ export default function Header(): JSX.Element {
             <ul className="hidden md:flex items-center gap-7 text-sm font-medium text-slate-600">
               {navLinks.map((link) => (
                 <li key={link.label}>
-                  <a
+                  <Link
                     href={link.href}
                     className="hover:text-blue-600 transition-colors"
                   >
                     {link.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
 
             {/* Desktop CTA */}
             <div className="hidden md:flex items-center">
-              <a
-                href="#contact"
+              <Link
+                href="/#contact"
                 className="px-5 py-2 text-sm font-semibold rounded-lg bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700 transition-all shadow-sm hover:shadow-md"
               >
                 Get in Touch
-              </a>
+              </Link>
             </div>
 
             {/* Mobile hamburger */}
@@ -85,7 +88,9 @@ export default function Header(): JSX.Element {
       <div
         onClick={() => setOpen(false)}
         className={`fixed inset-0 z-50 bg-black/40 backdrop-blur-sm transition-opacity duration-300 md:hidden ${
-          open ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+          open
+            ? "opacity-100 pointer-events-auto"
+            : "opacity-0 pointer-events-none"
         }`}
       />
 
@@ -114,13 +119,13 @@ export default function Header(): JSX.Element {
           <ul className="space-y-1">
             {navLinks.map((link) => (
               <li key={link.label}>
-                <a
+                <Link
                   href={link.href}
                   onClick={() => setOpen(false)}
                   className="flex items-center px-3 py-3 rounded-xl text-sm font-medium text-slate-700 hover:text-blue-600 hover:bg-blue-50 transition-all"
                 >
                   {link.label}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
@@ -128,13 +133,13 @@ export default function Header(): JSX.Element {
 
         {/* Drawer footer CTA */}
         <div className="px-4 py-5 border-t border-slate-100">
-          <a
-            href="#contact"
+          <Link
+            href="/#contact"
             onClick={() => setOpen(false)}
             className="flex items-center justify-center w-full py-3 rounded-xl text-sm font-semibold bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700 transition-all shadow-sm"
           >
             Get in Touch
-          </a>
+          </Link>
         </div>
       </div>
     </>
