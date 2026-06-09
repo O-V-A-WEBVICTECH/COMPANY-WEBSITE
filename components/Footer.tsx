@@ -1,6 +1,6 @@
 import { JSX } from "react";
 import Image from "next/image";
-import Link from "next/link";
+
 
 export default function Footer(): JSX.Element {
   return (
@@ -68,12 +68,10 @@ export default function Footer(): JSX.Element {
         <div className="text-xs">
           <h5 className="font-semibold mb-3">Contact</h5>
           <div className="text-slate-400">o.v.a.webvictech@gmail.com</div>
-<<<<<<< HEAD
-          <div className="text-slate-400 mt-2">+234 (913) 660-0887</div>
-=======
           <div className="text-slate-400 mt-2">+2349136600887</div>
->>>>>>> f21382d (optimizations and improvements made)
         </div>
+
+         
       </div>
 
       <div className="mt-8 text-xs text-center text-slate-500">
