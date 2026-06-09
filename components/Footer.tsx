@@ -6,9 +6,9 @@ export default function Footer(): JSX.Element {
       <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-4 gap-6">
         <div>
           <h4 className="text-lg font-semibold mb-3">O.V.A WebvicTech</h4>
-          <p className="text-slate-400">
-            AI-powered web solutions to optimize performance, security, and UX
-            for your business.
+          <p className="text-xs text-slate-400">
+            Custom web solutions built to optimize performance, security, and
+            user experience for your business.
           </p>
           <div className="flex gap-3 mt-4">
             <a className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-blue-600">
@@ -23,7 +23,7 @@ export default function Footer(): JSX.Element {
           </div>
         </div>
 
-        <div>
+        <div className="text-xs">
           <h5 className="font-semibold mb-3">Company</h5>
           <ul className="text-slate-400 space-y-2">
             <li>
@@ -36,14 +36,14 @@ export default function Footer(): JSX.Element {
           </ul>
         </div>
 
-        <div>
+        <div className="text-xs">
           <h5 className="font-semibold mb-3">Services</h5>
           <ul className="text-slate-400 space-y-2">
             <li>
               <a>Analysis</a>
             </li>
             <li>
-              <a>AI Fixes</a>
+              <a>Performance</a>
             </li>
             <li>
               <a>Website Creation</a>
@@ -51,15 +51,15 @@ export default function Footer(): JSX.Element {
           </ul>
         </div>
 
-        <div>
+        <div className="text-xs">
           <h5 className="font-semibold mb-3">Contact</h5>
           <div className="text-slate-400">o.v.a.webvictech@gmail.com</div>
           <div className="text-slate-400 mt-2">+234 (913) 660-0887</div>
         </div>
       </div>
 
-      <div className="mt-8 text-center text-slate-500">
-        © {new Date().getFullYear()} O.V.A WebvicTech INT SERVICE LIMITED. All
+      <div className="mt-8 text-xs text-center text-slate-500">
+        © {new Date().getFullYear()} O.V.A WebvicTech. All
         rights reserved.
       </div>
     </footer>

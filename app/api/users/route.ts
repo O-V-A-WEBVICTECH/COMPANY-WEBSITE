@@ -1,6 +1,7 @@
-import { auth, prisma } from "@/auth";
+import { auth } from "@/auth";
 import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
+import { prisma } from "@/lib/prisma";
 
 //handles updating team profile
 export async function PATCH(request: NextRequest) {

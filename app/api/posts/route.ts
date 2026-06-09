@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { auth } from "@/auth";
-import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/auth";
+import { prisma } from "@/lib/prisma";
 
 //handles get all posts endpoint
 export async function GET(request: NextRequest) {

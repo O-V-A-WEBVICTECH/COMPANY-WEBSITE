@@ -1,10 +1,18 @@
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { betterAuth } from "better-auth";
-import { admin, createAuthMiddleware } from "better-auth/plugins";
-import { PrismaClient } from "./prisma/generated";
+import { admin } from "better-auth/plugins";
+import { role } from "better-auth/plugins/access";
+import { createAuthMiddleware } from "@better-auth/core/api";
 import { sendPasswordResetEmail } from "./lib/nodeMailer";
+import { prisma } from "./lib/prisma";
+import { nextCookies } from "better-auth/next-js";
 
-export const prisma = new PrismaClient();
+
+const userRole = role({});
+const adminRole = role({});
+const superAdminRole = role({});
+
+
 
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
@@ -57,10 +65,16 @@ export const auth = betterAuth({
     admin({
       defaultRole: "user",
       adminRoles: ["admin", "super_admin"],
+      roles: {
+        user: userRole,
+        admin: adminRole,
+        super_admin: superAdminRole,
+      },
       impersonationSessionDuration: 60 * 60,
       defaultBanReason: "No reason",
       defaultBanExpiresIn: undefined,
     }),
+    nextCookies()
   ],
 
   emailAndPassword: {
@@ -76,7 +90,7 @@ export const auth = betterAuth({
 
     onPasswordReset: async ({ user }, _request) => {
       console.log(`Password for user ${user.email} has been reset.`);
-      // optional: notify user, log audit trail, etc.
+      
     },
   },
 

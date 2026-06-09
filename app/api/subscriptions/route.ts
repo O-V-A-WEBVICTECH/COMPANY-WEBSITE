@@ -1,8 +1,7 @@
 // app/api/subscription/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import axios from "axios";
-import { prisma } from "@/auth";
-
+import { prisma } from "@/lib/prisma";
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();

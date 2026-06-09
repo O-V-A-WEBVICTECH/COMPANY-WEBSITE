@@ -32,7 +32,7 @@ export default function Portfolio(): JSX.Element {
     try {
       setLoading(true);
       const response = await axios.get<Project[]>(
-        "/api/projects/get-portfolio"
+        "/api/projects"
       );
       if (response.status === 200) setProjects(response.data);
     } catch (error) {
@@ -68,14 +68,14 @@ export default function Portfolio(): JSX.Element {
             </span>
           </Badge>
 
-          <h2 className="text-3xl md:text-5xl font-bold text-slate-900">
+          <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold text-slate-900">
             Featured{" "}
             <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
               Projects
             </span>
           </h2>
 
-          <p className="text-base md:text-xl text-slate-600 max-w-3xl mx-auto">
+          <p className="text-sm text-slate-600 max-w-3xl mx-auto">
             Explore our latest work and see how we&apos;ve helped businesses
             transform their digital presence with innovative solutions
           </p>
@@ -243,7 +243,7 @@ export default function Portfolio(): JSX.Element {
               </Link>
             </Button>
 
-            <p className="mt-4 text-slate-600">
+            <p className="mt-4 text-sm text-slate-600">
               Explore our complete portfolio of {projects?.length || 0}+
               successful projects
             </p>

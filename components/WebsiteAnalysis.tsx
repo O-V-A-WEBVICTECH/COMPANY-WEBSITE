@@ -145,14 +145,14 @@ export default function WebsiteAnalysis(): JSX.Element {
             </span>
           </Badge>
 
-          <h2 className="text-3xl lg:text-4xl md:text-5xl font-bold text-slate-900">
+          <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold text-slate-900">
             Analyze Your{" "}
             <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
               Website
             </span>
           </h2>
 
-          <p className="text-base lg:text-xl text-slate-600 max-w-2xl mx-auto">
+          <p className="text-sm text-slate-600 max-w-2xl mx-auto">
             Get instant insights into your website&apos;s performance, speed,
             and user experience
           </p>
@@ -165,7 +165,7 @@ export default function WebsiteAnalysis(): JSX.Element {
               <Search className="w-6 h-6  text-blue-600" />
               Website Analysis Tool
             </CardTitle>
-            <CardDescription className="text-sm lg:text-base">
+            <CardDescription className="text-sm text-slate-600">
               Enter your website URL to receive a comprehensive performance
               report
             </CardDescription>
@@ -216,7 +216,7 @@ export default function WebsiteAnalysis(): JSX.Element {
                     <h3 className="text-lg font-bold text-slate-900 mb-2">
                       You&apos;ve reached your free analysis limit
                     </h3>
-                    <p className="text-slate-700">
+                    <p className="text-sm text-slate-700">
                       Unlock unlimited website analyses, detailed insights, and
                       advanced optimization recommendations with our premium
                       plan.
@@ -366,7 +366,7 @@ export default function WebsiteAnalysis(): JSX.Element {
                         <p className="text-lg font-semibold text-slate-900">
                           Excellent! No major issues found
                         </p>
-                        <p className="text-slate-600">
+                        <p className="text-sm text-slate-600">
                           Your website is performing optimally
                         </p>
                       </div>

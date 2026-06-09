@@ -51,14 +51,14 @@ export default function Team(): JSX.Element {
             </span>
           </Badge>
 
-          <h2 className="text-2xl md:text-5xl font-bold text-slate-900">
+          <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold text-slate-900">
             Meet the{" "}
             <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
               Dream Team
             </span>
           </h2>
 
-          <p className="text-base md:text-xl text-slate-600 max-w-3xl mx-auto">
+          <p className="text-sm text-slate-600 max-w-3xl mx-auto">
             Talented developers, designers, and strategists working together to
             build exceptional digital experiences
           </p>

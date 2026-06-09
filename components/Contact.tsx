@@ -35,14 +35,14 @@ export default function Contact(): JSX.Element {
             </span>
           </Badge>
 
-          <h2 className="text-2xl md:text-5xl font-bold text-slate-900">
+          <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold text-slate-900">
             Get in{" "}
             <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
               Touch
             </span>
           </h2>
 
-          <p className="text-base md:text-xl text-slate-600 max-w-3xl mx-auto">
+          <p className="text-sm text-slate-600 max-w-3xl mx-auto">
             Have questions or want to learn more about our services? Contact us
             today and let&apos;s discuss how we can help bring your vision to
             life
@@ -53,10 +53,10 @@ export default function Contact(): JSX.Element {
           {/* Left Column - Info */}
           <div className="space-y-8">
             <div>
-              <h3 className="text-3xl font-bold text-slate-900 mb-4">
+              <h3 className="text-xl md:text-2xl font-bold text-slate-900 mb-4">
                 Let&apos;s Talk
               </h3>
-              <p className="text-sm md:text-lg text-slate-600 leading-relaxed">
+              <p className="text-sm text-slate-600 leading-relaxed">
                 Whether you have a question about our services, want to discuss
                 a project, or just want to say hello, our team is here to help.
               </p>

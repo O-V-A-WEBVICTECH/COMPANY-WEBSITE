@@ -1,4 +1,5 @@
-import { auth, prisma } from "@/auth";
+import { auth} from "@/auth";
+import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -141,8 +142,8 @@ export async function GET(request: NextRequest) {
     headers: await headers(),
   });
 
-  if (!session)
-    return NextResponse.json({ error: "not authenticated" }, { status: 401 });
+  // if (!session)
+  //   return NextResponse.json({ error: "not authenticated" }, { status: 401 });
 
   try {
     const projects = await prisma.project.findMany();

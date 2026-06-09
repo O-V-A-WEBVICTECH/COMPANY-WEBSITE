@@ -85,14 +85,14 @@ export default function Features(): JSX.Element {
             </span>
           </Badge>
 
-          <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold text-slate-900">
+          <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold text-slate-900">
             What We{" "}
             <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
               Build
             </span>
           </h2>
 
-          <p className="text-base md:text-xl text-slate-600 max-w-3xl mx-auto">
+          <p className="text-sm text-slate-600 max-w-3xl mx-auto">
             From concept to deployment, we deliver end-to-end solutions that
             transform your business and engage your users
           </p>
@@ -118,11 +118,11 @@ export default function Features(): JSX.Element {
                   {service.icon}
                 </div>
 
-                <CardTitle className="text-2xl font-bold text-slate-900">
+                <CardTitle className="text-lg md:text-xl font-bold text-slate-900">
                   {service.title}
                 </CardTitle>
 
-                <CardDescription className="text-base text-slate-600 leading-relaxed">
+                <CardDescription className="text-sm text-slate-600 leading-relaxed">
                   {service.description}
                 </CardDescription>
               </CardHeader>
@@ -165,7 +165,7 @@ export default function Features(): JSX.Element {
 
         {/* Bottom CTA */}
         <div className="mt-16 text-center">
-          <p className="text-slate-600 mb-6 text-lg">
+          <p className="text-sm text-slate-600 mb-6">
             Need something custom? We&apos;ve got you covered.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
