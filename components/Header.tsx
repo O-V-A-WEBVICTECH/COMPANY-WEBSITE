@@ -41,16 +41,8 @@ export default function Header(): JSX.Element {
       >
         <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-10">
           <nav className="flex items-center justify-between h-20">
-            {/* Logo */}
+            {/* Brand text only (logo removed) */}
             <Link href="/" className="flex items-center gap-3 shrink-0">
-              <Image
-                src="/ova-logo.png"
-                alt="O.V.A WebvicTech Logo"
-                width={72}
-                height={72}
-                className="rounded-full"
-                priority
-              />
               <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
                 O.V.A WebvicTech
               </span>
@@ -110,13 +102,13 @@ export default function Header(): JSX.Element {
         }`}
       >
         {/* Drawer header */}
-        <div className="flex items-center justify-between px-5 h-16 border-b border-slate-100">
-          <Link href="/" onClick={() => setOpen(false)} className="flex items-center gap-2">
+        <div className="flex items-center justify-between px-5 h-24 border-b border-slate-100">
+          <Link href="/" onClick={() => setOpen(false)} className="flex items-center gap-3">
             <Image
               src="/ova-logo.png"
               alt="O.V.A WebvicTech Logo"
-              width={52}
-              height={52}
+              width={72}
+              height={72}
               className="rounded-full"
             />
             <span className="text-base font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
@@ -154,7 +146,7 @@ export default function Header(): JSX.Element {
           <Link
             href="/#contact"
             onClick={() => setOpen(false)}
-            className="flex items-center justify-center w-full py-3 rounded-xl text-sm font-semibold bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700 transition-all shadow-sm"
+            className="flex items-center justify-center w-full py-3 rounded-xl text-sm font-semibold bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700 transition-all shadow-sm hover:shadow-md"
           >
             Get in Touch
           </Link>
