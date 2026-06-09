@@ -6,14 +6,19 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const {
       title,
+      serviceCategory,
       type,
       platforms,
       features,
       domain,
       hosting,
+      deployment,
+      ciCd,
       budget,
       email,
       phone,
+      range,
+      currency,
       note,
     } = body;
 
@@ -48,26 +53,33 @@ export async function POST(req: NextRequest) {
     });
 
     const receiver = process.env.RECEIVER_EMAIL || "o.v.a.webvictech@gmail.com";
-    const subject = `New Web Quote Submission - OVA WEBVIC TECH`;
+    const subject = `New Quote Submission – ${serviceCategory === "backend" ? "Backend / API" : "Website / App"} | OVA WEBVIC TECH`;
+    const isBackend = serviceCategory === "backend";
     const html = `
-      <h3>New Web Quote Submission</h3>
+      <h3>New Project Quote Submission</h3>
       <ul>
-        <li><strong>Project Name:</strong> ${title || ""}</li>
-        <li><strong>Type:</strong> ${type || ""}</li>
-        <li><strong>Platforms:</strong> ${
-          Array.isArray(platforms) ? platforms.join(", ") : ""
-        }</li>
-        <li><strong>Features:</strong> ${
-          Array.isArray(features) ? features.join(", ") : ""
-        }</li>
-        <li><strong>Domain:</strong> ${domain ? "Yes" : "No"}</li>
-        <li><strong>Hosting:</strong> ${hosting ? "Yes" : "No"}</li>
-        <li><strong>Budget:</strong> ${budget || ""}</li>
-        <li><strong>Phone:</strong> ${phone || ""}</li>
-        <li><strong>Email:</strong> ${email || ""}</li>
-        <li><strong>Note:</strong> ${note || ""}</li>
+        <li><strong>Service Category:</strong> ${isBackend ? "Backend / API Development" : "Website / App Development"}</li>
+        <li><strong>Project Name:</strong> ${title || "—"}</li>
+        <li><strong>Type:</strong> ${type || "—"}</li>
+        ${
+          !isBackend
+            ? `<li><strong>Platforms:</strong> ${Array.isArray(platforms) ? platforms.join(", ") || "None" : "—"}</li>`
+            : ""
+        }
+        <li><strong>Features:</strong> ${Array.isArray(features) ? features.join(", ") || "None" : "—"}</li>
+        ${
+          isBackend
+            ? `<li><strong>Deployment &amp; DevOps:</strong> ${deployment ? "Yes" : "No"}</li>
+               <li><strong>CI/CD Pipeline:</strong> ${ciCd ? "Yes" : "No"}</li>`
+            : `<li><strong>Domain Registration:</strong> ${domain ? "Yes" : "No"}</li>
+               <li><strong>Web Hosting:</strong> ${hosting ? "Yes" : "No"}</li>`
+        }
+        <li><strong>Estimated Range:</strong> ${range || "—"} (${currency || "NGN"})</li>
+        <li><strong>Budget:</strong> ${budget || "—"}</li>
+        <li><strong>Phone:</strong> ${phone || "—"}</li>
+        <li><strong>Email:</strong> ${email || "—"}</li>
+        ${note ? `<li><strong>Note:</strong> ${note}</li>` : ""}
       </ul>
-      <pre>${JSON.stringify(body, null, 2)}</pre>
     `;
 
     await transporter.sendMail({

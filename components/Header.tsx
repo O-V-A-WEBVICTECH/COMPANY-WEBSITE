@@ -1,6 +1,7 @@
 "use client";
 import { JSX, useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Menu, X } from "lucide-react";
 
 const navLinks = [
@@ -39,10 +40,18 @@ export default function Header(): JSX.Element {
         }`}
       >
         <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-10">
-          <nav className="flex items-center justify-between h-16">
+          <nav className="flex items-center justify-between h-20">
             {/* Logo */}
-            <Link href="/" className="flex items-center gap-2 shrink-0">
-              <span className="text-lg font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+            <Link href="/" className="flex items-center gap-3 shrink-0">
+              <Image
+                src="/ova-logo.png"
+                alt="O.V.A WebvicTech Logo"
+                width={72}
+                height={72}
+                className="rounded-full"
+                priority
+              />
+              <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
                 O.V.A WebvicTech
               </span>
             </Link>
@@ -102,9 +111,18 @@ export default function Header(): JSX.Element {
       >
         {/* Drawer header */}
         <div className="flex items-center justify-between px-5 h-16 border-b border-slate-100">
-          <span className="text-base font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-            O.V.A WebvicTech
-          </span>
+          <Link href="/" onClick={() => setOpen(false)} className="flex items-center gap-2">
+            <Image
+              src="/ova-logo.png"
+              alt="O.V.A WebvicTech Logo"
+              width={52}
+              height={52}
+              className="rounded-full"
+            />
+            <span className="text-base font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+              O.V.A WebvicTech
+            </span>
+          </Link>
           <button
             onClick={() => setOpen(false)}
             className="p-2 rounded-lg hover:bg-slate-100 transition-colors"

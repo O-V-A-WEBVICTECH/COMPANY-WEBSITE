@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { JSX } from "react";
+import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 import { Target, Eye, Users, Award, Code2, Rocket, Heart } from "lucide-react";
 
@@ -97,6 +98,21 @@ export default function About(): JSX.Element {
           {/* Content */}
           <div className="space-y-8">
             <div>
+              {/* Brand Logo */}
+              <div className="flex items-center gap-4 mb-6">
+                <Image
+                  src="/ova-logo.png"
+                  alt="O.V.A WebvicTech Logo"
+                  width={90}
+                  height={90}
+                  className="rounded-full shadow-lg ring-4 ring-blue-100"
+                />
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-widest text-blue-600">
+                    O.V.A WebvicTech
+                  </p>
+                </div>
+              </div>
               <h3 className="text-2xl md:text-3xl font-bold text-slate-900 mb-4">
                 Who We Are
               </h3>

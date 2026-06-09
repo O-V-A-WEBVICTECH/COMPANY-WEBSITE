@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
+import WhatsAppWidget from "@/components/WhatsAppWidget";
 import "./globals.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
@@ -16,62 +17,70 @@ const siteUrl =
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "WebvicTech Custom Web & Mobile App Development",
-    template: "%s | WebvicTech",
+    default: "O.V.A WebvicTech | #1 Web & App Development Company in Nigeria",
+    template: "%s | O.V.A WebvicTech Nigeria",
   },
   description:
-    "WebvicTech builds custom web applications, mobile apps, and enterprise software in Nigeria. Fast, secure, and scalable digital solutions for businesses.",
+    "O.V.A WebvicTech is Nigeria's leading web and mobile app development company. We build fast, secure, and scalable websites, web apps, and mobile applications for businesses across Lagos, Abuja, Port Harcourt and beyond.",
   keywords: [
+    // Brand
+    "O.V.A WebvicTech",
+    "WebvicTech",
+    "OVA WebvicTech",
+    "WebvicTech Nigeria",
     // Core services
-    "web development",
-    "mobile app development",
-    "software development company",
-    "custom software development",
-    "web application development",
+    "web development Nigeria",
+    "mobile app development Nigeria",
+    "software development company Nigeria",
+    "custom software development Nigeria",
+    "web application development Nigeria",
+    "website design Nigeria",
+    "website development Nigeria",
+    "ecommerce website Nigeria",
+    "fintech development Nigeria",
+    "best web developer Nigeria",
+    "affordable web development Nigeria",
+    "professional website Nigeria",
+    "digital agency Nigeria",
+    "IT company Nigeria",
+    "tech startup Nigeria",
+    "Nigerian software company",
+    "digital transformation Nigeria",
+    // Lagos
+    "web developer Lagos",
+    "software company Lagos",
+    "app developer Lagos",
+    "website design Lagos",
+    "web design Lagos",
+    "tech company Lagos",
+    "IT services Lagos",
+    // Abuja
+    "web design Abuja",
+    "software developer Abuja",
+    "web developer Abuja",
+    "app development Abuja",
+    "IT company Abuja",
+    // Port Harcourt
+    "web developer Port Harcourt",
+    "software company Port Harcourt",
     // Tech stack
     "Next.js development",
     "React development",
     "Node.js development",
     "Flutter app development",
     "React Native development",
-    // Nigeria-specific
-    "web developer in Nigeria",
-    "software company in Nigeria",
-    "web development company Nigeria",
-    "app development Nigeria",
-    "software developer Nigeria",
-    "tech company Nigeria",
-    "website design Nigeria",
-    "web developer Lagos",
-    "software company Lagos",
-    "app developer Lagos",
-    "web design Abuja",
-    "software developer Abuja",
-    "IT company Nigeria",
-    "digital agency Nigeria",
-    "tech startup Nigeria",
-    "Nigerian software company",
-    "website development Nigeria",
-    "ecommerce website Nigeria",
-    "fintech development Nigeria",
-    "best web developer Nigeria",
     // Business/service terms
-    "enterprise software solutions",
-    "cloud architecture",
-    "UI UX design",
-    "API development",
-    "ecommerce development",
-    "business website design",
-    "startup tech partner",
-    "digital transformation Nigeria",
-    "affordable web development Nigeria",
-    "professional website Nigeria",
-    // Brand
-    "WebvicTech",
+    "enterprise software solutions Nigeria",
+    "UI UX design Nigeria",
+    "API development Nigeria",
+    "ecommerce development Nigeria",
+    "business website design Nigeria",
+    "startup tech partner Nigeria",
+    "cloud architecture Nigeria",
   ],
-  authors: [{ name: "WebvicTech", url: siteUrl }],
-  creator: "WebvicTech INT' SERVICE LIMITED",
-  publisher: "WebvicTech INT' SERVICE LIMITED",
+  authors: [{ name: "O.V.A WebvicTech", url: siteUrl }],
+  creator: "O.V.A WebvicTech INT' SERVICE LIMITED",
+  publisher: "O.V.A WebvicTech INT' SERVICE LIMITED",
   category: "Technology",
   robots: {
     index: true,
@@ -86,36 +95,56 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: "website",
-    locale: "en_US",
+    locale: "en_NG",
     url: siteUrl,
-    siteName: "WebvicTech",
-    title: "WebvicTech — Custom Web & Mobile App Development",
+    siteName: "O.V.A WebvicTech",
+    title: "O.V.A WebvicTech — #1 Web & App Development Company in Nigeria",
     description:
-      "WebvicTech builds custom web applications, mobile apps, and enterprise software in Nigeria. Fast, secure, and scalable digital solutions for businesses.",
+      "Nigeria's leading web and mobile app development company. We build fast, secure, and scalable websites, web apps, and mobile applications for businesses across Lagos, Abuja, Port Harcourt and beyond.",
+    images: [
+      {
+        url: "/ova-logo.png",
+        width: 1200,
+        height: 630,
+        alt: "O.V.A WebvicTech — Web & App Development Nigeria",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     site: "@webvictech",
     creator: "@webvictech",
-    title: "WebvicTech — Custom Web & Mobile App Development",
+    title: "O.V.A WebvicTech — #1 Web & App Development Company in Nigeria",
     description:
-      "WebvicTech builds custom web applications, mobile apps, and enterprise software in Nigeria. Fast, secure, and scalable digital solutions for businesses.",
-    images: ["/og-image.png"],
+      "Nigeria's leading web and mobile app development company. Fast, secure, and scalable digital solutions for businesses across Nigeria.",
+    images: ["/ova-logo.png"],
   },
   alternates: {
     canonical: siteUrl,
+    languages: {
+      "en-NG": siteUrl,
+      "en-US": siteUrl,
+    },
   },
   manifest: "/site.webmanifest",
   icons: {
     icon: [
-      { url: "/icon", sizes: "48x48", type: "image/png" },
-      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/ova-logo-v2.svg", type: "image/svg+xml" },
+      { url: "/ova-logo.png", sizes: "512x512", type: "image/png" },
     ],
-    shortcut: "/favicon.svg",
-    apple: [{ url: "/apple-icon", sizes: "180x180", type: "image/png" }],
+    shortcut: "/ova-logo-v2.svg",
+    apple: [{ url: "/ova-logo.png", sizes: "180x180", type: "image/png" }],
+    other: [
+      { rel: "mask-icon", url: "/ova-logo-v2.svg" },
+    ],
   },
   verification: {
     google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
+  },
+  other: {
+    "geo.region": "NG",
+    "geo.placename": "Nigeria",
+    "DC.language": "en-NG",
   },
 };
 
@@ -135,9 +164,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en-NG">
       <body className={`${inter.variable} font-sans antialiased`}>
         {children}
+        <WhatsAppWidget />
         <Toaster richColors closeButton visibleToasts={5} expand={true} />
       </body>
     </html>

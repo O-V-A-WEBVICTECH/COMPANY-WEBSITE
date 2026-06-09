@@ -11,48 +11,158 @@ import Footer from "@/components/Footer";
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://webvictech.com";
 
 export const metadata: Metadata = {
-  title: "WebvicTech Custom Web & Mobile App Development",
+  title: "O.V.A WebvicTech | #1 Web & App Development Company in Nigeria",
   description:
-    "Transform your vision into reality. We design and develop exceptional web applications, mobile apps, and enterprise solutions that elevate your brand and drive measurable results.",
+    "Nigeria's leading web and mobile app development company. We design and build exceptional websites, web applications, mobile apps, and enterprise solutions for businesses across Lagos, Abuja, Port Harcourt and beyond.",
   alternates: { canonical: siteUrl },
   openGraph: {
     url: siteUrl,
-    title: "WebvicTech — Custom Web & Mobile App Development",
+    title: "O.V.A WebvicTech — #1 Web & App Development Company in Nigeria",
     description:
-      "Transform your vision into reality. Custom web apps, mobile apps, and enterprise solutions.",
+      "Nigeria's leading web and mobile app development company. Custom websites, web apps, mobile apps, and enterprise solutions.",
+    images: [
+      {
+        url: "/ova-logo.png",
+        width: 1200,
+        height: 630,
+        alt: "O.V.A WebvicTech Nigeria",
+      },
+    ],
   },
 };
 
 export default function App() {
   const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "Organization",
-    name: "WebvicTech INT' SERVICE LIMITED",
-    url: siteUrl,
-    logo: `${siteUrl}/ovi-logo.png`,
-    description:
-      "Custom web application, mobile app, and enterprise software development agency.",
-    email: "info@webvictech.com",
-    telephone: "+1-555-123-4567",
-    address: {
-      "@type": "PostalAddress",
-      streetAddress: "123 Tech Street",
-      addressLocality: "Digital City",
-      addressRegion: "CA",
-      postalCode: "94103",
-      addressCountry: "US",
-    },
-    sameAs: [
-      "https://twitter.com/webvictech",
-      "https://linkedin.com/company/webvictech",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": `${siteUrl}/#organization`,
+        name: "O.V.A WebvicTech INT' SERVICE LIMITED",
+        alternateName: "WebvicTech",
+        url: siteUrl,
+        logo: {
+          "@type": "ImageObject",
+          url: `${siteUrl}/ova-logo.png`,
+          width: 512,
+          height: 512,
+        },
+        image: `${siteUrl}/ova-logo.png`,
+        description:
+          "Nigeria's leading web and mobile app development company. We build custom websites, web applications, mobile apps, and enterprise software for businesses across Lagos, Abuja, Port Harcourt and all of Nigeria.",
+        email: "info@webvictech.com",
+        telephone: "+234-800-000-0000",
+        foundingDate: "2020",
+        numberOfEmployees: {
+          "@type": "QuantitativeValue",
+          minValue: 5,
+          maxValue: 50,
+        },
+        address: {
+          "@type": "PostalAddress",
+          streetAddress: "Lagos Business District",
+          addressLocality: "Lagos",
+          addressRegion: "Lagos State",
+          postalCode: "100001",
+          addressCountry: "NG",
+        },
+        areaServed: [
+          { "@type": "Country", name: "Nigeria" },
+          { "@type": "City", name: "Lagos" },
+          { "@type": "City", name: "Abuja" },
+          { "@type": "City", name: "Port Harcourt" },
+        ],
+        sameAs: [
+          "https://twitter.com/webvictech",
+          "https://linkedin.com/company/webvictech",
+        ],
+        hasOfferCatalog: {
+          "@type": "OfferCatalog",
+          name: "Web & App Development Services",
+          itemListElement: [
+            {
+              "@type": "Offer",
+              name: "Website Design & Development",
+              description: "Custom business websites built for speed and conversions",
+              areaServed: "Nigeria",
+              priceCurrency: "NGN",
+            },
+            {
+              "@type": "Offer",
+              name: "Web Application Development",
+              description: "Scalable web apps using React, Next.js and Node.js",
+              areaServed: "Nigeria",
+              priceCurrency: "NGN",
+            },
+            {
+              "@type": "Offer",
+              name: "Mobile App Development",
+              description: "Cross-platform mobile apps for Android and iOS",
+              areaServed: "Nigeria",
+              priceCurrency: "NGN",
+            },
+            {
+              "@type": "Offer",
+              name: "E-commerce Development",
+              description: "Full-featured online stores for Nigerian businesses",
+              areaServed: "Nigeria",
+              priceCurrency: "NGN",
+            },
+          ],
+        },
+      },
+      {
+        "@type": "WebSite",
+        "@id": `${siteUrl}/#website`,
+        url: siteUrl,
+        name: "O.V.A WebvicTech",
+        description: "Nigeria's leading web and mobile app development company",
+        publisher: { "@id": `${siteUrl}/#organization` },
+        potentialAction: {
+          "@type": "SearchAction",
+          target: {
+            "@type": "EntryPoint",
+            urlTemplate: `${siteUrl}/?q={search_term_string}`,
+          },
+          "query-input": "required name=search_term_string",
+        },
+        inLanguage: "en-NG",
+      },
+      {
+        "@type": "LocalBusiness",
+        "@id": `${siteUrl}/#localbusiness`,
+        name: "O.V.A WebvicTech INT' SERVICE LIMITED",
+        image: `${siteUrl}/ova-logo.png`,
+        url: siteUrl,
+        telephone: "+234-800-000-0000",
+        email: "info@webvictech.com",
+        address: {
+          "@type": "PostalAddress",
+          streetAddress: "Lagos Business District",
+          addressLocality: "Lagos",
+          addressRegion: "Lagos State",
+          postalCode: "100001",
+          addressCountry: "NG",
+        },
+        geo: {
+          "@type": "GeoCoordinates",
+          latitude: 6.5244,
+          longitude: 3.3792,
+        },
+        openingHoursSpecification: [
+          {
+            "@type": "OpeningHoursSpecification",
+            dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+            opens: "08:00",
+            closes: "18:00",
+          },
+        ],
+        priceRange: "₦₦",
+        servesCuisine: null,
+        currenciesAccepted: "NGN",
+        paymentAccepted: "Bank Transfer, Card",
+      },
     ],
-    offers: {
-      "@type": "Offer",
-      name: "Pro Plan",
-      price: "5000",
-      priceCurrency: "NGN",
-      description: "Unlimited website performance analyses and advanced insights",
-    },
   };
 
   return (

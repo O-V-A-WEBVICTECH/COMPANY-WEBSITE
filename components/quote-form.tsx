@@ -24,15 +24,22 @@ import {
   Send,
   CheckCircle2,
   XCircle,
+  Globe,
+  Server,
+  ShoppingCart,
+  Briefcase,
+  Newspaper,
+  CalendarCheck,
+  Store,
+  Layers,
+  FileText,
+  User,
+  Cpu,
+  Zap,
+  GitBranch,
+  Radio,
 } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import {
   FaReact,
   FaAndroid,
@@ -43,13 +50,18 @@ import {
 import { SiFlutter } from "react-icons/si";
 import { TbWorld } from "react-icons/tb";
 
+export type ServiceCategory = "website" | "backend";
+
 export interface QuotePayload {
   title: string;
+  serviceCategory: ServiceCategory;
   type: string;
   platforms: string[];
   features: string[];
   domain: boolean;
   hosting: boolean;
+  deployment: boolean;
+  ciCd: boolean;
   budget: string;
   email: string;
   phone: string;
@@ -75,7 +87,32 @@ const EMPTY_QUOTE_WEBSITE: QuotePricing["website"] = {
   optional: [],
 };
 
-// Platform icon mapping
+const EMPTY_QUOTE_BACKEND: QuotePricing["backend"] = {
+  base: { min: 0, max: 0 },
+  types: [],
+  features: [],
+  optional: [],
+};
+
+// Feature presets per project type — auto-selected when a type is chosen
+const WEBSITE_TYPE_PRESETS: Record<string, string[]> = {
+  landing:     ["seo"],
+  portfolio:   ["seo", "cms"],
+  business:    ["seo", "cms", "live_chat", "notifications"],
+  blog_cms:    ["cms", "seo", "social_auth", "analytics"],
+  ecommerce:   ["auth", "payment", "admin_panel", "notifications", "analytics", "seo"],
+  saas:        ["auth", "admin_panel", "payment", "analytics", "notifications", "social_auth"],
+  booking:     ["auth", "payment", "notifications", "admin_panel"],
+  marketplace: ["auth", "payment", "admin_panel", "analytics", "notifications", "seo", "multilang"],
+};
+
+const BACKEND_TYPE_PRESETS: Record<string, string[]> = {
+  rest_api:      ["auth_backend", "database_design", "api_docs"],
+  graphql_api:   ["auth_backend", "database_design", "api_docs", "caching"],
+  microservices: ["auth_backend", "database_design", "api_docs", "caching", "email_service"],
+  realtime:      ["auth_backend", "database_design", "caching"],
+  serverless:    ["database_design", "api_docs"],
+};
 const platformIcons: Record<string, React.ReactNode> = {
   web: <TbWorld className="w-5 h-5" />,
   android: <FaAndroid className="w-5 h-5" />,
@@ -86,15 +123,50 @@ const platformIcons: Record<string, React.ReactNode> = {
   pwa: <FaChrome className="w-5 h-5" />,
 };
 
+// Website type icons + descriptions
+const websiteTypeConfig: Record<string, { icon: React.ReactNode; desc: string }> = {
+  landing:     { icon: <FileText className="w-5 h-5" />,     desc: "Single page to convert visitors" },
+  portfolio:   { icon: <User className="w-5 h-5" />,         desc: "Showcase your work & skills" },
+  business:    { icon: <Briefcase className="w-5 h-5" />,    desc: "Professional company presence" },
+  blog_cms:    { icon: <Newspaper className="w-5 h-5" />,    desc: "Content publishing platform" },
+  ecommerce:   { icon: <ShoppingCart className="w-5 h-5" />, desc: "Sell products online with checkout" },
+  saas:        { icon: <Layers className="w-5 h-5" />,       desc: "Software-as-a-service platform" },
+  booking:     { icon: <CalendarCheck className="w-5 h-5" />,desc: "Schedule appointments & reservations" },
+  marketplace: { icon: <Store className="w-5 h-5" />,        desc: "Multi-vendor buying & selling" },
+};
+
+// Backend type icons + descriptions
+const backendTypeConfig: Record<string, { icon: React.ReactNode; desc: string }> = {
+  rest_api:      { icon: <Server className="w-5 h-5" />,     desc: "Standard HTTP REST endpoints" },
+  graphql_api:   { icon: <GitBranch className="w-5 h-5" />,  desc: "Flexible query-based API" },
+  microservices: { icon: <Cpu className="w-5 h-5" />,        desc: "Independent scalable services" },
+  realtime:      { icon: <Radio className="w-5 h-5" />,      desc: "Live data via WebSockets" },
+  serverless:    { icon: <Zap className="w-5 h-5" />,        desc: "Event-driven cloud functions" },
+};
+
 export default function QuoteForm({ pricing, onSent }: QuoteFormProps) {
+  // ── Service category ────────────────────────────────────────────────────
+  const [serviceCategory, setServiceCategory] =
+    useState<ServiceCategory>("website");
+
   const [title, setTitle] = useState<string>("");
   const [type, setType] = useState<string>(
     () => pricing.website?.types?.[0]?.value ?? "",
   );
   const [platforms, setPlatforms] = useState<string[]>([]);
-  const [features, setFeatures] = useState<string[]>([]);
+  const [features, setFeatures] = useState<string[]>(() => {
+    const firstType = pricing.website?.types?.[0]?.value ?? "";
+    return WEBSITE_TYPE_PRESETS[firstType] ?? [];
+  });
+
+  // website add-ons
   const [domain, setDomain] = useState<boolean>(false);
   const [hosting, setHosting] = useState<boolean>(false);
+
+  // backend add-ons
+  const [deployment, setDeployment] = useState<boolean>(false);
+  const [ciCd, setCiCd] = useState<boolean>(false);
+
   const [budget, setBudget] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [phonenumber, setPhonenumber] = useState<string>("");
@@ -103,11 +175,39 @@ export default function QuoteForm({ pricing, onSent }: QuoteFormProps) {
   const [exchangeRate, setExchangeRate] = useState<number>(1600);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
+  // Reset selections when category switches
+  const handleCategoryChange = (cat: ServiceCategory) => {
+    const firstType =
+      cat === "website"
+        ? pricing.website?.types?.[0]?.value ?? ""
+        : pricing.backend?.types?.[0]?.value ?? "";
+    setServiceCategory(cat);
+    setType(firstType);
+    setPlatforms([]);
+    setFeatures(
+      cat === "website"
+        ? WEBSITE_TYPE_PRESETS[firstType] ?? []
+        : BACKEND_TYPE_PRESETS[firstType] ?? [],
+    );
+    setDomain(false);
+    setHosting(false);
+    setDeployment(false);
+    setCiCd(false);
+  };
+
+  // Apply feature preset when type changes
+  const handleTypeChange = (val: string) => {
+    setType(val);
+    const preset = isWebsite
+      ? WEBSITE_TYPE_PRESETS[val] ?? []
+      : BACKEND_TYPE_PRESETS[val] ?? [];
+    setFeatures(preset);
+  };
+
   useEffect(() => {
     async function detectLocation() {
       try {
         const response = await axios.get("https://ipapi.co/json/");
-
         if (response?.data.country_code === "NG") {
           setCurrency("NGN");
         } else {
@@ -142,91 +242,97 @@ export default function QuoteForm({ pricing, onSent }: QuoteFormProps) {
   };
 
   const website = pricing.website ?? EMPTY_QUOTE_WEBSITE;
+  const backend = pricing.backend ?? EMPTY_QUOTE_BACKEND;
+  const isWebsite = serviceCategory === "website";
+  const activeSection = isWebsite ? website : backend;
 
-  const hasPricingData =
-    website.types.length > 0 &&
-    website.platforms.length > 0 &&
-    website.features.length > 0;
-
-  const selectedTypeLabel =
-    website.types.find((item) => item.value === type)?.label ?? "Not selected";
-  const selectedPlatformsLabel =
-    platforms.length > 0
-      ? website.platforms
-          .filter((item) => platforms.includes(item.value))
-          .map((item) => item.label)
-          .join(", ")
-      : "None selected";
-  const selectedFeaturesLabel =
-    features.length > 0
-      ? website.features
-          .filter((item) => features.includes(item.value))
-          .map((item) => item.label)
-          .join(", ")
-      : "None selected";
-  const selectedAddonsLabel =
-    [domain ? "Domain registration" : null, hosting ? "Web hosting" : null]
-      .filter(Boolean)
-      .join(", ") || "None selected";
+  const hasPricingData = isWebsite
+    ? website.types.length > 0 &&
+      website.platforms.length > 0 &&
+      website.features.length > 0
+    : backend.types.length > 0 && backend.features.length > 0;
 
   const convertPrice = (ngnPrice: number): number => {
-    if (currency === "USD") {
-      return Math.round(ngnPrice / exchangeRate);
-    }
+    if (currency === "USD") return Math.round(ngnPrice / exchangeRate);
     return ngnPrice;
   };
 
   const fmt = (n: number): string => {
-    const convertedAmount = convertPrice(n);
-    if (currency === "USD") {
-      return "$" + convertedAmount.toLocaleString();
-    }
-    return "₦" + convertedAmount.toLocaleString();
+    const converted = convertPrice(n);
+    return currency === "USD"
+      ? "$" + converted.toLocaleString()
+      : "₦" + converted.toLocaleString();
   };
 
+  // ── Live price calculation ───────────────────────────────────────────────
   const range = useMemo<PriceRange>(() => {
-    let min = website.base.min || 0;
-    let max = website.base.max || 0;
+    let min = activeSection.base.min || 0;
+    let max = activeSection.base.max || 0;
 
-    const t = website.types.find((x) => x.value === type);
-    if (t) {
-      min += t.min || 0;
-      max += t.max || 0;
-    }
+    const t = activeSection.types.find((x) => x.value === type);
+    if (t) { min += t.min || 0; max += t.max || 0; }
 
-    for (const p of platforms) {
-      const obj = website.platforms.find((x) => x.value === p);
-      if (obj) {
-        min += obj.min || 0;
-        max += obj.max || 0;
+    if (isWebsite) {
+      for (const p of platforms) {
+        const obj = website.platforms.find((x) => x.value === p);
+        if (obj) { min += obj.min || 0; max += obj.max || 0; }
       }
     }
 
     for (const f of features) {
-      const obj = website.features.find((x) => x.value === f);
-      if (obj) {
-        min += obj.min || 0;
-        max += obj.max || 0;
-      }
+      const obj = activeSection.features.find((x) => x.value === f);
+      if (obj) { min += obj.min || 0; max += obj.max || 0; }
     }
 
-    if (domain) {
-      const d = website.optional.find((x) => x.value === "domain");
-      if (d) {
-        min += d.min;
-        max += d.max;
+    if (isWebsite) {
+      if (domain) {
+        const d = website.optional.find((x) => x.value === "domain");
+        if (d) { min += d.min; max += d.max; }
       }
-    }
-    if (hosting) {
-      const h = website.optional.find((x) => x.value === "hosting_first");
-      if (h) {
-        min += h.min;
-        max += h.max;
+      if (hosting) {
+        const h = website.optional.find((x) => x.value === "hosting_first");
+        if (h) { min += h.min; max += h.max; }
+      }
+    } else {
+      if (deployment) {
+        const d = backend.optional.find((x) => x.value === "deployment");
+        if (d) { min += d.min; max += d.max; }
+      }
+      if (ciCd) {
+        const c = backend.optional.find((x) => x.value === "ci_cd");
+        if (c) { min += c.min; max += c.max; }
       }
     }
 
     return { min, max };
-  }, [website, type, platforms, features, domain, hosting]);
+  }, [activeSection, isWebsite, website, backend, type, platforms, features, domain, hosting, deployment, ciCd]);
+
+  // ── Summary labels ───────────────────────────────────────────────────────
+  const selectedTypeLabel =
+    activeSection.types.find((item) => item.value === type)?.label ?? "Not selected";
+
+  const selectedPlatformsLabel = isWebsite
+    ? platforms.length > 0
+      ? website.platforms
+          .filter((item) => platforms.includes(item.value))
+          .map((item) => item.label)
+          .join(", ")
+      : "None selected"
+    : "N/A";
+
+  const selectedFeaturesLabel =
+    features.length > 0
+      ? activeSection.features
+          .filter((item) => features.includes(item.value))
+          .map((item) => item.label)
+          .join(", ")
+      : "None selected";
+
+  const selectedAddonsLabel = isWebsite
+    ? [domain ? "Domain" : null, hosting ? "Hosting" : null]
+        .filter(Boolean).join(", ") || "None selected"
+    : [deployment ? "Deployment & DevOps" : null, ciCd ? "CI/CD Pipeline" : null]
+        .filter(Boolean).join(", ") || "None selected";
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>): Promise<void> {
     e.preventDefault();
@@ -240,11 +346,14 @@ export default function QuoteForm({ pricing, onSent }: QuoteFormProps) {
 
     const payload: QuotePayload = {
       title,
+      serviceCategory,
       type,
-      platforms,
+      platforms: isWebsite ? platforms : [],
       features,
-      domain,
-      hosting,
+      domain: isWebsite ? domain : false,
+      hosting: isWebsite ? hosting : false,
+      deployment: !isWebsite ? deployment : false,
+      ciCd: !isWebsite ? ciCd : false,
       budget,
       email,
       phone: phonenumber,
@@ -257,15 +366,11 @@ export default function QuoteForm({ pricing, onSent }: QuoteFormProps) {
 
       if (res.status === 200) {
         onSent({ estimate_id: res.data?.estimate_id, payload });
-
         setStatus({
           type: "success",
           message: "Quote request sent successfully! Reloading...",
         });
-
-        setTimeout(() => {
-          window.location.reload();
-        }, 5000);
+        setTimeout(() => window.location.reload(), 5000);
       }
     } catch (err) {
       console.error("Network error:", err);
@@ -275,12 +380,8 @@ export default function QuoteForm({ pricing, onSent }: QuoteFormProps) {
     }
   }
 
-  // Get icon for platform or return default
-  const getPlatformIcon = (value: string) => {
-    return (
-      platformIcons[value.toLowerCase()] || <Smartphone className="w-5 h-5" />
-    );
-  };
+  const getPlatformIcon = (value: string) =>
+    platformIcons[value.toLowerCase()] || <Smartphone className="w-5 h-5" />;
 
   if (!hasPricingData) {
     return (
@@ -297,6 +398,8 @@ export default function QuoteForm({ pricing, onSent }: QuoteFormProps) {
   return (
     <div className="max-w-5xl mx-auto">
       <form onSubmit={handleSubmit} className="space-y-4">
+
+        {/* ── Currency bar ── */}
         <div className="sticky top-4 z-20">
           <Alert className="bg-gradient-to-r from-blue-50 to-indigo-50 border-blue-200">
             <AlertDescription className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -314,8 +417,63 @@ export default function QuoteForm({ pricing, onSent }: QuoteFormProps) {
           </Alert>
         </div>
 
+        {/* ── Service category toggle ── */}
+        <Card>
+          <CardHeader className="pb-3">
+            <CardTitle className="flex items-center gap-2">
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 6h16M4 10h16M4 14h16M4 18h16"
+                />
+              </svg>
+              Service Category
+            </CardTitle>
+            <CardDescription>
+              What kind of project are you planning?
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="p-3 pt-0">
+            <div className="grid grid-cols-2 gap-3">
+              <Button
+                type="button"
+                variant={isWebsite ? "default" : "outline"}
+                onClick={() => handleCategoryChange("website")}
+                className="flex flex-col items-center gap-2 h-auto py-4 rounded-2xl"
+              >
+                <Globe className="w-5 h-5" />
+                <span className="font-semibold">Website / App</span>
+                <span className="text-xs font-normal opacity-80">
+                  Frontend &amp; full-stack projects
+                </span>
+              </Button>
+              <Button
+                type="button"
+                variant={!isWebsite ? "default" : "outline"}
+                onClick={() => handleCategoryChange("backend")}
+                className="flex flex-col items-center gap-2 h-auto py-4 rounded-2xl"
+              >
+                <Server className="w-5 h-5" />
+                <span className="font-semibold">Backend / API</span>
+                <span className="text-xs font-normal opacity-80">
+                  APIs, microservices &amp; databases
+                </span>
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+
         <div className="grid gap-4 lg:grid-cols-[2fr_1fr]">
           <div className="space-y-4">
+
+            {/* ── Project Details ── */}
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
@@ -345,87 +503,123 @@ export default function QuoteForm({ pricing, onSent }: QuoteFormProps) {
                     onChange={(e: ChangeEvent<HTMLInputElement>) =>
                       setTitle(e.target.value)
                     }
-                    placeholder="e.g., My E-commerce Store"
+                    placeholder={
+                      isWebsite
+                        ? "e.g., My E-commerce Store"
+                        : "e.g., Payments REST API"
+                    }
                   />
                 </div>
 
                 <div className="space-y-2 mt-2">
-                  <Label htmlFor="project-type">Project Type</Label>
-                  <Select value={type} onValueChange={setType}>
-                    <SelectTrigger id="project-type">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {website.types.map((t) => (
-                        <SelectItem
-                          className="w-full"
+                  <Label>
+                    {isWebsite ? "Project Type" : "API / Backend Type"}
+                  </Label>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                    {activeSection.types.map((t) => {
+                      const config = isWebsite
+                        ? websiteTypeConfig[t.value]
+                        : backendTypeConfig[t.value];
+                      const isSelected = type === t.value;
+                      return (
+                        <button
                           key={t.value}
-                          value={t.value}
+                          type="button"
+                          onClick={() => handleTypeChange(t.value)}
+                          className={`flex flex-col items-start gap-1.5 rounded-2xl border-2 p-3 text-left transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ${
+                            isSelected
+                              ? "border-primary bg-primary text-primary-foreground"
+                              : "border-border bg-white hover:border-primary/50 hover:bg-slate-50"
+                          }`}
                         >
-                          <div className="flex items-start flex-col gap-1">
-                            <div className="font-medium">{t.label}</div>
-                            <div className="text-xs text-muted-foreground">
-                              {fmt(t.min)} - {fmt(t.max)}
-                            </div>
-                          </div>
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                          <span className={isSelected ? "text-primary-foreground" : "text-primary"}>
+                            {config?.icon ?? <FileText className="w-5 h-5" />}
+                          </span>
+                          <span className="text-sm font-semibold leading-tight">
+                            {t.label}
+                          </span>
+                          {config?.desc && (
+                            <span className={`text-xs leading-snug ${isSelected ? "opacity-80" : "text-muted-foreground"}`}>
+                              {config.desc}
+                            </span>
+                          )}
+                          <span className={`text-xs font-medium mt-0.5 ${isSelected ? "opacity-75" : "text-slate-500"}`}>
+                            {fmt(t.min)} – {fmt(t.max)}
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
                 </div>
               </CardContent>
             </Card>
 
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Smartphone className="w-5 h-5" />
-                  Platforms
-                </CardTitle>
-                <CardDescription>Choose the platforms you need</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="grid gap-3 sm:grid-cols-2">
-                  {website.platforms.map((p) => (
-                    <Button
-                      type="button"
-                      key={p.value}
-                      variant={
-                        platforms.includes(p.value) ? "default" : "outline"
-                      }
-                      onClick={() => toggle(setPlatforms, platforms, p.value)}
-                      className="flex h-full flex-col items-center justify-center rounded-3xl py-3 px-2.5 text-center"
-                    >
-                      {getPlatformIcon(p.value)}
-                      <div className="mt-2 text-sm font-medium">{p.label}</div>
-                      <div className="text-xs text-muted-foreground mt-1">
-                        {fmt(p.min)} - {fmt(p.max)}
-                      </div>
-                    </Button>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
+            {/* ── Platforms (website only) ── */}
+            {isWebsite && (
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Smartphone className="w-5 h-5" />
+                    Platforms
+                  </CardTitle>
+                  <CardDescription>
+                    Choose the platforms you need
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                    {website.platforms.map((p) => {
+                      const isSelected = platforms.includes(p.value);
+                      return (
+                        <button
+                          key={p.value}
+                          type="button"
+                          onClick={() => toggle(setPlatforms, platforms, p.value)}
+                          className={`flex flex-col items-start gap-1.5 rounded-2xl border-2 p-3 text-left transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ${
+                            isSelected
+                              ? "border-primary bg-primary text-primary-foreground"
+                              : "border-border bg-white hover:border-primary/50 hover:bg-slate-50"
+                          }`}
+                        >
+                          <span className={isSelected ? "text-primary-foreground" : "text-primary"}>
+                            {getPlatformIcon(p.value)}
+                          </span>
+                          <span className="text-sm font-semibold leading-tight">
+                            {p.label}
+                          </span>
+                          <span className={`text-xs font-medium mt-0.5 ${isSelected ? "opacity-75" : "text-slate-500"}`}>
+                            {p.min === 0 && p.max === 0 ? "Included" : `${fmt(p.min)} – ${fmt(p.max)}`}
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
 
+            {/* ── Features ── */}
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Puzzle className="w-5 h-5" />
-                  Extra Features
+                  {isWebsite ? "Extra Features" : "API Features"}
                 </CardTitle>
                 <CardDescription>
-                  Choose additional features for your project
+                  {isWebsite
+                    ? "Pre-selected based on your project type — customise as needed"
+                    : "Select the capabilities your API needs"}
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="grid md:grid-cols-2 gap-3">
-                  {website.features.map((f) => (
+                  {activeSection.features.map((f) => (
                     <label
                       key={f.value}
                       htmlFor={`feature-${f.value}`}
                       className={`flex items-start gap-3 p-4 border-2 rounded-3xl cursor-pointer transition-all ${
                         features.includes(f.value)
-                          ? "border-primary bg-primary/5"
+                          ? "border-primary bg-primary text-primary-foreground"
                           : "border-border hover:border-primary/50"
                       }`}
                     >
@@ -435,14 +629,18 @@ export default function QuoteForm({ pricing, onSent }: QuoteFormProps) {
                         onCheckedChange={() =>
                           toggle(setFeatures, features, f.value)
                         }
+                        className={features.includes(f.value) ? "border-primary-foreground data-[state=checked]:bg-primary-foreground data-[state=checked]:text-primary" : ""}
                       />
                       <div className="flex-1 space-y-1">
                         <div className="font-semibold">{f.label}</div>
-                        <div className="text-sm text-muted-foreground">
+                        <div className={`text-sm ${features.includes(f.value) ? "opacity-80" : "text-muted-foreground"}`}>
                           {f.description}
                         </div>
-                        <Badge variant="secondary" className="mt-2">
-                          {fmt(f.min)} - {fmt(f.max)}
+                        <Badge
+                          variant={features.includes(f.value) ? "outline" : "secondary"}
+                          className={`mt-2 ${features.includes(f.value) ? "border-primary-foreground/40 text-primary-foreground" : ""}`}
+                        >
+                          {fmt(f.min)} – {fmt(f.max)}
                         </Badge>
                       </div>
                     </label>
@@ -451,6 +649,7 @@ export default function QuoteForm({ pricing, onSent }: QuoteFormProps) {
               </CardContent>
             </Card>
 
+            {/* ── Optional Add-ons ── */}
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
@@ -462,42 +661,76 @@ export default function QuoteForm({ pricing, onSent }: QuoteFormProps) {
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-3">
-                <div className="flex items-center space-x-3 p-3 border rounded-3xl">
-                  <Checkbox
-                    id="domain"
-                    checked={domain}
-                    onCheckedChange={(checked) => setDomain(checked as boolean)}
-                  />
-                  <label
-                    htmlFor="domain"
-                    className="flex-1 cursor-pointer font-medium leading-none"
-                  >
-                    Domain Registration
-                    <span className="text-sm text-muted-foreground ml-2">
-                      ({fmt(35000)} / year)
-                    </span>
-                  </label>
-                </div>
-
-                <div className="flex items-center space-x-3 p-4 border rounded-3xl">
-                  <Checkbox
-                    id="hosting"
-                    checked={hosting}
-                    onCheckedChange={(checked) =>
-                      setHosting(checked as boolean)
-                    }
-                  />
-                  <label
-                    htmlFor="hosting"
-                    className="flex-1 cursor-pointer font-medium leading-none"
-                  >
-                    Web Hosting
-                    <span className="text-sm text-muted-foreground ml-2">
-                      ({fmt(15000)} first month, {fmt(12000)} monthly)
-                    </span>
-                  </label>
-                </div>
-
+                {isWebsite ? (
+                  <>
+                    <div className="flex items-center space-x-3 p-3 border rounded-3xl">
+                      <Checkbox
+                        id="domain"
+                        checked={domain}
+                        onCheckedChange={(checked) =>
+                          setDomain(checked as boolean)
+                        }
+                      />
+                      <label
+                        htmlFor="domain"
+                        className="flex-1 cursor-pointer font-medium leading-none"
+                      >
+                        Domain Registration
+                        <span className="text-sm text-muted-foreground ml-2">
+                          ({fmt(35000)} / year)
+                        </span>
+                      </label>
+                    </div>
+                    <div className="flex items-center space-x-3 p-4 border rounded-3xl">
+                      <Checkbox
+                        id="hosting"
+                        checked={hosting}
+                        onCheckedChange={(checked) =>
+                          setHosting(checked as boolean)
+                        }
+                      />
+                      <label
+                        htmlFor="hosting"
+                        className="flex-1 cursor-pointer font-medium leading-none"
+                      >
+                        Web Hosting
+                        <span className="text-sm text-muted-foreground ml-2">
+                          ({fmt(15000)} first month, {fmt(12000)} monthly)
+                        </span>
+                      </label>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    {backend.optional.map((opt) => {
+                      const checked =
+                        opt.value === "deployment" ? deployment : ciCd;
+                      const setter =
+                        opt.value === "deployment" ? setDeployment : setCiCd;
+                      return (
+                        <div
+                          key={opt.value}
+                          className="flex items-center space-x-3 p-4 border rounded-3xl"
+                        >
+                          <Checkbox
+                            id={opt.value}
+                            checked={checked}
+                            onCheckedChange={(c) => setter(c as boolean)}
+                          />
+                          <label
+                            htmlFor={opt.value}
+                            className="flex-1 cursor-pointer font-medium leading-none"
+                          >
+                            {opt.label}
+                            <span className="text-sm text-muted-foreground ml-2">
+                              ({fmt(opt.min)} – {fmt(opt.max)})
+                            </span>
+                          </label>
+                        </div>
+                      );
+                    })}
+                  </>
+                )}
                 <Alert>
                   <AlertDescription className="text-sm">
                     💡 These add-ons are optional — leave unchecked to skip
@@ -506,6 +739,7 @@ export default function QuoteForm({ pricing, onSent }: QuoteFormProps) {
               </CardContent>
             </Card>
 
+            {/* ── Budget ── */}
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
@@ -528,6 +762,7 @@ export default function QuoteForm({ pricing, onSent }: QuoteFormProps) {
               </CardContent>
             </Card>
 
+            {/* ── Contact ── */}
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
@@ -552,7 +787,6 @@ export default function QuoteForm({ pricing, onSent }: QuoteFormProps) {
                     required
                   />
                 </div>
-
                 <div className="space-y-2">
                   <Label htmlFor="phone">
                     Phone Number <span className="text-destructive">*</span>
@@ -572,6 +806,7 @@ export default function QuoteForm({ pricing, onSent }: QuoteFormProps) {
             </Card>
           </div>
 
+          {/* ── Sidebar summary ── */}
           <aside className="space-y-4 lg:sticky lg:top-24">
             <Card className="bg-slate-50 border-slate-200">
               <CardHeader>
@@ -586,7 +821,7 @@ export default function QuoteForm({ pricing, onSent }: QuoteFormProps) {
                     Estimated cost
                   </p>
                   <p className="mt-4 text-2xl font-bold text-slate-900">
-                    {fmt(range.min)} - {fmt(range.max)}
+                    {fmt(range.min)} – {fmt(range.max)}
                   </p>
                   <p className="mt-2 text-sm text-slate-500">
                     Pricing updates automatically as you choose options.
@@ -595,9 +830,15 @@ export default function QuoteForm({ pricing, onSent }: QuoteFormProps) {
 
                 <div className="grid gap-2 text-sm text-slate-600">
                   {[
-                    { label: "Project type", value: selectedTypeLabel },
-                    { label: "Platforms", value: selectedPlatformsLabel },
-                    { label: "Extras", value: selectedFeaturesLabel },
+                    {
+                      label: "Service",
+                      value: isWebsite ? "Website / App" : "Backend / API",
+                    },
+                    { label: "Type", value: selectedTypeLabel },
+                    ...(isWebsite
+                      ? [{ label: "Platforms", value: selectedPlatformsLabel }]
+                      : []),
+                    { label: "Features", value: selectedFeaturesLabel },
                     { label: "Add-ons", value: selectedAddonsLabel },
                     { label: "Budget", value: budget || "Not provided" },
                   ].map((item) => (
@@ -671,15 +912,14 @@ export default function QuoteForm({ pricing, onSent }: QuoteFormProps) {
               <CardHeader>
                 <CardTitle className="text-lg">Need help?</CardTitle>
                 <CardDescription>
-                  We’re happy to assist with your project scope.
+                  We&apos;re happy to assist with your project scope.
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-3 p-2 md:p-4">
                 <div className="rounded-2xl bg-white p-2 md:p-4 shadow-sm">
                   <p className="text-sm text-slate-600">
-                    If you need help choosing the right package, contact us at
+                    If you need help choosing the right package, contact us at{" "}
                     <strong className="text-slate-900">
-                      {" "}
                       support@webvitech.com
                     </strong>
                     .
