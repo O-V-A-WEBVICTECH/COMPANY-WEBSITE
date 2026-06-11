@@ -45,7 +45,7 @@ export default function Header(): JSX.Element {
             <Link href="/" className="flex items-center gap-3 shrink-0">
               <div className="flex flex-col">
                 <span className="text-xl uppercase font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-                  O.V.A WebvicTech
+                  O.V.A Webvic Tech
                 </span>
                 <span className="text-xs font-light italic text-slate-400">
                   INT'L SERVICES
