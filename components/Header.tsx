@@ -44,6 +44,7 @@ export default function Header(): JSX.Element {
             {/* Brand text only (logo removed) */}
             <Link href="/" className="flex items-center gap-3 shrink-0">
               <span className="text-xl uppercase font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                O.V.A
                 WebvicTech
               </span>
             </Link>
