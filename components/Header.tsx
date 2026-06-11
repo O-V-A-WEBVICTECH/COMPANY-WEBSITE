@@ -43,10 +43,14 @@ export default function Header(): JSX.Element {
           <nav className="flex items-center justify-between h-16">
             {/* Brand text only (logo removed) */}
             <Link href="/" className="flex items-center gap-3 shrink-0">
-              <span className="text-xl uppercase font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-                O.V.A
-                WebvicTech
-              </span>
+              <div className="flex flex-col">
+                <span className="text-xl uppercase font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                  O.V.A WebvicTech
+                </span>
+                <span className="text-xs font-light italic text-slate-400">
+                  INT'L SERVICES
+                </span>
+              </div>
             </Link>
 
             {/* Desktop nav */}
@@ -67,7 +71,7 @@ export default function Header(): JSX.Element {
             <div className="hidden md:flex items-center">
               <Link
                 href="/#contact"
-                className="px-5 py-2 text-sm font-semibold rounded-lg bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700 transition-all shadow-sm hover:shadow-md"
+                className="px-5 py-2 text-sm font-semibold rounded-lg bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700 transition-all shadow-sm hover:shadow-lg"
               >
                 Get in Touch
               </Link>
@@ -109,9 +113,14 @@ export default function Header(): JSX.Element {
             onClick={() => setOpen(false)}
             className="flex items-center gap-3"
           >
-            <span className="text-base uppercase font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-              WebvicTech
-            </span>
+            <div className="flex flex-col">
+              <span className="text-base uppercase font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                O.V.A WebvicTech
+              </span>
+              <span className="text-xs font-light italic text-slate-400">
+                INT'L SERVICES
+              </span>
+            </div>
           </Link>
           <button
             onClick={() => setOpen(false)}
@@ -144,7 +153,7 @@ export default function Header(): JSX.Element {
           <Link
             href="/#contact"
             onClick={() => setOpen(false)}
-            className="flex items-center justify-center w-full py-3 rounded-xl text-sm font-semibold bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700 transition-all shadow-sm hover:shadow-md"
+            className="flex items-center justify-center w-full py-3 rounded-xl text-sm font-semibold bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700 transition-all shadow-sm hover:shadow-lg"
           >
             Get in Touch
           </Link>
