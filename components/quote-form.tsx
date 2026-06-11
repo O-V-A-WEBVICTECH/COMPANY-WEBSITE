@@ -96,22 +96,50 @@ const EMPTY_QUOTE_BACKEND: QuotePricing["backend"] = {
 
 // Feature presets per project type — auto-selected when a type is chosen
 const WEBSITE_TYPE_PRESETS: Record<string, string[]> = {
-  landing:     ["seo"],
-  portfolio:   ["seo", "cms"],
-  business:    ["seo", "cms", "live_chat", "notifications"],
-  blog_cms:    ["cms", "seo", "social_auth", "analytics"],
-  ecommerce:   ["auth", "payment", "admin_panel", "notifications", "analytics", "seo"],
-  saas:        ["auth", "admin_panel", "payment", "analytics", "notifications", "social_auth"],
-  booking:     ["auth", "payment", "notifications", "admin_panel"],
-  marketplace: ["auth", "payment", "admin_panel", "analytics", "notifications", "seo", "multilang"],
+  landing: ["seo"],
+  portfolio: ["seo", "cms"],
+  business: ["seo", "cms", "live_chat", "notifications"],
+  blog_cms: ["cms", "seo", "social_auth", "analytics"],
+  ecommerce: [
+    "auth",
+    "payment",
+    "admin_panel",
+    "notifications",
+    "analytics",
+    "seo",
+  ],
+  saas: [
+    "auth",
+    "admin_panel",
+    "payment",
+    "analytics",
+    "notifications",
+    "social_auth",
+  ],
+  booking: ["auth", "payment", "notifications", "admin_panel"],
+  marketplace: [
+    "auth",
+    "payment",
+    "admin_panel",
+    "analytics",
+    "notifications",
+    "seo",
+    "multilang",
+  ],
 };
 
 const BACKEND_TYPE_PRESETS: Record<string, string[]> = {
-  rest_api:      ["auth_backend", "database_design", "api_docs"],
-  graphql_api:   ["auth_backend", "database_design", "api_docs", "caching"],
-  microservices: ["auth_backend", "database_design", "api_docs", "caching", "email_service"],
-  realtime:      ["auth_backend", "database_design", "caching"],
-  serverless:    ["database_design", "api_docs"],
+  rest_api: ["auth_backend", "database_design", "api_docs"],
+  graphql_api: ["auth_backend", "database_design", "api_docs", "caching"],
+  microservices: [
+    "auth_backend",
+    "database_design",
+    "api_docs",
+    "caching",
+    "email_service",
+  ],
+  realtime: ["auth_backend", "database_design", "caching"],
+  serverless: ["database_design", "api_docs"],
 };
 const platformIcons: Record<string, React.ReactNode> = {
   web: <TbWorld className="w-5 h-5" />,
@@ -124,24 +152,69 @@ const platformIcons: Record<string, React.ReactNode> = {
 };
 
 // Website type icons + descriptions
-const websiteTypeConfig: Record<string, { icon: React.ReactNode; desc: string }> = {
-  landing:     { icon: <FileText className="w-5 h-5" />,     desc: "Single page to convert visitors" },
-  portfolio:   { icon: <User className="w-5 h-5" />,         desc: "Showcase your work & skills" },
-  business:    { icon: <Briefcase className="w-5 h-5" />,    desc: "Professional company presence" },
-  blog_cms:    { icon: <Newspaper className="w-5 h-5" />,    desc: "Content publishing platform" },
-  ecommerce:   { icon: <ShoppingCart className="w-5 h-5" />, desc: "Sell products online with checkout" },
-  saas:        { icon: <Layers className="w-5 h-5" />,       desc: "Software-as-a-service platform" },
-  booking:     { icon: <CalendarCheck className="w-5 h-5" />,desc: "Schedule appointments & reservations" },
-  marketplace: { icon: <Store className="w-5 h-5" />,        desc: "Multi-vendor buying & selling" },
+const websiteTypeConfig: Record<
+  string,
+  { icon: React.ReactNode; desc: string }
+> = {
+  landing: {
+    icon: <FileText className="w-5 h-5" />,
+    desc: "Single page to convert visitors",
+  },
+  portfolio: {
+    icon: <User className="w-5 h-5" />,
+    desc: "Showcase your work & skills",
+  },
+  business: {
+    icon: <Briefcase className="w-5 h-5" />,
+    desc: "Professional company presence",
+  },
+  blog_cms: {
+    icon: <Newspaper className="w-5 h-5" />,
+    desc: "Content publishing platform",
+  },
+  ecommerce: {
+    icon: <ShoppingCart className="w-5 h-5" />,
+    desc: "Sell products online with checkout",
+  },
+  saas: {
+    icon: <Layers className="w-5 h-5" />,
+    desc: "Software-as-a-service platform",
+  },
+  booking: {
+    icon: <CalendarCheck className="w-5 h-5" />,
+    desc: "Schedule appointments & reservations",
+  },
+  marketplace: {
+    icon: <Store className="w-5 h-5" />,
+    desc: "Multi-vendor buying & selling",
+  },
 };
 
 // Backend type icons + descriptions
-const backendTypeConfig: Record<string, { icon: React.ReactNode; desc: string }> = {
-  rest_api:      { icon: <Server className="w-5 h-5" />,     desc: "Standard HTTP REST endpoints" },
-  graphql_api:   { icon: <GitBranch className="w-5 h-5" />,  desc: "Flexible query-based API" },
-  microservices: { icon: <Cpu className="w-5 h-5" />,        desc: "Independent scalable services" },
-  realtime:      { icon: <Radio className="w-5 h-5" />,      desc: "Live data via WebSockets" },
-  serverless:    { icon: <Zap className="w-5 h-5" />,        desc: "Event-driven cloud functions" },
+const backendTypeConfig: Record<
+  string,
+  { icon: React.ReactNode; desc: string }
+> = {
+  rest_api: {
+    icon: <Server className="w-5 h-5" />,
+    desc: "Standard HTTP REST endpoints",
+  },
+  graphql_api: {
+    icon: <GitBranch className="w-5 h-5" />,
+    desc: "Flexible query-based API",
+  },
+  microservices: {
+    icon: <Cpu className="w-5 h-5" />,
+    desc: "Independent scalable services",
+  },
+  realtime: {
+    icon: <Radio className="w-5 h-5" />,
+    desc: "Live data via WebSockets",
+  },
+  serverless: {
+    icon: <Zap className="w-5 h-5" />,
+    desc: "Event-driven cloud functions",
+  },
 };
 
 export default function QuoteForm({ pricing, onSent }: QuoteFormProps) {
@@ -179,15 +252,15 @@ export default function QuoteForm({ pricing, onSent }: QuoteFormProps) {
   const handleCategoryChange = (cat: ServiceCategory) => {
     const firstType =
       cat === "website"
-        ? pricing.website?.types?.[0]?.value ?? ""
-        : pricing.backend?.types?.[0]?.value ?? "";
+        ? (pricing.website?.types?.[0]?.value ?? "")
+        : (pricing.backend?.types?.[0]?.value ?? "");
     setServiceCategory(cat);
     setType(firstType);
     setPlatforms([]);
     setFeatures(
       cat === "website"
-        ? WEBSITE_TYPE_PRESETS[firstType] ?? []
-        : BACKEND_TYPE_PRESETS[firstType] ?? [],
+        ? (WEBSITE_TYPE_PRESETS[firstType] ?? [])
+        : (BACKEND_TYPE_PRESETS[firstType] ?? []),
     );
     setDomain(false);
     setHosting(false);
@@ -199,8 +272,8 @@ export default function QuoteForm({ pricing, onSent }: QuoteFormProps) {
   const handleTypeChange = (val: string) => {
     setType(val);
     const preset = isWebsite
-      ? WEBSITE_TYPE_PRESETS[val] ?? []
-      : BACKEND_TYPE_PRESETS[val] ?? [];
+      ? (WEBSITE_TYPE_PRESETS[val] ?? [])
+      : (BACKEND_TYPE_PRESETS[val] ?? []);
     setFeatures(preset);
   };
 
@@ -270,46 +343,80 @@ export default function QuoteForm({ pricing, onSent }: QuoteFormProps) {
     let max = activeSection.base.max || 0;
 
     const t = activeSection.types.find((x) => x.value === type);
-    if (t) { min += t.min || 0; max += t.max || 0; }
+    if (t) {
+      min += t.min || 0;
+      max += t.max || 0;
+    }
 
     if (isWebsite) {
       for (const p of platforms) {
         const obj = website.platforms.find((x) => x.value === p);
-        if (obj) { min += obj.min || 0; max += obj.max || 0; }
+        if (obj) {
+          min += obj.min || 0;
+          max += obj.max || 0;
+        }
       }
     }
 
     for (const f of features) {
       const obj = activeSection.features.find((x) => x.value === f);
-      if (obj) { min += obj.min || 0; max += obj.max || 0; }
+      if (obj) {
+        min += obj.min || 0;
+        max += obj.max || 0;
+      }
     }
 
     if (isWebsite) {
       if (domain) {
         const d = website.optional.find((x) => x.value === "domain");
-        if (d) { min += d.min; max += d.max; }
+        if (d) {
+          min += d.min;
+          max += d.max;
+        }
       }
       if (hosting) {
         const h = website.optional.find((x) => x.value === "hosting_first");
-        if (h) { min += h.min; max += h.max; }
+        if (h) {
+          min += h.min;
+          max += h.max;
+        }
       }
     } else {
       if (deployment) {
         const d = backend.optional.find((x) => x.value === "deployment");
-        if (d) { min += d.min; max += d.max; }
+        if (d) {
+          min += d.min;
+          max += d.max;
+        }
       }
       if (ciCd) {
         const c = backend.optional.find((x) => x.value === "ci_cd");
-        if (c) { min += c.min; max += c.max; }
+        if (c) {
+          min += c.min;
+          max += c.max;
+        }
       }
     }
 
     return { min, max };
-  }, [activeSection, isWebsite, website, backend, type, platforms, features, domain, hosting, deployment, ciCd]);
+  }, [
+    activeSection,
+    isWebsite,
+    website,
+    backend,
+    type,
+    platforms,
+    features,
+    domain,
+    hosting,
+    deployment,
+    ciCd,
+  ]);
 
   // ── Summary labels ───────────────────────────────────────────────────────
   const selectedTypeLabel =
-    activeSection.types.find((item) => item.value === type)?.label ?? "Not selected";
+    activeSection.types.find((item) => item.value === type)?.label ??
+    "Not selected";
 
   const selectedPlatformsLabel = isWebsite
     ? platforms.length > 0
@@ -330,9 +437,14 @@ export default function QuoteForm({ pricing, onSent }: QuoteFormProps) {
 
   const selectedAddonsLabel = isWebsite
     ? [domain ? "Domain" : null, hosting ? "Hosting" : null]
-        .filter(Boolean).join(", ") || "None selected"
-    : [deployment ? "Deployment & DevOps" : null, ciCd ? "CI/CD Pipeline" : null]
-        .filter(Boolean).join(", ") || "None selected";
+        .filter(Boolean)
+        .join(", ") || "None selected"
+    : [
+        deployment ? "Deployment & DevOps" : null,
+        ciCd ? "CI/CD Pipeline" : null,
+      ]
+        .filter(Boolean)
+        .join(", ") || "None selected";
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>): Promise<void> {
     e.preventDefault();
@@ -398,7 +510,6 @@ export default function QuoteForm({ pricing, onSent }: QuoteFormProps) {
   return (
     <div className="max-w-5xl mx-auto">
       <form onSubmit={handleSubmit} className="space-y-4">
-
         {/* ── Currency bar ── */}
         <div className="sticky top-4 z-20">
           <Alert className="bg-gradient-to-r from-blue-50 to-indigo-50 border-blue-200">
@@ -450,7 +561,7 @@ export default function QuoteForm({ pricing, onSent }: QuoteFormProps) {
               >
                 <Globe className="w-5 h-5" />
                 <span className="font-semibold">Website / App</span>
-                <span className="text-xs font-normal opacity-80">
+                <span className="hidden md:block text-xs font-normal opacity-80">
                   Frontend &amp; full-stack projects
                 </span>
               </Button>
@@ -462,7 +573,7 @@ export default function QuoteForm({ pricing, onSent }: QuoteFormProps) {
               >
                 <Server className="w-5 h-5" />
                 <span className="font-semibold">Backend / API</span>
-                <span className="text-xs font-normal opacity-80">
+                <span className="hidden md:block text-xs font-normal opacity-80">
                   APIs, microservices &amp; databases
                 </span>
               </Button>
@@ -472,7 +583,6 @@ export default function QuoteForm({ pricing, onSent }: QuoteFormProps) {
 
         <div className="grid gap-4 lg:grid-cols-[2fr_1fr]">
           <div className="space-y-4">
-
             {/* ── Project Details ── */}
             <Card>
               <CardHeader>
@@ -532,18 +642,28 @@ export default function QuoteForm({ pricing, onSent }: QuoteFormProps) {
                               : "border-border bg-white hover:border-primary/50 hover:bg-slate-50"
                           }`}
                         >
-                          <span className={isSelected ? "text-primary-foreground" : "text-primary"}>
+                          <span
+                            className={
+                              isSelected
+                                ? "text-primary-foreground"
+                                : "text-primary"
+                            }
+                          >
                             {config?.icon ?? <FileText className="w-5 h-5" />}
                           </span>
                           <span className="text-sm font-semibold leading-tight">
                             {t.label}
                           </span>
                           {config?.desc && (
-                            <span className={`text-xs leading-snug ${isSelected ? "opacity-80" : "text-muted-foreground"}`}>
+                            <span
+                              className={`text-xs leading-snug ${isSelected ? "opacity-80" : "text-muted-foreground"}`}
+                            >
                               {config.desc}
                             </span>
                           )}
-                          <span className={`text-xs font-medium mt-0.5 ${isSelected ? "opacity-75" : "text-slate-500"}`}>
+                          <span
+                            className={`text-xs font-medium mt-0.5 ${isSelected ? "opacity-75" : "text-slate-500"}`}
+                          >
                             {fmt(t.min)} – {fmt(t.max)}
                           </span>
                         </button>
@@ -574,21 +694,33 @@ export default function QuoteForm({ pricing, onSent }: QuoteFormProps) {
                         <button
                           key={p.value}
                           type="button"
-                          onClick={() => toggle(setPlatforms, platforms, p.value)}
+                          onClick={() =>
+                            toggle(setPlatforms, platforms, p.value)
+                          }
                           className={`flex flex-col items-start gap-1.5 rounded-2xl border-2 p-3 text-left transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ${
                             isSelected
                               ? "border-primary bg-primary text-primary-foreground"
                               : "border-border bg-white hover:border-primary/50 hover:bg-slate-50"
                           }`}
                         >
-                          <span className={isSelected ? "text-primary-foreground" : "text-primary"}>
+                          <span
+                            className={
+                              isSelected
+                                ? "text-primary-foreground"
+                                : "text-primary"
+                            }
+                          >
                             {getPlatformIcon(p.value)}
                           </span>
                           <span className="text-sm font-semibold leading-tight">
                             {p.label}
                           </span>
-                          <span className={`text-xs font-medium mt-0.5 ${isSelected ? "opacity-75" : "text-slate-500"}`}>
-                            {p.min === 0 && p.max === 0 ? "Included" : `${fmt(p.min)} – ${fmt(p.max)}`}
+                          <span
+                            className={`text-xs font-medium mt-0.5 ${isSelected ? "opacity-75" : "text-slate-500"}`}
+                          >
+                            {p.min === 0 && p.max === 0
+                              ? "Included"
+                              : `${fmt(p.min)} – ${fmt(p.max)}`}
                           </span>
                         </button>
                       );
@@ -629,15 +761,23 @@ export default function QuoteForm({ pricing, onSent }: QuoteFormProps) {
                         onCheckedChange={() =>
                           toggle(setFeatures, features, f.value)
                         }
-                        className={features.includes(f.value) ? "border-primary-foreground data-[state=checked]:bg-primary-foreground data-[state=checked]:text-primary" : ""}
+                        className={
+                          features.includes(f.value)
+                            ? "border-primary-foreground data-[state=checked]:bg-primary-foreground data-[state=checked]:text-primary"
+                            : ""
+                        }
                       />
                       <div className="flex-1 space-y-1">
                         <div className="font-semibold">{f.label}</div>
-                        <div className={`text-sm ${features.includes(f.value) ? "opacity-80" : "text-muted-foreground"}`}>
+                        <div
+                          className={`text-sm ${features.includes(f.value) ? "opacity-80" : "text-muted-foreground"}`}
+                        >
                           {f.description}
                         </div>
                         <Badge
-                          variant={features.includes(f.value) ? "outline" : "secondary"}
+                          variant={
+                            features.includes(f.value) ? "outline" : "secondary"
+                          }
                           className={`mt-2 ${features.includes(f.value) ? "border-primary-foreground/40 text-primary-foreground" : ""}`}
                         >
                           {fmt(f.min)} – {fmt(f.max)}

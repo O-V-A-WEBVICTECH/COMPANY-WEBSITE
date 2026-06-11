@@ -40,11 +40,11 @@ export default function Header(): JSX.Element {
         }`}
       >
         <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-10">
-          <nav className="flex items-center justify-between h-20">
+          <nav className="flex items-center justify-between h-16">
             {/* Brand text only (logo removed) */}
             <Link href="/" className="flex items-center gap-3 shrink-0">
-              <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-                O.V.A WebvicTech
+              <span className="text-xl uppercase font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                WebvicTech
               </span>
             </Link>
 
@@ -103,16 +103,13 @@ export default function Header(): JSX.Element {
       >
         {/* Drawer header */}
         <div className="flex items-center justify-between px-5 h-24 border-b border-slate-100">
-          <Link href="/" onClick={() => setOpen(false)} className="flex items-center gap-3">
-            <Image
-              src="/ova-logo.png"
-              alt="O.V.A WebvicTech Logo"
-              width={72}
-              height={72}
-              className="rounded-full"
-            />
-            <span className="text-base font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-              O.V.A WebvicTech
+          <Link
+            href="/"
+            onClick={() => setOpen(false)}
+            className="flex items-center gap-3"
+          >
+            <span className="text-base uppercase font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+              WebvicTech
             </span>
           </Link>
           <button

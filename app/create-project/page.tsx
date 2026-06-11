@@ -154,7 +154,7 @@ export default function CreateProjectPage() {
       <Header />
 
       <main
-        className="py-12 px-4 bg-gradient-to-b from-slate-50 via-white to-slate-50 relative min-h-[80vh] overflow-hidden"
+        className="py-12 px-2 md:px-4 bg-gradient-to-b from-slate-50 via-white to-slate-50 relative min-h-[80vh] overflow-hidden"
         aria-label="Project cost estimator"
       >
         {/* Ambient background glows */}
@@ -202,7 +202,10 @@ export default function CreateProjectPage() {
           {/* Form container */}
           <div className="bg-white border border-slate-200/80 rounded-2xl shadow-xl shadow-slate-100/60 p-5 sm:p-8">
             {!pricing ? (
-              <div className="space-y-6 animate-pulse" aria-label="Loading estimator">
+              <div
+                className="space-y-6 animate-pulse"
+                aria-label="Loading estimator"
+              >
                 <div className="h-12 bg-slate-100 rounded-xl w-full" />
                 {[1, 2, 3].map((i) => (
                   <div
@@ -257,7 +260,10 @@ export default function CreateProjectPage() {
                 >
                   <summary className="cursor-pointer font-semibold text-slate-800 text-sm list-none flex items-center justify-between gap-2">
                     {q}
-                    <i className="fa-solid fa-chevron-down text-slate-400 text-xs transition-transform group-open:rotate-180" aria-hidden="true" />
+                    <i
+                      className="fa-solid fa-chevron-down text-slate-400 text-xs transition-transform group-open:rotate-180"
+                      aria-hidden="true"
+                    />
                   </summary>
                   <p className="mt-3 text-sm text-slate-500 leading-relaxed">
                     {a}
