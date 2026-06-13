@@ -114,31 +114,6 @@ function Empty({ icon, label }: { icon: React.ReactNode; label: string }) {
 }
 
 /* ── Stat card ── */
-function StatCard({
-  icon,
-  label,
-  value,
-  color,
-}: {
-  icon: React.ReactNode;
-  label: string;
-  value: number;
-  color: string;
-}) {
-  return (
-    <div className="bg-white rounded-xl border border-slate-200 p-5 flex items-center gap-4">
-      <div
-        className={`w-11 h-11 rounded-xl flex items-center justify-center shrink-0 ${color}`}
-      >
-        {icon}
-      </div>
-      <div>
-        <p className="text-2xl font-bold text-slate-900">{value}</p>
-        <p className="text-xs text-slate-500 mt-0.5">{label}</p>
-      </div>
-    </div>
-  );
-}
 
 export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState<Tab>("overview");
@@ -409,14 +384,25 @@ export default function AdminDashboard() {
                       Welcome back, {adminUser?.name || "Administrator"}!
                     </h2>
                     <p className="text-xs sm:text-sm text-slate-300 max-w-xl">
-                      Here is an overview of the WebvicTech platform. Manage your projects, update your team, and track your online presence.
+                      Here is an overview of the WebvicTech platform. Manage
+                      your projects, update your team, and track your online
+                      presence.
                     </p>
                   </div>
                   <div className="flex items-center gap-3 bg-white/5 border border-white/10 backdrop-blur-md px-4 py-2.5 rounded-xl shrink-0">
                     <Calendar className="w-4 h-4 text-indigo-400" />
                     <div className="text-left">
-                      <p className="text-[10px] text-slate-400 font-medium uppercase tracking-wider">Current Date</p>
-                      <p className="text-xs font-semibold">{new Date().toLocaleDateString(undefined, { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' })}</p>
+                      <p className="text-[10px] text-slate-400 font-medium uppercase tracking-wider">
+                        Current Date
+                      </p>
+                      <p className="text-xs font-semibold">
+                        {new Date().toLocaleDateString(undefined, {
+                          weekday: "short",
+                          year: "numeric",
+                          month: "short",
+                          day: "numeric",
+                        })}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -429,18 +415,26 @@ export default function AdminDashboard() {
                     <FolderOpen className="w-5 h-5" />
                   </div>
                   <div>
-                    <p className="text-2xl font-bold text-slate-900">{projects.length}</p>
-                    <p className="text-xs text-slate-500 mt-0.5">Total Projects Showcase</p>
+                    <p className="text-2xl font-bold text-slate-900">
+                      {projects.length}
+                    </p>
+                    <p className="text-xs text-slate-500 mt-0.5">
+                      Total Projects Showcase
+                    </p>
                   </div>
                 </div>
-                
+
                 <div className="group bg-white rounded-xl border border-slate-200 p-5 flex items-center gap-4 hover:-translate-y-1 hover:shadow-md transition-all duration-300">
                   <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 bg-indigo-50 text-indigo-600 group-hover:scale-110 transition-transform">
                     <Users className="w-5 h-5" />
                   </div>
                   <div>
-                    <p className="text-2xl font-bold text-slate-900">{teamMembers.length}</p>
-                    <p className="text-xs text-slate-500 mt-0.5">Team Members</p>
+                    <p className="text-2xl font-bold text-slate-900">
+                      {teamMembers.length}
+                    </p>
+                    <p className="text-xs text-slate-500 mt-0.5">
+                      Team Members
+                    </p>
                   </div>
                 </div>
 
@@ -451,7 +445,9 @@ export default function AdminDashboard() {
                   </div>
                   <div>
                     <p className="text-2xl font-bold text-slate-900">100%</p>
-                    <p className="text-xs text-slate-500 mt-0.5">API Server Health</p>
+                    <p className="text-xs text-slate-500 mt-0.5">
+                      API Server Health
+                    </p>
                   </div>
                 </div>
               </div>
@@ -463,8 +459,12 @@ export default function AdminDashboard() {
                   <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
                     <div className="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
                       <div className="space-y-0.5">
-                        <h3 className="text-sm font-bold text-slate-900">Recent Projects</h3>
-                        <p className="text-[11px] text-slate-400">Your latest work portfolio entries</p>
+                        <h3 className="text-sm font-bold text-slate-900">
+                          Recent Projects
+                        </h3>
+                        <p className="text-[11px] text-slate-400">
+                          Your latest work portfolio entries
+                        </p>
                       </div>
                       <button
                         onClick={() => setActiveTab("projects")}
@@ -489,7 +489,11 @@ export default function AdminDashboard() {
                             <div className="flex items-center gap-3.5 min-w-0">
                               <div className="w-12 h-12 rounded-xl overflow-hidden bg-slate-100 flex items-center justify-center shrink-0 border border-slate-150">
                                 {p.image ? (
-                                  <img src={p.image} alt={p.name} className="w-full h-full object-cover group-hover/row:scale-105 transition-transform duration-300" />
+                                  <img
+                                    src={p.image}
+                                    alt={p.name}
+                                    className="w-full h-full object-cover group-hover/row:scale-105 transition-transform duration-300"
+                                  />
                                 ) : (
                                   <FolderOpen className="w-5 h-5 text-slate-400" />
                                 )}
@@ -538,7 +542,9 @@ export default function AdminDashboard() {
                 <div className="space-y-6">
                   {/* Quick Actions Card */}
                   <div className="bg-white rounded-xl border border-slate-200 p-5 shadow-sm space-y-4">
-                    <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider">Quick Actions</h3>
+                    <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider">
+                      Quick Actions
+                    </h3>
                     <div className="grid grid-cols-1 gap-2.5">
                       <button
                         onClick={() => {
@@ -584,7 +590,9 @@ export default function AdminDashboard() {
                   {/* Team Preview Card */}
                   <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
                     <div className="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
-                      <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider">Active Team</h3>
+                      <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider">
+                        Active Team
+                      </h3>
                       <button
                         onClick={() => setActiveTab("team")}
                         className="text-xs text-indigo-600 hover:underline font-semibold"
@@ -600,7 +608,10 @@ export default function AdminDashboard() {
                     ) : (
                       <div className="divide-y divide-slate-100">
                         {teamMembers.slice(0, 3).map((member) => (
-                          <div key={member.id} className="p-4 flex items-center gap-3">
+                          <div
+                            key={member.id}
+                            className="p-4 flex items-center gap-3"
+                          >
                             <Avatar className="w-8 h-8 shrink-0">
                               <AvatarImage
                                 src={
@@ -623,7 +634,10 @@ export default function AdminDashboard() {
                                 {member.position || "Team Member"}
                               </p>
                             </div>
-                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0" title="Active" />
+                            <span
+                              className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0"
+                              title="Active"
+                            />
                           </div>
                         ))}
                       </div>

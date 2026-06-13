@@ -1,7 +1,6 @@
 "use client";
 import { JSX, useState, useEffect } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { Menu, X } from "lucide-react";
 
 const navLinks = [
@@ -48,7 +47,7 @@ export default function Header(): JSX.Element {
                   O.V.A Webvic Tech
                 </span>
                 <span className="text-xs font-light italic text-slate-400">
-                  INT'L SERVICES
+                  INT&apos;L SERVICES
                 </span>
               </div>
             </Link>
@@ -118,7 +117,7 @@ export default function Header(): JSX.Element {
                 O.V.A WebvicTech
               </span>
               <span className="text-xs font-light italic text-slate-400">
-                INT'L SERVICES
+                INT&apos;L SERVICES
               </span>
             </div>
           </Link>
