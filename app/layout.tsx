@@ -172,6 +172,7 @@ export default function RootLayout({
     url: siteUrl,
     logo: `${siteUrl}/ova-logo.png`,
     image: `${siteUrl}/ova-logo.png`,
+    telephone: "+2349136600887",
     address: {
       "@type": "PostalAddress",
       addressLocality: "Lagos",

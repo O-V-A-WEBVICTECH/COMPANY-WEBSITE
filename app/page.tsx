@@ -51,7 +51,7 @@ export default function App() {
         description:
           "Nigeria's leading web and mobile app development company. We build custom websites, web applications, mobile apps, and enterprise software for businesses across Lagos, Abuja, Port Harcourt and all of Nigeria.",
         email: "info@webvictech.com",
-        telephone: "+234-800-000-0000",
+        telephone: "+2349136600887",
         foundingDate: "2020",
         numberOfEmployees: {
           "@type": "QuantitativeValue",
@@ -134,7 +134,7 @@ export default function App() {
         name: "O.V.A WebvicTech INT' SERVICE LIMITED",
         image: `${siteUrl}/ova-logo.png`,
         url: siteUrl,
-        telephone: "+234-800-000-0000",
+        telephone: "+2349136600887",
         email: "info@webvictech.com",
         address: {
           "@type": "PostalAddress",
