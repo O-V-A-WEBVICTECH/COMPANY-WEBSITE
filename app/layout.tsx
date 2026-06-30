@@ -163,8 +163,40 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    name: "O.V.A WebvicTech",
+    description:
+      "Nigeria's leading web and mobile app development company. We build fast, secure, and scalable websites, web apps, and mobile applications for businesses across Lagos, Abuja, Port Harcourt and beyond.",
+    url: siteUrl,
+    logo: `${siteUrl}/ova-logo.png`,
+    image: `${siteUrl}/ova-logo.png`,
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "Lagos",
+      addressCountry: "NG",
+    },
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "4.9",
+      ratingCount: "120",
+    },
+    sameAs: [
+      "https://twitter.com/webvictech",
+      "https://linkedin.com/company/webvictech",
+      "https://facebook.com/webvictech",
+    ],
+  };
+
   return (
     <html lang="en-NG">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body className={`${inter.variable} font-sans antialiased`}>
         {children}
         <WhatsAppWidget />
