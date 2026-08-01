@@ -34,12 +34,11 @@ type FormData = {
 };
 
 const inputClass =
-  "w-full px-4 py-3 bg-white border border-[#c4c7c7] rounded-lg text-[#1b1c1c] placeholder:text-[#747878] focus:outline-none focus:border-[#4e6700] focus:ring-2 focus:ring-[#bcf200]/30 transition-all text-sm";
+  "w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20 transition-all text-sm";
 
 const labelClass =
-  "block text-xs font-mono tracking-widest text-[#444748] uppercase mb-2";
+  "block text-xs font-semibold tracking-wider text-slate-700 uppercase mb-2";
 
-// Exchange rate constant — fallback
 const FALLBACK_RATE = 1600; // NGN per 1 USD
 
 function fmt(n: number, currency: "NGN" | "USD", rate: number) {
@@ -195,26 +194,31 @@ export default function CreateProjectClient() {
   }
 
   return (
-    <div className="bg-[#fbf9f8] min-h-screen text-[#1b1c1c] flex flex-col justify-between">
+    <div className="bg-slate-50 min-h-screen text-slate-900 flex flex-col justify-between">
       <Header />
 
-      <div className="max-w-2xl mx-auto px-4 pt-24 pb-20 w-full">
-        <div className="mb-8">
-          <Link href="/" className="inline-flex items-center gap-2 text-[#444748] hover:text-[#1b1c1c] transition-colors mb-4 group">
-            <ArrowLeft size={18} className="group-hover:-translate-x-0.5 transition-transform" />
-            <span className="font-mono text-xs tracking-widest uppercase">Back to home</span>
+      <div className="max-w-3xl mx-auto px-4 pt-28 pb-20 w-full">
+        <div className="mb-8 text-center space-y-3">
+          <Link href="/" className="inline-flex items-center gap-2 text-slate-500 hover:text-blue-600 transition-colors mb-2 group">
+            <ArrowLeft size={16} className="group-hover:-translate-x-0.5 transition-transform" />
+            <span className="text-xs font-semibold uppercase tracking-wider">Back to home</span>
           </Link>
-          <h1 className="text-3xl font-semibold tracking-tight text-[#1b1c1c]">Get a Project Quote</h1>
-          <p className="text-[#444748] text-sm mt-2 leading-relaxed">
-            Tell O.V.A WebvicTech (the best software development agency) about your project and we&apos;ll get back to you within 24 hours.
+          <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-slate-900">
+            Get a Project{" "}
+            <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+              Quote
+            </span>
+          </h1>
+          <p className="text-slate-600 text-sm sm:text-base max-w-xl mx-auto leading-relaxed">
+            Tell O.V.A WebvicTech about your project requirements and receive an instant, itemized estimate.
           </p>
         </div>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-6">
 
           {/* ── Service Category ── */}
-          <section className="bg-white border border-[#efeded] rounded-xl p-5">
-            <h2 className="font-mono text-xs tracking-widest uppercase text-[#444748] mb-4">
+          <section className="bg-white border border-slate-200/80 shadow-md shadow-slate-100 rounded-2xl p-6">
+            <h2 className="text-xs font-bold tracking-wider uppercase text-blue-600 mb-4">
               Service Category
             </h2>
             <div className="grid grid-cols-2 gap-3">
@@ -228,13 +232,15 @@ export default function CreateProjectClient() {
                     key={cat}
                     type="button"
                     onClick={() => handleCategoryChange(cat)}
-                    className={`p-4 rounded-lg border-2 text-left transition-all active:scale-[0.98] ${
-                      selected ? "border-[#4e6700] bg-[#bcf200]/10" : "border-[#efeded] bg-[#f5f3f3] hover:border-[#c4c7c7]"
+                    className={`p-4 rounded-xl border-2 text-left transition-all active:scale-[0.98] ${
+                      selected
+                        ? "border-blue-600 bg-blue-50/70 text-blue-900 shadow-sm"
+                        : "border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50/50"
                     }`}
                   >
-                    <Icon size={20} className={selected ? "text-[#4e6700]" : "text-[#444748]"} />
-                    <p className={`mt-2 text-sm font-semibold ${selected ? "text-[#4e6700]" : "text-[#1b1c1c]"}`}>{label}</p>
-                    <p className="font-mono text-[10px] text-[#747878] mt-0.5">{sub}</p>
+                    <Icon size={22} className={selected ? "text-blue-600" : "text-slate-500"} />
+                    <p className={`mt-2 text-sm font-bold ${selected ? "text-blue-900" : "text-slate-900"}`}>{label}</p>
+                    <p className="text-[11px] text-slate-500 mt-0.5">{sub}</p>
                   </button>
                 );
               })}
@@ -242,9 +248,9 @@ export default function CreateProjectClient() {
           </section>
 
           {/* ── Contact ── */}
-          <section className="bg-white border border-[#efeded] rounded-xl p-5">
-            <h2 className="font-mono text-xs tracking-widest uppercase text-[#444748] mb-5 flex items-center gap-2">
-              <Mail size={13} /> Contact Information
+          <section className="bg-white border border-slate-200/80 shadow-md shadow-slate-100 rounded-2xl p-6">
+            <h2 className="text-xs font-bold tracking-wider uppercase text-blue-600 mb-5 flex items-center gap-2">
+              <Mail size={14} /> Contact Information
             </h2>
             <div className="flex flex-col gap-4">
               <div>
@@ -265,11 +271,11 @@ export default function CreateProjectClient() {
           </section>
 
           {/* ── Project Type ── */}
-          <section className="bg-white border border-[#efeded] rounded-xl p-5">
-            <h2 className="font-mono text-xs tracking-widest uppercase text-[#444748] mb-4 flex items-center gap-2">
-              <Code2 size={13} /> {isWebsite ? "Project Type" : "API / Backend Type"}
+          <section className="bg-white border border-slate-200/80 shadow-md shadow-slate-100 rounded-2xl p-6">
+            <h2 className="text-xs font-bold tracking-wider uppercase text-blue-600 mb-4 flex items-center gap-2">
+              <Code2 size={14} /> {isWebsite ? "Project Type" : "API / Backend Type"}
             </h2>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {activeSection.types.map(({ value, label, min, max }) => {
                 const selected = formData.type === value;
                 return (
@@ -277,12 +283,14 @@ export default function CreateProjectClient() {
                     key={value}
                     type="button"
                     onClick={() => handleTypeChange(value)}
-                    className={`p-4 rounded-lg border-2 text-left transition-all active:scale-[0.98] ${
-                      selected ? "border-[#4e6700] bg-[#bcf200]/10" : "border-[#efeded] bg-[#f5f3f3] hover:border-[#c4c7c7]"
+                    className={`p-4 rounded-xl border-2 text-left transition-all active:scale-[0.98] ${
+                      selected
+                        ? "border-blue-600 bg-blue-50/70 shadow-sm"
+                        : "border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50/50"
                     }`}
                   >
-                    <p className={`text-sm font-semibold ${selected ? "text-[#4e6700]" : "text-[#1b1c1c]"}`}>{label}</p>
-                    <p className="font-mono text-[10px] text-[#747878] mt-1">{fmt(min, currency, exchangeRate)} – {fmt(max, currency, exchangeRate)}</p>
+                    <p className={`text-sm font-bold ${selected ? "text-blue-900" : "text-slate-900"}`}>{label}</p>
+                    <p className="text-xs text-blue-600 font-semibold mt-1">{fmt(min, currency, exchangeRate)} – {fmt(max, currency, exchangeRate)}</p>
                   </button>
                 );
               })}
@@ -291,9 +299,9 @@ export default function CreateProjectClient() {
 
           {/* ── Platforms (website only) ── */}
           {isWebsite && (
-            <section className="bg-white border border-[#efeded] rounded-xl p-5">
-              <h2 className="font-mono text-xs tracking-widest uppercase text-[#444748] mb-4 flex items-center gap-2">
-                <Smartphone size={13} /> Platforms
+            <section className="bg-white border border-slate-200/80 shadow-md shadow-slate-100 rounded-2xl p-6">
+              <h2 className="text-xs font-bold tracking-wider uppercase text-blue-600 mb-4 flex items-center gap-2">
+                <Smartphone size={14} /> Platforms
               </h2>
               <div className="grid grid-cols-2 gap-3">
                 {quotePricing.website.platforms.map(({ value, label, min, max }) => {
@@ -303,17 +311,19 @@ export default function CreateProjectClient() {
                       key={value}
                       type="button"
                       onClick={() => toggleItem("platforms", value)}
-                      className={`p-4 rounded-lg border-2 text-left flex items-center justify-between transition-all active:scale-[0.98] ${
-                        selected ? "border-[#4e6700] bg-[#bcf200]/10" : "border-[#efeded] bg-[#f5f3f3] hover:border-[#c4c7c7]"
+                      className={`p-4 rounded-xl border-2 text-left flex items-center justify-between transition-all active:scale-[0.98] ${
+                        selected
+                          ? "border-blue-600 bg-blue-50/70 shadow-sm"
+                          : "border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50/50"
                       }`}
                     >
                       <div>
-                        <p className={`text-sm font-semibold ${selected ? "text-[#4e6700]" : "text-[#1b1c1c]"}`}>{label}</p>
-                        <p className="font-mono text-[10px] text-[#747878] mt-0.5">
+                        <p className={`text-sm font-bold ${selected ? "text-blue-900" : "text-slate-900"}`}>{label}</p>
+                        <p className="text-xs text-slate-500 font-medium mt-0.5">
                           {min === 0 && max === 0 ? "Included" : `+${fmt(min, currency, exchangeRate)}`}
                         </p>
                       </div>
-                      {selected && <CheckCircle2 size={16} className="text-[#4e6700] flex-shrink-0" />}
+                      {selected && <CheckCircle2 size={18} className="text-blue-600 flex-shrink-0" />}
                     </button>
                   );
                 })}
@@ -322,17 +332,17 @@ export default function CreateProjectClient() {
           )}
 
           {/* ── Features ── */}
-          <section className="bg-white border border-[#efeded] rounded-xl p-5">
+          <section className="bg-white border border-slate-200/80 shadow-md shadow-slate-100 rounded-2xl p-6">
             <div className="flex items-center justify-between mb-1">
-              <h2 className="font-mono text-xs tracking-widest uppercase text-[#444748] flex items-center gap-2">
-                <Server size={13} /> {isWebsite ? "Features" : "API Features"}
+              <h2 className="text-xs font-bold tracking-wider uppercase text-blue-600 flex items-center gap-2">
+                <Server size={14} /> {isWebsite ? "Features" : "API Features"}
               </h2>
-              <span className="font-mono text-[10px] text-[#bcf200] bg-[#4e6700] px-2 py-0.5 rounded-full">
-                AUTO-SELECTED
+              <span className="text-[10px] font-bold text-blue-700 bg-blue-100 px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+                Auto-Selected
               </span>
             </div>
-            <p className="text-[11px] text-[#747878] mb-4">Pre-selected based on your project type — customise as needed.</p>
-            <div className="flex flex-col gap-2">
+            <p className="text-xs text-slate-500 mb-4">Pre-selected based on your project type — customize as needed.</p>
+            <div className="flex flex-col gap-2.5">
               {activeSection.features.map(({ value, label, description, min, max }) => {
                 const selected = formData.features.includes(value);
                 return (
@@ -340,16 +350,18 @@ export default function CreateProjectClient() {
                     key={value}
                     type="button"
                     onClick={() => toggleItem("features", value)}
-                    className={`p-4 rounded-lg border-2 text-left flex items-start justify-between gap-3 transition-all active:scale-[0.99] ${
-                      selected ? "border-[#4e6700] bg-[#bcf200]/10" : "border-[#efeded] bg-[#f5f3f3] hover:border-[#c4c7c7]"
+                    className={`p-4 rounded-xl border-2 text-left flex items-start justify-between gap-3 transition-all active:scale-[0.99] ${
+                      selected
+                        ? "border-blue-600 bg-blue-50/70 shadow-sm"
+                        : "border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50/50"
                     }`}
                   >
                     <div className="flex-1">
-                      <p className={`text-sm font-semibold ${selected ? "text-[#4e6700]" : "text-[#1b1c1c]"}`}>{label}</p>
-                      <p className="text-xs text-[#747878] mt-0.5 leading-relaxed">{description}</p>
-                      <p className="font-mono text-[10px] text-[#747878] mt-1">+{fmt(min, currency, exchangeRate)} – {fmt(max, currency, exchangeRate)}</p>
+                      <p className={`text-sm font-bold ${selected ? "text-blue-900" : "text-slate-900"}`}>{label}</p>
+                      <p className="text-xs text-slate-600 mt-0.5 leading-relaxed">{description}</p>
+                      <p className="text-xs text-blue-600 font-semibold mt-1">+{fmt(min, currency, exchangeRate)} – {fmt(max, currency, exchangeRate)}</p>
                     </div>
-                    {selected && <CheckCircle2 size={16} className="text-[#4e6700] flex-shrink-0 mt-0.5" />}
+                    {selected && <CheckCircle2 size={18} className="text-blue-600 flex-shrink-0 mt-0.5" />}
                   </button>
                 );
               })}
@@ -357,11 +369,11 @@ export default function CreateProjectClient() {
           </section>
 
           {/* ── Add-ons ── */}
-          <section className="bg-white border border-[#efeded] rounded-xl p-5">
-            <h2 className="font-mono text-xs tracking-widest uppercase text-[#444748] mb-4">
+          <section className="bg-white border border-slate-200/80 shadow-md shadow-slate-100 rounded-2xl p-6">
+            <h2 className="text-xs font-bold tracking-wider uppercase text-blue-600 mb-4">
               Optional Add-ons
             </h2>
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2.5">
               {isWebsite ? (
                 <>
                   {[
@@ -370,19 +382,21 @@ export default function CreateProjectClient() {
                   ].map(({ key, label, note }) => (
                     <label
                       key={key}
-                      className={`flex items-center gap-3 p-4 rounded-lg border-2 cursor-pointer transition-all ${
-                        formData[key] ? "border-[#4e6700] bg-[#bcf200]/10" : "border-[#efeded] bg-[#f5f3f3] hover:border-[#c4c7c7]"
+                      className={`flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition-all ${
+                        formData[key]
+                          ? "border-blue-600 bg-blue-50/70 shadow-sm"
+                          : "border-slate-200 bg-white hover:border-slate-300"
                       }`}
                     >
                       <input
                         type="checkbox"
                         checked={formData[key]}
                         onChange={() => setFormData((prev) => ({ ...prev, [key]: !prev[key] }))}
-                        className="accent-[#4e6700] w-4 h-4"
+                        className="accent-blue-600 w-4 h-4 rounded"
                       />
                       <div>
-                        <p className={`text-sm font-semibold ${formData[key] ? "text-[#4e6700]" : "text-[#1b1c1c]"}`}>{label}</p>
-                        <p className="font-mono text-[10px] text-[#747878] mt-0.5">{note}</p>
+                        <p className={`text-sm font-bold ${formData[key] ? "text-blue-900" : "text-slate-900"}`}>{label}</p>
+                        <p className="text-xs text-slate-500 mt-0.5">{note}</p>
                       </div>
                     </label>
                   ))}
@@ -395,19 +409,21 @@ export default function CreateProjectClient() {
                     return (
                       <label
                         key={value}
-                        className={`flex items-center gap-3 p-4 rounded-lg border-2 cursor-pointer transition-all ${
-                          checked ? "border-[#4e6700] bg-[#bcf200]/10" : "border-[#efeded] bg-[#f5f3f3] hover:border-[#c4c7c7]"
+                        className={`flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition-all ${
+                          checked
+                            ? "border-blue-600 bg-blue-50/70 shadow-sm"
+                            : "border-slate-200 bg-white hover:border-slate-300"
                         }`}
                       >
                         <input
                           type="checkbox"
                           checked={checked}
                           onChange={() => setFormData((prev) => ({ ...prev, [key]: !prev[key as "deployment" | "ciCd"] }))}
-                          className="accent-[#4e6700] w-4 h-4"
+                          className="accent-blue-600 w-4 h-4 rounded"
                         />
                         <div>
-                          <p className={`text-sm font-semibold ${checked ? "text-[#4e6700]" : "text-[#1b1c1c]"}`}>{label}</p>
-                          <p className="font-mono text-[10px] text-[#747878] mt-0.5">+{fmt(min, currency, exchangeRate)} – {fmt(max, currency, exchangeRate)}</p>
+                          <p className={`text-sm font-bold ${checked ? "text-blue-900" : "text-slate-900"}`}>{label}</p>
+                          <p className="text-xs text-blue-600 font-semibold mt-0.5">+{fmt(min, currency, exchangeRate)} – {fmt(max, currency, exchangeRate)}</p>
                         </div>
                       </label>
                     );
@@ -418,8 +434,8 @@ export default function CreateProjectClient() {
           </section>
 
           {/* ── Project Details ── */}
-          <section className="bg-white border border-[#efeded] rounded-xl p-5">
-            <h2 className="font-mono text-xs tracking-widest uppercase text-[#444748] mb-5">
+          <section className="bg-white border border-slate-200/80 shadow-md shadow-slate-100 rounded-2xl p-6">
+            <h2 className="text-xs font-bold tracking-wider uppercase text-blue-600 mb-5">
               Project Details
             </h2>
             <div className="flex flex-col gap-4">
@@ -440,51 +456,51 @@ export default function CreateProjectClient() {
             </div>
           </section>
 
-          {/* ── Estimate ── */}
-          <div className="bg-[#bcf200]/15 border border-[#bcf200]/40 rounded-xl p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          {/* ── Estimate Highlight Card ── */}
+          <div className="bg-gradient-to-br from-blue-600 to-indigo-600 rounded-2xl p-6 text-white shadow-xl flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <div className="flex items-center gap-2 mb-1">
-                <p className="font-mono text-[10px] text-[#4e6700] uppercase tracking-widest">Estimated Cost</p>
+                <p className="text-xs font-bold uppercase tracking-widest text-blue-200">Estimated Cost</p>
                 <button
                   type="button"
                   onClick={() => setCurrency((c) => c === "NGN" ? "USD" : "NGN")}
-                  className="font-mono text-[9px] uppercase tracking-widest px-2 py-0.5 rounded-full border border-[#4e6700] text-[#4e6700] hover:bg-[#4e6700] hover:text-[#bcf200] transition-colors"
+                  className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-white/20 hover:bg-white/30 text-white transition-colors"
                   title="Switch currency"
                 >
                   {rateLoading ? "..." : currency === "NGN" ? "Switch to USD" : "Switch to NGN"}
                 </button>
               </div>
-              <p className="text-2xl font-bold text-[#1b1c1c]">
-                {fmt(estimatedCost.min, currency, exchangeRate)} <span className="text-[#747878] font-normal">–</span> {fmt(estimatedCost.max, currency, exchangeRate)}
+              <p className="text-3xl font-extrabold tracking-tight">
+                {fmt(estimatedCost.min, currency, exchangeRate)} <span className="text-blue-200 font-normal">–</span> {fmt(estimatedCost.max, currency, exchangeRate)}
               </p>
               {currency === "USD" && (
-                <p className="font-mono text-[9px] text-[#747878] mt-1">Rate: ₦{exchangeRate.toLocaleString()} / $1 (live)</p>
+                <p className="text-[11px] text-blue-200 mt-1">Rate: ₦{exchangeRate.toLocaleString()} / $1 (live)</p>
               )}
             </div>
-            <p className="text-xs text-[#444748] max-w-xs leading-relaxed">
-              Estimate based on selections. Final pricing discussed after reviewing your requirements.
+            <p className="text-xs text-blue-100 max-w-xs leading-relaxed">
+              Transparent estimate based on your selections. Final scope &amp; pricing discussed during consultation.
             </p>
           </div>
 
-          {/* ── Submit ── */}
+          {/* ── Submit Button ── */}
           <div className="flex flex-col items-center gap-4 pb-4">
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full flex items-center justify-center gap-2 px-6 py-3.5 bg-[#1b1c1c] text-white text-sm font-semibold rounded-lg hover:bg-[#303031] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-base font-bold rounded-xl hover:from-blue-700 hover:to-indigo-700 shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {isSubmitting ? <><Loader2 size={16} className="animate-spin" /> Sending...</> : <><Send size={16} /> Submit Quote Request</>}
+              {isSubmitting ? <><Loader2 size={18} className="animate-spin" /> Sending Request...</> : <><Send size={18} /> Submit Quote Request</>}
             </button>
 
             {submitStatus === "success" && (
-              <div className="w-full bg-[#bcf200]/15 border border-[#bcf200]/40 rounded-xl p-4 flex items-center gap-3">
-                <CheckCircle2 size={18} className="text-[#4e6700] flex-shrink-0" />
-                <p className="text-sm text-[#4e6700]">Quote request sent successfully!</p>
+              <div className="w-full bg-emerald-50 border border-emerald-200 rounded-xl p-4 flex items-center gap-3">
+                <CheckCircle2 size={20} className="text-emerald-600 flex-shrink-0" />
+                <p className="text-sm font-semibold text-emerald-800">Quote request sent successfully! We will contact you within 24 hours.</p>
               </div>
             )}
             {submitStatus === "error" && (
-              <div className="w-full bg-red-50 border border-red-200 rounded-xl p-4">
-                <p className="text-sm text-red-600">Something went wrong. Please try again.</p>
+              <div className="w-full bg-rose-50 border border-rose-200 rounded-xl p-4">
+                <p className="text-sm font-semibold text-rose-700">Something went wrong. Please try again or contact support.</p>
               </div>
             )}
           </div>
