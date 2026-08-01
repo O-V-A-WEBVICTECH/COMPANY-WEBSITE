@@ -30,6 +30,53 @@ export interface QuotePricing {
   };
 }
 
+export const WEBSITE_TYPE_PRESETS: Record<string, string[]> = {
+  landing: ["seo"],
+  portfolio: ["seo", "cms"],
+  business: ["seo", "cms", "live_chat", "notifications"],
+  blog_cms: ["cms", "seo", "social_auth", "analytics"],
+  ecommerce: [
+    "auth",
+    "payment",
+    "admin_panel",
+    "notifications",
+    "analytics",
+    "seo",
+  ],
+  saas: [
+    "auth",
+    "admin_panel",
+    "payment",
+    "analytics",
+    "notifications",
+    "social_auth",
+  ],
+  booking: ["auth", "payment", "notifications", "admin_panel"],
+  marketplace: [
+    "auth",
+    "payment",
+    "admin_panel",
+    "analytics",
+    "notifications",
+    "seo",
+    "multilang",
+  ],
+};
+
+export const BACKEND_TYPE_PRESETS: Record<string, string[]> = {
+  rest_api: ["auth_backend", "database_design", "api_docs"],
+  graphql_api: ["auth_backend", "database_design", "api_docs", "caching"],
+  microservices: [
+    "auth_backend",
+    "database_design",
+    "api_docs",
+    "caching",
+    "email_service",
+  ],
+  realtime: ["auth_backend", "database_design", "caching"],
+  serverless: ["database_design", "api_docs"],
+};
+
 export const defaultQuotePricing: QuotePricing = {
   website: {
     base: { min: 80000, max: 200000 },

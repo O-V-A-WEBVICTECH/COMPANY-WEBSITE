@@ -134,9 +134,7 @@ export const metadata: Metadata = {
     ],
     shortcut: "/ova-logo-v2.svg",
     apple: [{ url: "/ova-logo.png", sizes: "180x180", type: "image/png" }],
-    other: [
-      { rel: "mask-icon", url: "/ova-logo-v2.svg" },
-    ],
+    other: [{ rel: "mask-icon", url: "/ova-logo-v2.svg" }],
   },
   verification: {
     google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,

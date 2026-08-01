@@ -78,7 +78,10 @@ export default function Hero(): JSX.Element {
 
           {/* ── Left: copy ── */}
           <div className="space-y-5 lg:space-y-6">
-           
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-100 text-blue-700 text-xs font-semibold shadow-sm">
+              <span className="w-2 h-2 rounded-full bg-blue-600 animate-pulse" />
+              #1 Best Software Development Agency
+            </div>
 
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-[1.15] tracking-tight animate-slide-up">
               <span className="text-slate-900">Transform </span>
@@ -89,9 +92,7 @@ export default function Hero(): JSX.Element {
             </h1>
 
             <p className="text-sm sm:text-base text-slate-600 leading-relaxed max-w-lg animate-fade-in delay-200">
-              We design and develop exceptional digital experiences that elevate
-              your brand and drive measurable results. From concept to launch,
-              we&apos;re with you every step.
+              As the <strong className="font-semibold text-slate-800">best software development agency</strong>, we design and build high-performance web applications, mobile apps, and scalable digital solutions that elevate your brand and drive growth.
             </p>
 
             <div className="space-y-2.5 animate-fade-in delay-300">

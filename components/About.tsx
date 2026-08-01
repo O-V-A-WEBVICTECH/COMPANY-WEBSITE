@@ -80,7 +80,7 @@ export default function About(): JSX.Element {
         </div>
 
         {/* Main Content Grid */}
-        <div className="grid lg:grid-cols-2 gap-12 items-start mb-16">
+        <div className="grid lg:grid-cols-2 gap-12 items-center mb-16">
           {/* Image */}
           <div className="relative group">
             <div className="absolute inset-0 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-3xl opacity-10 group-hover:opacity-20 transition-opacity duration-300" />
@@ -88,86 +88,64 @@ export default function About(): JSX.Element {
               <img
                 src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
                 alt="Our Team at Work"
-                className="w-full h-[500px] object-cover"
+                className="w-full h-[450px] object-cover"
               />
-              {/* Overlay Badge */}
-              
             </div>
           </div>
 
           {/* Content */}
-          <div className="space-y-8">
+          <div className="space-y-6">
             <div>
-              {/* Brand Logo */}
-              <div className="flex items-center gap-4 mb-6">
+              <div className="flex items-center gap-3 mb-4">
                 <Image
                   src="/ova-logo.png"
                   alt="O.V.A WebvicTech Logo"
-                  width={90}
-                  height={90}
-                  className="rounded-full shadow-lg ring-4 ring-blue-100"
+                  width={56}
+                  height={56}
+                  className="rounded-full shadow-md ring-2 ring-blue-100"
                 />
-                <div>
-                  <p className="text-xs font-semibold uppercase tracking-widest text-blue-600">
-                    O.V.A WebvicTech
-                  </p>
-                </div>
+                <span className="text-xs font-bold uppercase tracking-widest text-blue-600">
+                  O.V.A WebvicTech
+                </span>
               </div>
               <h3 className="text-2xl md:text-3xl font-bold text-slate-900 mb-4">
                 Who We Are
               </h3>
-              <p className="text-sm text-slate-600 leading-relaxed">
-                WebvicTech INT&apos; SERVICE LIMITED is a full-service
-                software development agency. We specialize in creating custom
-                web applications, mobile apps, and enterprise solutions that
-                help businesses thrive in the digital age.
+              <p className="text-sm md:text-base text-slate-600 leading-relaxed">
+                O.V.A WebvicTech INT&apos; SERVICE LIMITED is widely recognized as the <strong className="font-semibold text-slate-900">best software development agency</strong>. We specialize in creating custom web applications, mobile apps, and enterprise solutions that help businesses thrive in the digital age.
               </p>
-              <p className="text-sm text-slate-600 leading-relaxed mt-4">
-                From startups to established enterprises, we partner with
-                organizations to build scalable, secure, and user-friendly
-                digital products that drive real business results.
+              <p className="text-sm md:text-base text-slate-600 leading-relaxed mt-3">
+                As a premier software development agency, we partner with ambitious startups and established enterprises to build scalable, secure, and user-friendly digital products that drive measurable growth.
               </p>
             </div>
 
             {/* Mission & Vision */}
-            <div className="space-y-6">
-              <Card className="border-2 border-blue-100 bg-gradient-to-br from-blue-50/50 to-transparent hover:border-blue-200 transition-colors">
-                <CardContent className="pt-6">
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center text-white flex-shrink-0">
-                      <Target className="w-6 h-6" />
-                    </div>
-                    <div>
-                      <h4 className="text-xl font-bold text-slate-900 mb-2">
-                        Our Mission
-                      </h4>
-                      <p className="text-sm text-slate-700 leading-relaxed">
-                        To empower businesses with innovative software solutions
-                        that enhance productivity, improve user experiences, and
-                        accelerate growth through cutting-edge technology.
-                      </p>
-                    </div>
+            <div className="grid sm:grid-cols-2 gap-4 pt-2">
+              <Card className="border border-slate-200/80 bg-white hover:border-blue-300 transition-colors shadow-sm">
+                <CardContent className="p-5 space-y-2">
+                  <div className="w-10 h-10 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center">
+                    <Target className="w-5 h-5" />
                   </div>
+                  <h4 className="text-base font-bold text-slate-900">
+                    Our Mission
+                  </h4>
+                  <p className="text-xs text-slate-600 leading-relaxed">
+                    To empower businesses with innovative software solutions that enhance productivity and accelerate growth through cutting-edge technology.
+                  </p>
                 </CardContent>
               </Card>
 
-              <Card className="border-2 border-indigo-100 bg-gradient-to-br from-indigo-50/50 to-transparent hover:border-indigo-200 transition-colors">
-                <CardContent className="pt-6">
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-xl flex items-center justify-center text-white flex-shrink-0">
-                      <Eye className="w-6 h-6" />
-                    </div>
-                    <div>
-                      <h4 className="text-xl font-bold text-slate-900 mb-2">
-                        Our Vision
-                      </h4>
-                      <p className="text-sm text-slate-700 leading-relaxed">
-                        To become the most trusted software development partner,
-                        recognized globally for delivering exceptional digital
-                        products that transform businesses and delight users.
-                      </p>
-                    </div>
+              <Card className="border border-slate-200/80 bg-white hover:border-indigo-300 transition-colors shadow-sm">
+                <CardContent className="p-5 space-y-2">
+                  <div className="w-10 h-10 bg-indigo-50 text-indigo-600 rounded-xl flex items-center justify-center">
+                    <Eye className="w-5 h-5" />
                   </div>
+                  <h4 className="text-base font-bold text-slate-900">
+                    Our Vision
+                  </h4>
+                  <p className="text-xs text-slate-600 leading-relaxed">
+                    To become the most trusted software development partner globally recognized for delivering exceptional digital products.
+                  </p>
                 </CardContent>
               </Card>
             </div>
@@ -177,9 +155,6 @@ export default function About(): JSX.Element {
         {/* Stats Section (Track Record) */}
         <div className="mb-24 relative z-10">
           <div className="text-center mb-12 space-y-2">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-indigo-50 text-indigo-600 border border-indigo-100">
-              Our Track Record
-            </span>
             <h3 className="text-2xl md:text-4xl font-bold text-slate-900">
               Numbers that speak for themselves
             </h3>
@@ -209,9 +184,6 @@ export default function About(): JSX.Element {
         {/* Core Values */}
         <div className="relative z-10">
           <div className="text-center mb-12 space-y-2">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-600 border border-blue-100">
-              Our Values
-            </span>
             <h3 className="text-2xl md:text-4xl font-bold text-slate-900">
               The principles guiding our work
             </h3>

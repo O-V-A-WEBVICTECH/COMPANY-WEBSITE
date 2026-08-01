@@ -126,7 +126,7 @@ export default function Team(): JSX.Element {
                       </div>
 
                       {member.about ? (
-                        <p className="text-xs text-slate-500 leading-relaxed line-clamp-2">
+                        <p className="text-xs text-slate-600 leading-relaxed">
                           {member.about}
                         </p>
                       ) : (

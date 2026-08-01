@@ -1,6 +1,6 @@
 import { JSX } from "react";
 import Image from "next/image";
-
+import Link from "next/link";
 
 export default function Footer(): JSX.Element {
   return (
@@ -41,11 +41,13 @@ export default function Footer(): JSX.Element {
           <h5 className="font-semibold mb-3">Company</h5>
           <ul className="text-slate-400 space-y-2">
             <li>
-              <a>About</a>
+              <Link href="/about" className="hover:text-white transition-colors">About Us</Link>
             </li>
-
             <li>
-              <a>Blog</a>
+              <Link href="/team" className="hover:text-white transition-colors">Our Team</Link>
+            </li>
+            <li>
+              <Link href="/#services" className="hover:text-white transition-colors">Services</Link>
             </li>
           </ul>
         </div>
@@ -54,13 +56,13 @@ export default function Footer(): JSX.Element {
           <h5 className="font-semibold mb-3">Services</h5>
           <ul className="text-slate-400 space-y-2">
             <li>
-              <a>Analysis</a>
+              <Link href="/#services" className="hover:text-white transition-colors">Analysis</Link>
             </li>
             <li>
-              <a>Performance</a>
+              <Link href="/#services" className="hover:text-white transition-colors">Performance</Link>
             </li>
             <li>
-              <a>Website Creation</a>
+              <Link href="/#services" className="hover:text-white transition-colors">Website Creation</Link>
             </li>
           </ul>
         </div>
