@@ -1,197 +1,169 @@
+"use client";
 import { JSX } from "react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Code2, Smartphone, Cloud, Palette, Shield, Zap } from "lucide-react";
+import { Code2, Smartphone, Cloud, Palette, Shield, Zap, ArrowUpRight } from "lucide-react";
+import { motion } from "framer-motion";
+
+const services = [
+  {
+    title: "Web Development",
+    icon: Code2,
+    description:
+      "Custom web applications built with React, Next.js, and Vue. Scalable, fast, and SEO-optimized for real-world performance.",
+    features: ["Responsive Design", "SEO Optimization", "Progressive Web Apps"],
+    number: "01",
+  },
+  {
+    title: "Mobile Development",
+    icon: Smartphone,
+    description:
+      "Native and cross-platform mobile apps for iOS and Android built with React Native and Flutter.",
+    features: ["iOS & Android", "Cross-Platform", "Native Performance"],
+    number: "02",
+  },
+  {
+    title: "Cloud Solutions",
+    icon: Cloud,
+    description:
+      "Scalable infrastructure on AWS, Azure, and Google Cloud. DevOps, CI/CD and auto-scaling for enterprise workloads.",
+    features: ["Auto-Scaling", "Load Balancing", "DevOps Integration"],
+    number: "03",
+  },
+  {
+    title: "UI/UX Design",
+    icon: Palette,
+    description:
+      "Interfaces your users will love. From discovery and wireframes through to pixel-perfect, accessible design systems.",
+    features: ["User Research", "Prototyping", "Design Systems"],
+    number: "04",
+  },
+  {
+    title: "Security & Performance",
+    icon: Shield,
+    description:
+      "Enterprise-grade audits and optimizations to keep your product fast, secure, and production-ready.",
+    features: ["Security Audits", "Performance Testing", "Code Reviews"],
+    number: "05",
+  },
+  {
+    title: "API Development",
+    icon: Zap,
+    description:
+      "Robust RESTful and GraphQL APIs with microservices architecture built for scale and reliability.",
+    features: ["REST APIs", "GraphQL", "Microservices"],
+    number: "06",
+  },
+];
 
 export default function Features(): JSX.Element {
-  const services = [
-    {
-      title: "Web Development",
-      icon: <Code2 className="w-8 h-8" />,
-      description:
-        "Custom web applications built with modern frameworks like React, Next.js, and Vue. Scalable, fast, and SEO-optimized.",
-      features: [
-        "Responsive Design",
-        "SEO Optimization",
-        "Progressive Web Apps",
-      ],
-      color: "from-blue-500 to-cyan-500",
-    },
-    {
-      title: "Mobile Development",
-      icon: <Smartphone className="w-8 h-8" />,
-      description:
-        "Native and cross-platform mobile apps for iOS and Android. Built with React Native, Flutter, and Swift.",
-      features: ["iOS & Android", "Cross-Platform", "Native Performance"],
-      color: "from-indigo-500 to-purple-500",
-    },
-    {
-      title: "Cloud Solutions",
-      icon: <Cloud className="w-8 h-8" />,
-      description:
-        "Scalable cloud infrastructure and deployment. AWS, Azure, and Google Cloud expertise for enterprise needs.",
-      features: ["Auto-Scaling", "Load Balancing", "DevOps Integration"],
-      color: "from-violet-500 to-pink-500",
-    },
-    {
-      title: "UI/UX Design",
-      icon: <Palette className="w-8 h-8" />,
-      description:
-        "Beautiful, intuitive interfaces that users love. From wireframes to high-fidelity prototypes and design systems.",
-      features: ["User Research", "Prototyping", "Design Systems"],
-      color: "from-pink-500 to-rose-500",
-    },
-    {
-      title: "Security & Performance",
-      icon: <Shield className="w-8 h-8" />,
-      description:
-        "Enterprise-grade security audits and performance optimization. Keep your applications secure and lightning-fast.",
-      features: ["Security Audits", "Performance Testing", "Code Reviews"],
-      color: "from-emerald-500 to-teal-500",
-    },
-    {
-      title: "API Development",
-      icon: <Zap className="w-8 h-8" />,
-      description:
-        "Robust RESTful and GraphQL APIs. Microservices architecture for scalable backend systems.",
-      features: ["REST APIs", "GraphQL", "Microservices"],
-      color: "from-amber-500 to-orange-500",
-    },
-  ];
-
   return (
-    <section
-      id="services"
-      className="pb-24 bg-gradient-to-b from-white to-slate-50 relative overflow-hidden"
-    >
-      {/* Background decorative elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 left-0 w-96 h-96 bg-blue-400/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 right-0 w-96 h-96 bg-indigo-400/5 rounded-full blur-3xl" />
-      </div>
+    <section id="services" aria-label="Services" className="py-24 bg-white">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
 
-      <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
         {/* Header */}
-        <div className="text-center mb-16 space-y-4">
-        
-
-          <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold text-slate-900">
-            What We{" "}
-            <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-              Build
-            </span>
+        <motion.div
+          className="mb-16"
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.55, ease: "easeOut" }}
+        >
+          <p className="text-blue-600 text-sm font-semibold tracking-widest uppercase mb-4">Services</p>
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-slate-900 leading-[1.05] tracking-tight mb-4">
+            What we do
           </h2>
-
-          <p className="text-sm text-slate-600 max-w-3xl mx-auto">
-            From concept to deployment, we deliver end-to-end solutions that
-            transform your business and engage your users
+          <p className="text-slate-500 text-base max-w-xl leading-relaxed">
+            We design, build, and scale products that solve real problems — from prototypes to production.
           </p>
-        </div>
+        </motion.div>
 
-        {/* Services Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-          {services.map((service, idx) => (
-            <Card
-              key={idx}
-              className="group relative overflow-hidden border-2 hover:border-slate-300 transition-all duration-300 hover:shadow-xl bg-white/80 backdrop-blur-sm"
-            >
-              {/* Gradient background on hover */}
-              <div
-                className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-0 group-hover:opacity-5 transition-opacity duration-300`}
-              />
-
-              <CardHeader className="relative">
-                {/* Icon */}
-                <div
-                  className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${service.color} flex items-center justify-center text-white mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300`}
-                >
-                  {service.icon}
+        {/* Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-slate-100 border border-slate-100 rounded-2xl overflow-hidden">
+          {services.map((service, idx) => {
+            const Icon = service.icon;
+            return (
+              <motion.div
+                key={idx}
+                className="group relative bg-white hover:bg-slate-950 transition-colors duration-300 p-8 flex flex-col gap-6"
+                initial={{ opacity: 0, y: 28 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{ duration: 0.5, delay: idx * 0.07, ease: [0.22, 1, 0.36, 1] }}
+              >
+                {/* Top row: number + icon */}
+                <div className="flex items-start justify-between">
+                  <span className="text-xs font-bold text-slate-300 tabular-nums group-hover:text-white/20 transition-colors">{service.number}</span>
+                  <div className="w-10 h-10 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-600 group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-600 transition-all duration-300">
+                    <Icon className="w-5 h-5" />
+                  </div>
                 </div>
 
-                <CardTitle className="text-lg md:text-xl font-bold text-slate-900">
-                  {service.title}
-                </CardTitle>
+                {/* Title + description */}
+                <div className="flex-1 space-y-2">
+                  <h3 className="text-lg font-bold text-slate-900 group-hover:text-white transition-colors duration-200">
+                    {service.title}
+                  </h3>
+                  <p className="text-sm text-slate-500 group-hover:text-slate-400 leading-relaxed transition-colors duration-200">
+                    {service.description}
+                  </p>
+                </div>
 
-                <CardDescription className="text-sm text-slate-600 leading-relaxed">
-                  {service.description}
-                </CardDescription>
-              </CardHeader>
-
-              <CardContent className="relative">
-                {/* Feature tags */}
+                {/* Tags */}
                 <div className="flex flex-wrap gap-2">
-                  {service.features.map((feature, i) => (
-                    <Badge
+                  {service.features.map((f, i) => (
+                    <span
                       key={i}
-                      variant="secondary"
-                      className="text-xs font-medium bg-slate-100 hover:bg-slate-200 transition-colors"
+                      className="text-[11px] font-medium px-2.5 py-1 rounded-md bg-slate-100 text-slate-600 group-hover:bg-white/10 group-hover:text-slate-300 transition-colors duration-300"
                     >
-                      {feature}
-                    </Badge>
+                      {f}
+                    </span>
                   ))}
                 </div>
 
-                {/* Hover arrow indicator */}
-                <div className="mt-4 flex items-center text-sm font-semibold text-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  Learn more
-                  <svg
-                    className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M9 5l7 7-7 7"
-                    />
-                  </svg>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+                {/* Link */}
+                <a
+                  href="#contact"
+                  className="inline-flex items-center gap-1 text-xs font-semibold text-slate-400 group-hover:text-blue-400 transition-colors duration-200 mt-auto"
+                >
+                  Get started
+                  <ArrowUpRight className="w-3.5 h-3.5" />
+                </a>
+              </motion.div>
+            );
+          })}
         </div>
 
-        {/* Bottom CTA */}
-        <div className="mt-16 text-center">
-          <p className="text-sm text-slate-600 mb-6">
-            Need something custom? We&apos;ve got you covered.
+        {/* CTA */}
+        <motion.div
+          className="mt-12 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 pt-10 border-t border-slate-100"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ duration: 0.5 }}
+        >
+          <p className="text-slate-500 text-sm">
+            Need something custom?{" "}
+            <span className="text-slate-700 font-medium">We&apos;ve got you covered.</span>
           </p>
-          <div className="flex flex-wrap gap-4 justify-center">
-            <a
+          <div className="flex flex-wrap gap-3">
+            <motion.a
               href="/create-project"
-              className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-xl hover:shadow-lg transition-all duration-300 hover:scale-105"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-slate-900 hover:bg-blue-600 text-white text-sm font-semibold rounded-lg transition-colors"
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
             >
-              Start a Project
-              <svg
-                className="w-5 h-5 ml-2"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M13 7l5 5m0 0l-5 5m5-5H6"
-                />
-              </svg>
-            </a>
-            <a
+              Start a Project <ArrowUpRight className="w-4 h-4" />
+            </motion.a>
+            <motion.a
               href="#contact"
-              className="inline-flex items-center px-8 py-4 border-2 border-slate-300 text-slate-700 font-semibold rounded-xl hover:border-slate-400 hover:bg-slate-50 transition-all duration-300"
+              className="inline-flex items-center px-6 py-3 border border-slate-200 text-slate-700 text-sm font-semibold rounded-lg hover:bg-slate-50 transition-colors"
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
             >
               Contact Us
-            </a>
+            </motion.a>
           </div>
-        </div>
+        </motion.div>
+
       </div>
     </section>
   );

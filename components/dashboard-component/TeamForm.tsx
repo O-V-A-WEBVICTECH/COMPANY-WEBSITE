@@ -109,11 +109,12 @@ export default function TeamForm({ onSuccess }: TeamFormProps): JSX.Element {
           onChange={handleFileChange}
         />
         {imagePreview ? (
-          <div className="relative rounded-xl overflow-hidden border-2 border-slate-200 group">
+          <div className="relative rounded-xl overflow-hidden border-2 border-slate-200 group h-44">
             <Image
               src={imagePreview}
               alt="Preview"
-              className="w-full h-44 object-cover object-top"
+              fill
+              className="object-cover object-top"
             />
             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors" />
             <button
