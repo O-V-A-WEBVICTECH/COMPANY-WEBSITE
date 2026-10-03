@@ -136,12 +136,13 @@ export default function ProjectForm({
           id="p-img-file"
           onChange={handleFileChange}
         />
-        {imagePreview ? (
-          <div className="relative rounded-xl overflow-hidden border-2 border-slate-200 group">
+          {imagePreview ? (
+          <div className="relative rounded-xl overflow-hidden border-2 border-slate-200 group h-48">
             <Image
               src={imagePreview}
               alt="Preview"
-              className="w-full h-48 object-cover"
+              fill
+              className="object-cover"
             />
             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors" />
             <button

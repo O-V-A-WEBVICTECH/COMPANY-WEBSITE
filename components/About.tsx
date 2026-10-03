@@ -1,249 +1,308 @@
 /* eslint-disable @next/next/no-img-element */
-import { JSX } from "react";
-import Image from "next/image";
-import { Card, CardContent } from "@/components/ui/card";
-import { Target, Eye, Users, Award, Code2, Rocket, Heart } from "lucide-react";
+"use client";
+import { JSX, useRef, useEffect } from "react";
+import { Users, Award, Code2, Rocket, Heart, ArrowRight, CheckCircle2, Target, Eye } from "lucide-react";
+import { motion, useInView, useMotionValue, useTransform, animate } from "framer-motion";
+
+function CountUp({ target, suffix }: { target: number; suffix: string }) {
+  const count = useMotionValue(0);
+  const rounded = useTransform(count, (v) => Math.round(v));
+  const ref = useRef<HTMLElement>(null);
+  const isInView = useInView(ref, { once: true, margin: "-60px" });
+
+  useEffect(() => {
+    if (isInView) {
+      const controls = animate(count, target, { duration: 2, ease: "easeOut" });
+      return controls.stop;
+    }
+  }, [isInView, count, target]);
+
+  return (
+    <span ref={ref}>
+      <motion.span>{rounded}</motion.span>
+      {suffix}
+    </span>
+  );
+}
 
 export default function About(): JSX.Element {
   const stats = [
-    {
-      value: "150+",
-      label: "Projects Delivered",
-      icon: <Rocket className="w-5 h-5" />,
-    },
-    {
-      value: "50+",
-      label: "Happy Clients",
-      icon: <Users className="w-5 h-5" />,
-    },
-    {
-      value: "100%",
-      label: "Client Satisfaction",
-      icon: <Award className="w-5 h-5" />,
-    },
-    {
-      value: "5+",
-      label: "Years Experience",
-      icon: <Code2 className="w-5 h-5" />,
-    },
+    { value: "150+", label: "Projects Delivered", icon: <Rocket className="w-4 h-4" /> },
+    { value: "50+",  label: "Happy Clients",       icon: <Users  className="w-4 h-4" /> },
+    { value: "100%", label: "Satisfaction Rate",   icon: <Award  className="w-4 h-4" /> },
+    { value: "5+",   label: "Years Experience",    icon: <Code2  className="w-4 h-4" /> },
   ];
 
   const values = [
     {
-      icon: <Code2 className="w-6 h-6" />,
+      icon: <Code2 className="w-5 h-5" />,
       title: "Quality First",
-      description:
-        "We never compromise on code quality, design, or user experience",
+      description: "We never compromise on code quality, design, or user experience.",
     },
     {
-      icon: <Heart className="w-6 h-6" />,
+      icon: <Heart className="w-5 h-5" />,
       title: "Client-Centric",
-      description:
-        "Your success is our success. We're partners in your digital journey",
+      description: "Your success is our success. We're partners in your digital journey.",
     },
     {
-      icon: <Rocket className="w-6 h-6" />,
+      icon: <Rocket className="w-5 h-5" />,
       title: "Innovation Driven",
-      description:
-        "We stay ahead with the latest technologies and best practices",
+      description: "We stay ahead with the latest technologies and best practices.",
     },
   ];
 
+  const highlights = [
+    "Nigeria's #1 rated software agency",
+    "End-to-end product delivery",
+    "Dedicated post-launch support",
+    "Agile, transparent process",
+  ];
+
   return (
-    <section
-      id="about"
-      className="py-12 bg-gradient-to-b from-white to-slate-50 relative overflow-hidden"
-    >
-      {/* Background decoration */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/3 left-0 w-96 h-96 bg-blue-400/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/3 right-0 w-96 h-96 bg-indigo-400/5 rounded-full blur-3xl" />
-      </div>
+    <section id="about" className="relative overflow-hidden">
 
-      <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
-        {/* Header */}
-        <div className="text-center mb-16 space-y-4">
-          
-
-          <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold text-slate-900">
-            Building Digital{" "}
-            <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-              Excellence
-            </span>
-          </h2>
-
-          <p className="text-sm text-slate-600 max-w-3xl mx-auto">
-            We&apos;re a team of passionate developers, designers, and
-            strategists dedicated to transforming your ideas into exceptional
-            digital products
-          </p>
+      {/* ── WHO WE ARE — dark ── */}
+      <div className="relative bg-slate-950 text-white overflow-hidden">
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
+          <div className="absolute -top-40 -left-40 w-[600px] h-[600px] rounded-full bg-blue-600/10 blur-[140px]" />
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:48px_48px]" />
         </div>
+        <div className="relative max-w-7xl mx-auto px-6 lg:px-8 pt-24 pb-24">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
 
-        {/* Main Content Grid */}
-        <div className="grid lg:grid-cols-2 gap-12 items-center mb-16">
-          {/* Image */}
-          <div className="relative group">
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-3xl opacity-10 group-hover:opacity-20 transition-opacity duration-300" />
-            <div className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white">
-              <img
-                src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
-                alt="Our Team at Work"
-                className="w-full h-[450px] object-cover"
-              />
-            </div>
-          </div>
-
-          {/* Content */}
-          <div className="space-y-6">
-            <div>
-              <div className="flex items-center gap-3 mb-4">
-                <Image
-                  src="/ova-logo.png"
-                  alt="O.V.A WebvicTech Logo"
-                  width={56}
-                  height={56}
-                  className="rounded-full shadow-md ring-2 ring-blue-100"
-                />
-                <span className="text-xs font-bold uppercase tracking-widest text-blue-600">
-                  O.V.A WebvicTech
-                </span>
+            {/* Left */}
+            <motion.div
+              className="space-y-8"
+              initial={{ opacity: 0, x: -40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <div className="space-y-5">
+                <p className="text-blue-400 text-sm font-semibold tracking-wide uppercase">Who We Are</p>
+                <h2 className="text-4xl md:text-5xl lg:text-6xl font-black leading-[1.05] tracking-tight">
+                  We don&apos;t just build software.
+                  <br />
+                  <span className="text-blue-400">We build futures.</span>
+                </h2>
+                <p className="text-slate-400 text-base leading-relaxed max-w-lg">
+                  O.V.A WebvicTech INT&apos; SERVICE LIMITED is Nigeria&apos;s most trusted tech agency — turning ambitious ideas into scalable, production-ready digital products that drive real growth.
+                </p>
               </div>
-              <h3 className="text-2xl md:text-3xl font-bold text-slate-900 mb-4">
-                Who We Are
-              </h3>
-              <p className="text-sm md:text-base text-slate-600 leading-relaxed">
-                O.V.A WebvicTech INT&apos; SERVICE LIMITED is widely recognized as the <strong className="font-semibold text-slate-900">best software development agency</strong>. We specialize in creating custom web applications, mobile apps, and enterprise solutions that help businesses thrive in the digital age.
-              </p>
-              <p className="text-sm md:text-base text-slate-600 leading-relaxed mt-3">
-                As a premier software development agency, we partner with ambitious startups and established enterprises to build scalable, secure, and user-friendly digital products that drive measurable growth.
-              </p>
-            </div>
 
-            {/* Mission & Vision */}
-            <div className="grid sm:grid-cols-2 gap-4 pt-2">
-              <Card className="border border-slate-200/80 bg-white hover:border-blue-300 transition-colors shadow-sm">
-                <CardContent className="p-5 space-y-2">
-                  <div className="w-10 h-10 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center">
-                    <Target className="w-5 h-5" />
-                  </div>
-                  <h4 className="text-base font-bold text-slate-900">
-                    Our Mission
-                  </h4>
-                  <p className="text-xs text-slate-600 leading-relaxed">
-                    To empower businesses with innovative software solutions that enhance productivity and accelerate growth through cutting-edge technology.
-                  </p>
-                </CardContent>
-              </Card>
+              <ul className="space-y-3">
+                {highlights.map((h, i) => (
+                  <motion.li
+                    key={i}
+                    className="flex items-center gap-3 text-sm text-slate-300"
+                    initial={{ opacity: 0, x: -16 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: 0.1 + i * 0.07 }}
+                  >
+                    <CheckCircle2 className="w-4 h-4 text-blue-400 shrink-0" />
+                    {h}
+                  </motion.li>
+                ))}
+              </ul>
 
-              <Card className="border border-slate-200/80 bg-white hover:border-indigo-300 transition-colors shadow-sm">
-                <CardContent className="p-5 space-y-2">
-                  <div className="w-10 h-10 bg-indigo-50 text-indigo-600 rounded-xl flex items-center justify-center">
-                    <Eye className="w-5 h-5" />
-                  </div>
-                  <h4 className="text-base font-bold text-slate-900">
-                    Our Vision
-                  </h4>
-                  <p className="text-xs text-slate-600 leading-relaxed">
-                    To become the most trusted software development partner globally recognized for delivering exceptional digital products.
-                  </p>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </div>
-
-        {/* Stats Section (Track Record) */}
-        <div className="mb-24 relative z-10">
-          <div className="text-center mb-12 space-y-2">
-            <h3 className="text-2xl md:text-4xl font-bold text-slate-900">
-              Numbers that speak for themselves
-            </h3>
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6">
-            {stats.map((stat, idx) => (
-              <Card
-                key={idx}
-                className="border border-slate-200/80 hover:border-blue-400 bg-white rounded-2xl hover:-translate-y-1.5 hover:shadow-xl hover:shadow-blue-500/5 transition-all duration-300 group"
-              >
-                <CardContent className="pt-6 pb-5 sm:pt-8 sm:pb-7 text-center space-y-3 sm:space-y-4 px-2 sm:px-6">
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 mx-auto bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center text-white group-hover:rotate-6 transition-transform shadow-md shadow-blue-500/10">
-                    {stat.icon}
-                  </div>
-                  <div className="space-y-1">
-                    <div className="text-2xl sm:text-3xl md:text-4xl font-extrabold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent tracking-tight">
-                      {stat.value}
-                    </div>
-                    <div className="text-slate-500 text-sm font-semibold tracking-wide uppercase text-[9px] sm:text-[11px]">{stat.label}</div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-
-        {/* Core Values */}
-        <div className="relative z-10">
-          <div className="text-center mb-12 space-y-2">
-            <h3 className="text-2xl md:text-4xl font-bold text-slate-900">
-              The principles guiding our work
-            </h3>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {values.map((value, idx) => (
-              <Card
-                key={idx}
-                className="relative overflow-hidden border border-slate-200/80 hover:border-blue-400 bg-white rounded-2xl hover:-translate-y-1.5 hover:shadow-xl transition-all duration-300 group"
-              >
-                {/* Visual top bar glow */}
-                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 to-indigo-600" />
-                <CardContent className="pt-10 pb-8 px-6 space-y-4 text-center">
-                  <div className="w-14 h-14 mx-auto bg-slate-50 border border-slate-100 rounded-2xl flex items-center justify-center text-indigo-600 group-hover:scale-110 transition-all duration-300 shadow-inner">
-                    {value.icon}
-                  </div>
-                  <div className="space-y-2">
-                    <h4 className="text-lg font-bold text-slate-900 group-hover:text-blue-600 transition-colors">
-                      {value.title}
-                    </h4>
-                    <p className="text-slate-500 text-xs sm:text-sm leading-relaxed">
-                      {value.description}
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-
-        {/* CTA Section */}
-        <div className="mt-10 md:mt-20 text-center">
-          <Card className="border-2 border-blue-200 bg-gradient-to-br from-blue-50 to-indigo-50 shadow-xl">
-            <CardContent className="pt-6 md:pt-12 pb-12 px-6">
-              <h3 className="text-xl md:text-3xl font-bold text-slate-900 mb-4">
-                Ready to Build Something Amazing?
-              </h3>
-              <p className="text-sm text-slate-600 mb-8 max-w-2xl mx-auto">
-                Let&apos;s discuss your project and explore how we can help
-                bring your vision to life
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <a
+              <div className="flex flex-wrap gap-3">
+                <motion.a
                   href="/create-project"
-                  className="inline-flex text-base items-center justify-center px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-xl hover:shadow-lg transition-all hover:scale-105"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold transition-colors"
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
                 >
-                  Start Your Project
-                  <Rocket className="w-5 h-5 ml-2" />
-                </a>
-                <a
+                  Start a Project <ArrowRight className="w-4 h-4" />
+                </motion.a>
+                <motion.a
                   href="#contact"
-                  className="inline-flex text-base items-center justify-center px-8 py-4 border-2 border-slate-300 text-slate-700 font-semibold rounded-xl hover:border-slate-400 hover:bg-white transition-all"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-white/15 text-slate-300 text-sm font-semibold hover:bg-white/5 transition-colors"
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
                 >
                   Contact Us
-                  <Users className="w-5 h-5 ml-2" />
-                </a>
+                </motion.a>
               </div>
-            </CardContent>
-          </Card>
+            </motion.div>
+
+            {/* Right */}
+            <motion.div
+              className="relative"
+              initial={{ opacity: 0, x: 40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
+            >
+              <div className="relative rounded-2xl overflow-hidden border border-white/10">
+                <img
+                  src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
+                  alt="Our Team at Work"
+                  className="w-full h-[420px] object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 p-5">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                    <span className="text-sm font-medium text-white/80">Active across Lagos, Abuja & beyond</span>
+                  </div>
+                </div>
+              </div>
+
+              <motion.div
+                className="absolute -top-4 -right-4 bg-slate-900 border border-white/10 rounded-xl p-4 w-44 shadow-xl"
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.5, duration: 0.5 }}
+              >
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="w-6 h-6 rounded-md bg-blue-600 flex items-center justify-center">
+                    <Target className="w-3 h-3 text-white" />
+                  </div>
+                  <span className="text-xs font-bold text-white">Mission</span>
+                </div>
+                <p className="text-[10px] text-slate-400 leading-relaxed">
+                  Empowering businesses with software that accelerates growth.
+                </p>
+              </motion.div>
+
+              <motion.div
+                className="absolute -bottom-4 -left-4 bg-slate-900 border border-white/10 rounded-xl p-4 w-44 shadow-xl"
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.65, duration: 0.5 }}
+              >
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="w-6 h-6 rounded-md bg-blue-600 flex items-center justify-center">
+                    <Eye className="w-3 h-3 text-white" />
+                  </div>
+                  <span className="text-xs font-bold text-white">Vision</span>
+                </div>
+                <p className="text-[10px] text-slate-400 leading-relaxed">
+                  The most trusted digital product studio, globally.
+                </p>
+              </motion.div>
+            </motion.div>
+          </div>
+        </div>
+      </div>
+
+      {/* ── STATS — white ── */}
+      <div className="bg-white border-y border-slate-100">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 py-20">
+          <motion.div
+            className="grid grid-cols-2 md:grid-cols-4 divide-x divide-slate-100"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-60px" }}
+            variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.1 } } }}
+          >
+            {stats.map((stat, idx) => {
+              const match = stat.value.match(/^(\d+)(.*)$/);
+              const num = match ? parseInt(match[1]) : 0;
+              const suffix = match ? match[2] : stat.value;
+              return (
+                <motion.div
+                  key={idx}
+                  className="px-8 py-4 first:pl-0 last:pr-0 flex flex-col gap-1"
+                  variants={{
+                    hidden: { opacity: 0, y: 20 },
+                    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
+                  }}
+                >
+                  <span className="text-4xl md:text-5xl font-black text-slate-900 tabular-nums">
+                    <CountUp target={num} suffix={suffix} />
+                  </span>
+                  <span className="text-sm text-slate-400 font-medium">{stat.label}</span>
+                </motion.div>
+              );
+            })}
+          </motion.div>
+        </div>
+      </div>
+
+      {/* ── PRINCIPLES — slate-50 ── */}
+      <div className="bg-slate-50">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 py-24">
+          <motion.div
+            className="mb-12"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.5 }}
+          >
+            <p className="text-blue-600 text-sm font-semibold tracking-wide uppercase mb-3">Principles</p>
+            <h3 className="text-3xl md:text-4xl font-black text-slate-900 mb-3">
+              The values that guide everything we do.
+            </h3>
+          </motion.div>
+
+          <motion.div
+            className="grid md:grid-cols-3 gap-6"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-60px" }}
+            variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.1 } } }}
+          >
+            {values.map((value, idx) => (
+              <motion.div
+                key={idx}
+                className="bg-white border border-slate-100 rounded-xl p-8 group hover:border-blue-100 hover:shadow-sm transition-all duration-300"
+                variants={{
+                  hidden: { opacity: 0, y: 24 },
+                  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } },
+                }}
+              >
+                <div className="w-9 h-9 rounded-lg bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-600 mb-5 group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-600 transition-all duration-300">
+                  {value.icon}
+                </div>
+                <h4 className="text-base font-bold text-slate-900 mb-2">{value.title}</h4>
+                <p className="text-slate-500 text-sm leading-relaxed">{value.description}</p>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </div>
+
+      {/* ── CTA — dark ── */}
+      <div className="bg-slate-950 text-white border-t border-white/8">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 py-20">
+          <motion.div
+            className="flex flex-col md:flex-row md:items-center md:justify-between gap-8"
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.55 }}
+          >
+            <div className="space-y-2 max-w-xl">
+              <h3 className="text-3xl md:text-4xl font-black text-white">
+                Ready to build something amazing?
+              </h3>
+              <p className="text-slate-400 text-sm">
+                Let&apos;s discuss your project and bring your vision to life with the right team behind you.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-3 shrink-0">
+              <motion.a
+                href="/create-project"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold transition-colors"
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+              >
+                Start Your Project <ArrowRight className="w-4 h-4" />
+              </motion.a>
+              <motion.a
+                href="#contact"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-white/15 text-slate-300 text-sm font-semibold hover:bg-white/5 transition-colors"
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+              >
+                Contact Us
+              </motion.a>
+            </div>
+          </motion.div>
         </div>
       </div>
     </section>

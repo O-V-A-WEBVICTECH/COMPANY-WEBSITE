@@ -160,11 +160,12 @@ export default function TeamEditForm({
           onChange={handleFileChange}
         />
         {imagePreview ? (
-          <div className="relative rounded-xl overflow-hidden border-2 border-blue-200">
+          <div className="relative rounded-xl overflow-hidden border-2 border-blue-200 h-44">
             <Image
               src={imagePreview}
               alt="Preview"
-              className="w-full h-44 object-cover object-top"
+              fill
+              className="object-cover object-top"
             />
             {uploading && (
               <div className="absolute inset-0 bg-black/55 flex flex-col items-center justify-center gap-2">

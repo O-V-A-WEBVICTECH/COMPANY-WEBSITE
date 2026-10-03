@@ -172,11 +172,12 @@ export default function ProjectEditForm({
           onChange={handleFileChange}
         />
         {imagePreview ? (
-          <div className="relative rounded-xl overflow-hidden border-2 border-slate-200 group">
+          <div className="relative rounded-xl overflow-hidden border-2 border-slate-200 group h-48">
             <Image
               src={imagePreview}
               alt="Preview"
-              className="w-full h-48 object-cover"
+              fill
+              className="object-cover"
             />
             {!selectedFile &&
               project.image &&

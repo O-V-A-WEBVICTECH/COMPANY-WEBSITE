@@ -137,11 +137,12 @@ export default function BlogForm({ onSuccess }: BlogFormProps): JSX.Element {
           onChange={handleFileChange}
         />
         {imagePreview ? (
-          <div className="relative rounded-xl overflow-hidden border-2 border-blue-200">
+          <div className="relative rounded-xl overflow-hidden border-2 border-blue-200 h-48">
             <Image
               src={imagePreview}
               alt="Preview"
-              className="w-full h-48 object-cover"
+              fill
+              className="object-cover"
             />
             {uploading && (
               <div className="absolute inset-0 bg-black/55 flex flex-col items-center justify-center gap-2">

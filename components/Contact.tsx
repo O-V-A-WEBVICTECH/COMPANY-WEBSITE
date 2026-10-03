@@ -1,9 +1,14 @@
 "use client";
 import { JSX, useState } from "react";
-import { Mail, Phone, MapPin, Send, CheckCircle2 } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { Mail, Phone, MapPin, Send, CheckCircle2, Clock } from "lucide-react";
+import { motion } from "framer-motion";
+
+const contactInfo = [
+  { icon: MapPin, label: "Address",       value: "No.7 Adedosu St, Ikeja, Lagos" },
+  { icon: Phone,  label: "Phone",         value: "+2349136600887" },
+  { icon: Mail,   label: "Email",         value: "o.v.a.webvictech@gmail.com" },
+  { icon: Clock,  label: "Working Hours", value: "Mon – Fri, 8:00 AM – 6:00 PM" },
+];
 
 export default function Contact(): JSX.Element {
   const [status, setStatus] = useState<"idle" | "sending" | "sent">("idle");
@@ -15,226 +20,161 @@ export default function Contact(): JSX.Element {
   }
 
   return (
-    <section
-      id="contact"
-      className="pb-24 bg-gradient-to-b from-white to-slate-50 relative overflow-hidden"
-    >
-      {/* Background decoration */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 -left-20 w-96 h-96 bg-blue-400/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 -right-20 w-96 h-96 bg-indigo-400/5 rounded-full blur-3xl" />
+    <section id="contact" className="bg-white">
+
+      {/* ── Header ── */}
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 pt-24 pb-16">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.55 }}
+        >
+          <p className="text-blue-600 text-sm font-semibold tracking-widest uppercase mb-4">Contact</p>
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-slate-900 leading-[1.05] tracking-tight mb-4">
+            Get in touch
+          </h2>
+          <p className="text-slate-500 text-base max-w-xl leading-relaxed">
+            Have a project in mind or just want to say hello? Fill in the form and we&apos;ll get back to you within 24 hours.
+          </p>
+        </motion.div>
       </div>
 
-      <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
-        {/* Header */}
-        <div className="text-center mb-16 space-y-4">
-          <Badge variant="secondary" className="px-4 py-2">
-            <Mail className="w-4 h-4 mr-2" />
-            <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent font-semibold">
-              Contact Us
-            </span>
-          </Badge>
+      {/* ── Body ── */}
+      <div className="border-t border-slate-100">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 py-16">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20">
 
-          <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold text-slate-900">
-            Get in{" "}
-            <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-              Touch
-            </span>
-          </h2>
+            {/* Left — contact details */}
+            <motion.div
+              className="space-y-10"
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <div className="space-y-1">
+                <h3 className="text-2xl font-black text-slate-900">Let&apos;s talk</h3>
+                <p className="text-slate-500 text-sm leading-relaxed">
+                  Whether you want to discuss a project, ask about our services, or just explore options we&apos;re here.
+                </p>
+              </div>
 
-          <p className="text-sm text-slate-600 max-w-3xl mx-auto">
-            Have questions or want to learn more about our services? Contact us
-            today and let&apos;s discuss how we can help bring your vision to
-            life
-          </p>
-        </div>
+              <ul className="space-y-6">
+                {contactInfo.map((item, i) => {
+                  const Icon = item.icon;
+                  return (
+                    <motion.li
+                      key={i}
+                      className="flex items-start gap-4"
+                      initial={{ opacity: 0, y: 16 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.4, delay: i * 0.08 }}
+                    >
+                      <div className="w-9 h-9 rounded-lg bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-600 shrink-0 mt-0.5">
+                        <Icon className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-0.5">{item.label}</p>
+                        <p className="text-sm text-slate-800 font-medium">{item.value}</p>
+                      </div>
+                    </motion.li>
+                  );
+                })}
+              </ul>
 
-        <div className="grid lg:grid-cols-2 gap-12">
-          {/* Left Column - Info */}
-          <div className="space-y-8">
-            <div>
-              <h3 className="text-xl md:text-2xl font-bold text-slate-900 mb-4">
-                Let&apos;s Talk
-              </h3>
-              <p className="text-sm text-slate-600 leading-relaxed">
-                Whether you have a question about our services, want to discuss
-                a project, or just want to say hello, our team is here to help.
-              </p>
-            </div>
+              <div className="flex items-center gap-3 pt-4 border-t border-slate-100">
+                <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0" />
+                <p className="text-sm text-slate-500">
+                  We typically respond within <span className="text-slate-800 font-medium">24 hours</span> on business days.
+                </p>
+              </div>
+            </motion.div>
 
-            <div className="space-y-3">
-              {/* Address */}
-              <Card className="border-2 hover:border-blue-300 transition-all duration-300 hover:shadow-lg bg-white group">
-                <CardContent className="pt-3">
-                  <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-50 to-indigo-50 flex items-center justify-center text-blue-600 group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
-                      <MapPin className="w-6 h-6" />
-                    </div>
-                    <div className="flex-1">
-                      <h4 className="font-bold text-base md:text-lg text-slate-900 mb-1">
-                        Address
-                      </h4>
-                      <p className="text-slate-600">
-                        No.7 adedosu st, ikeja, lagos
-                      </p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Phone */}
-              <Card className="border-2 hover:border-blue-300 transition-all duration-300 hover:shadow-lg bg-white group">
-                <CardContent className="pt-3">
-                  <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-50 to-indigo-50 flex items-center justify-center text-blue-600 group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
-                      <Phone className="w-6 h-6" />
-                    </div>
-                    <div className="flex-1">
-                      <h4 className="font-bold text-base md:text-lg text-slate-900 mb-1">
-                        Phone
-                      </h4>
-                      <p className="text-slate-600">+2349136600887</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Email */}
-              <Card className="border-2 hover:border-blue-300 transition-all duration-300 hover:shadow-lg bg-white group">
-                <CardContent className="pt-3">
-                  <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-50 to-indigo-50 flex items-center justify-center text-blue-600 group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
-                      <Mail className="w-6 h-6" />
-                    </div>
-                    <div className="flex-1">
-                      <h4 className="font-bold text-base md:text-lg text-slate-900 mb-1">
-                        Email
-                      </h4>
-                      <p className="text-slate-600">o.v.a.webvictech@gmail.com</p>
-
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-
-            {/* Additional Info Card */}
-            <Card className="border-2 border-blue-200 bg-gradient-to-br from-blue-50 to-indigo-50">
-              <CardContent className="pt-3 pb-3">
-                <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 rounded-lg bg-blue-600 flex items-center justify-center text-white flex-shrink-0">
-                    <CheckCircle2 className="w-5 h-5" />
+            {/* Right — form */}
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
+            >
+              {status === "sent" ? (
+                <div className="h-full flex flex-col items-center justify-center text-center gap-4 py-16">
+                  <div className="w-14 h-14 rounded-full bg-emerald-50 border border-emerald-100 flex items-center justify-center">
+                    <CheckCircle2 className="w-7 h-7 text-emerald-600" />
                   </div>
                   <div>
-                    <h4 className="font-bold text-slate-900 mb-2">
-                      Quick Response
-                    </h4>
-                    <p className="text-sm text-slate-600">
-                      We typically respond to all inquiries within 24 hours
-                      during business days
-                    </p>
+                    <h4 className="text-lg font-bold text-slate-900 mb-1">Message sent!</h4>
+                    <p className="text-slate-500 text-sm">Thanks — we&apos;ll get back to you soon.</p>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Right Column - Form */}
-          <div>
-            <Card className="border-2 border-slate-200 shadow-xl bg-white">
-              <CardContent className="pt-8 pb-8 px-8">
-                <h3 className="text-2xl font-bold text-slate-900 mb-6">
-                  Send Us a Message
-                </h3>
-
-                {status === "sent" ? (
-                  <div className="p-6 bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-200 rounded-xl text-center space-y-3">
-                    <div className="w-16 h-16 mx-auto bg-green-100 rounded-full flex items-center justify-center">
-                      <CheckCircle2 className="w-8 h-8 text-green-600" />
-                    </div>
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-5">
+                  <div className="grid sm:grid-cols-2 gap-5">
                     <div>
-                      <h4 className="font-bold text-green-900 text-lg mb-1">
-                        Message Sent Successfully!
-                      </h4>
-                      <p className="text-green-700">
-                        Thanks — we received your message and will get back to
-                        you soon.
-                      </p>
-                    </div>
-                  </div>
-                ) : (
-                  <form onSubmit={handleSubmit} className="space-y-5">
-                    <div>
-                      <label className="block text-sm font-semibold text-slate-700 mb-2">
-                        Name
-                      </label>
+                      <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Name</label>
                       <input
                         required
                         placeholder="Your full name"
-                        className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-blue-500 focus:outline-none transition-colors bg-white"
+                        className="w-full px-4 py-3 rounded-lg bg-slate-50 border border-slate-200 text-slate-900 placeholder:text-slate-400 text-sm focus:outline-none focus:border-blue-500 focus:bg-white transition-colors"
                       />
                     </div>
-
                     <div>
-                      <label className="block text-sm font-semibold text-slate-700 mb-2">
-                        Email
-                      </label>
+                      <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Email</label>
                       <input
                         type="email"
                         required
-                        placeholder="your.email@example.com"
-                        className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-blue-500 focus:outline-none transition-colors bg-white"
+                        placeholder="you@example.com"
+                        className="w-full px-4 py-3 rounded-lg bg-slate-50 border border-slate-200 text-slate-900 placeholder:text-slate-400 text-sm focus:outline-none focus:border-blue-500 focus:bg-white transition-colors"
                       />
                     </div>
+                  </div>
 
-                    <div>
-                      <label className="block text-sm font-semibold text-slate-700 mb-2">
-                        Subject
-                      </label>
-                      <input
-                        required
-                        placeholder="How can we help you?"
-                        className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-blue-500 focus:outline-none transition-colors bg-white"
-                      />
-                    </div>
+                  <div>
+                    <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Subject</label>
+                    <input
+                      required
+                      placeholder="How can we help you?"
+                      className="w-full px-4 py-3 rounded-lg bg-slate-50 border border-slate-200 text-slate-900 placeholder:text-slate-400 text-sm focus:outline-none focus:border-blue-500 focus:bg-white transition-colors"
+                    />
+                  </div>
 
-                    <div>
-                      <label className="block text-sm font-semibold text-slate-700 mb-2">
-                        Message
-                      </label>
-                      <textarea
-                        required
-                        placeholder="Tell us more about your project or inquiry..."
-                        className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-blue-500 focus:outline-none transition-colors bg-white min-h-[140px] resize-none"
-                      />
-                    </div>
+                  <div>
+                    <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Message</label>
+                    <textarea
+                      required
+                      placeholder="Tell us about your project..."
+                      className="w-full px-4 py-3 rounded-lg bg-slate-50 border border-slate-200 text-slate-900 placeholder:text-slate-400 text-sm focus:outline-none focus:border-blue-500 focus:bg-white transition-colors min-h-[140px] resize-none"
+                    />
+                  </div>
 
-                    <div>
-                      <Button
-                        type="submit"
-                        disabled={status === "sending"}
-                        className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold py-6 text-base shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed group"
-                      >
-                        {status === "sending" ? (
-                          <>
-                            <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2" />
-                            Sending...
-                          </>
-                        ) : (
-                          <>
-                            Send Message
-                            <Send className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-                          </>
-                        )}
-                      </Button>
-                    </div>
-                  </form>
-                )}
-              </CardContent>
-            </Card>
+                  <motion.button
+                    type="submit"
+                    disabled={status === "sending"}
+                    className="w-full flex items-center justify-center gap-2 px-6 py-3.5 bg-blue-600 hover:bg-blue-700 disabled:opacity-60 disabled:cursor-not-allowed text-white text-sm font-semibold rounded-lg transition-colors"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    {status === "sending" ? (
+                      <>
+                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                        Sending...
+                      </>
+                    ) : (
+                      <>
+                        Send Message <Send className="w-4 h-4" />
+                      </>
+                    )}
+                  </motion.button>
+                </form>
+              )}
+            </motion.div>
+
           </div>
         </div>
       </div>
+
     </section>
   );
 }
