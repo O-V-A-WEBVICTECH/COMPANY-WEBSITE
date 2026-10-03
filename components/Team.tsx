@@ -144,7 +144,7 @@ export default function Team(): JSX.Element {
                       </div>
 
                       {member.about && (
-                        <p className="text-xs text-slate-500 leading-relaxed line-clamp-2">{member.about}</p>
+                        <p className="text-xs text-slate-500 leading-relaxed">{member.about}</p>
                       )}
 
                       <div className="mt-auto flex flex-wrap gap-1.5 pt-3 border-t border-slate-100">
