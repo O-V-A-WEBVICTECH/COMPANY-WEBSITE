@@ -139,7 +139,7 @@ export default function ProjectsPage() {
                         {project.name}
                       </h2>
                       {project.description && (
-                        <p className="text-xs text-slate-500 leading-relaxed line-clamp-2">{project.description}</p>
+                        <p className="text-xs text-slate-500 leading-relaxed">{project.description}</p>
                       )}
                       {project.stack?.length > 0 && (
                         <div className="flex flex-wrap gap-1.5 mt-auto pt-3 border-t border-slate-100">
